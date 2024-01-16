@@ -1,14 +1,11 @@
 using AutoMapper;
-using Azure.Core;
 using Business.Abstracts;
 using Business.Dtos.OperationClaim.Requests;
 using Business.Dtos.OperationClaim.Responses;
-using Business.Dtos.User.Requests;
-using Business.Dtos.User.Responses;
-using Core.Business.Requests;
 using Core.DataAccess.Paging;
+using Core.Utilities.Business.Requests;
 using DataAccess.Abstracts;
-using DataAccess.Concretes;
+
 using Entities.Concretes;
 
 namespace Business.Concretes;

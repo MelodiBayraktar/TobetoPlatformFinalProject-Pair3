@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using Business.Abstracts;
-using Core.Business.Requests;
 using Core.DataAccess.Paging;
 using DataAccess.Abstracts;
 using Business.Dtos.ContactUs.Responses;
 using Business.Dtos.ContactUs.Requests;
+using Core.Utilities.Business.Requests;
 using Entities.Concretes;
 
 namespace Business.Concretes;

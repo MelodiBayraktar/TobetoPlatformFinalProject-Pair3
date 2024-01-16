@@ -1,7 +1,7 @@
 using Business.Dtos.Survey.Requests;
 using Business.Dtos.Survey.Responses;
-using Core.Business.Requests;
 using Core.DataAccess.Paging;
+using Core.Utilities.Business.Requests;
 
 namespace Business.Abstracts;
 

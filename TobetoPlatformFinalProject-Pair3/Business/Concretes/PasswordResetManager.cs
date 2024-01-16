@@ -2,8 +2,6 @@ using AutoMapper;
 using Business.Abstracts;
 using Business.Dtos.PasswordReset.Requests;
 using Business.Dtos.PasswordReset.Responses;
-using Core.Business.Requests;
-using Core.DataAccess.Paging;
 using DataAccess.Abstracts;
 using Entities.Concretes;
 

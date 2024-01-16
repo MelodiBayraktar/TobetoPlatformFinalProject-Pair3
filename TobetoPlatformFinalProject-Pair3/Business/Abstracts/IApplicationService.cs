@@ -1,7 +1,7 @@
 using Business.Dtos.Application.Requests;
 using Business.Dtos.Application.Responses;
-using Core.Business.Requests;
 using Core.DataAccess.Paging;
+using Core.Utilities.Business.Requests;
 
 namespace Business.Abstracts;
 

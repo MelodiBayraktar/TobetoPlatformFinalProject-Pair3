@@ -1,6 +1,6 @@
 using Business.Abstracts;
 using Business.Dtos.Ability.Requests;
-using Core.Business.Requests;
+using Core.Utilities.Business.Requests;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers;

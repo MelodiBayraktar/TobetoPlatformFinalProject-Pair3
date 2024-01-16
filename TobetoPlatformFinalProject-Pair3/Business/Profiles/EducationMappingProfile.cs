@@ -2,6 +2,7 @@
 using Business.Dtos.Education.Requests;
 using Business.Dtos.Education.Responses;
 using Core.DataAccess.Paging;
+using Entities;
 using Entities.Concretes;
 
 namespace Business.Profiles;

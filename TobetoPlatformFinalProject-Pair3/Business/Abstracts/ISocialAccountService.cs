@@ -1,7 +1,7 @@
 using Business.Dtos.SocialAccount.Requests;
 using Business.Dtos.SocialAccount.Responses;
-using Core.Business.Requests;
 using Core.DataAccess.Paging;
+using Core.Utilities.Business.Requests;
 
 namespace Business.Abstracts;
 

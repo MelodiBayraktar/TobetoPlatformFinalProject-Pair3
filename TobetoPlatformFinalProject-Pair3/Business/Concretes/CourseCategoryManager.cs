@@ -2,8 +2,8 @@ using AutoMapper;
 using Business.Abstracts;
 using Business.Dtos.CourseCategory.Requests;
 using Business.Dtos.CourseCategory.Responses;
-using Core.Business.Requests;
 using Core.DataAccess.Paging;
+using Core.Utilities.Business.Requests;
 using DataAccess.Abstracts;
 using Entities.Concretes;
 

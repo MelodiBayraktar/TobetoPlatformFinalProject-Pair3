@@ -2,10 +2,11 @@ using AutoMapper;
 using Business.Abstracts;
 using Business.Dtos.ForeignLanguage.Requests;
 using Business.Dtos.ForeignLanguage.Responses;
-using Core.Business.Requests;
 using Core.DataAccess.Paging;
+using Core.Utilities.Business.Requests;
 using DataAccess.Abstracts;
-using Entities.Concretes;
+using Entities;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace Business.Concretes;

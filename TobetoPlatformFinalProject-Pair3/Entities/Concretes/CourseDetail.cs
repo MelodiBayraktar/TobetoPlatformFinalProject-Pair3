@@ -1,4 +1,6 @@
 ﻿using Core.Entities;
+using Core.Entities.Concretes;
+using Entities.Concretes;
 
 namespace Entities;
 

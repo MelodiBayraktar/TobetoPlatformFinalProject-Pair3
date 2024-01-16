@@ -2,9 +2,10 @@ using AutoMapper;
 using Business.Abstracts;
 using Business.Dtos.Education.Requests;
 using Business.Dtos.Education.Responses;
-using Core.Business.Requests;
 using Core.DataAccess.Paging;
+using Core.Utilities.Business.Requests;
 using DataAccess.Abstracts;
+using Entities;
 using Entities.Concretes;
 using Microsoft.EntityFrameworkCore;
 

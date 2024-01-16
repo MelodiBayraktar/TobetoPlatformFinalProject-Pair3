@@ -2,9 +2,11 @@ using AutoMapper;
 using Business.Abstracts;
 using Business.Dtos.CourseExam.Requests;
 using Business.Dtos.CourseExam.Responses;
-using Core.Business.Requests;
+
 using Core.DataAccess.Paging;
+using Core.Utilities.Business.Requests;
 using DataAccess.Abstracts;
+using Entities;
 using Entities.Concretes;
 
 namespace Business.Concretes;

@@ -7,6 +7,7 @@ using AutoMapper;
 using Business.Dtos.CourseExam.Requests;
 using Business.Dtos.CourseExam.Responses;
 using Core.DataAccess.Paging;
+using Entities;
 using Entities.Concretes;
 
 namespace Business.Profiles
