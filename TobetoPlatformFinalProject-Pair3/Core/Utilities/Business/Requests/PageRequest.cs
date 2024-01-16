@@ -1,4 +1,4 @@
-namespace Core.Business.Requests;
+namespace Core.Utilities.Business.Requests;
 
 public class PageRequest
 {
