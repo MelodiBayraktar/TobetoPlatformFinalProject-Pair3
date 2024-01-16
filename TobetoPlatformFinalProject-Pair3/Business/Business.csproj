@@ -25,6 +25,7 @@
 
     <ItemGroup>
       <Folder Include="BusinessAspects\" />
+      <Folder Include="Dtos\" />
     </ItemGroup>
 
 </Project>
