@@ -6,5 +6,5 @@ public class OperationClaim : Entity<Guid>, IOperationClaim
 {
     public string? Name { get; set; }
 
-    public List<UserOperationClaim>? Users { get; set; }
+    public List<UserOperationClaim>? UserOperationClaims { get; set; }
 }

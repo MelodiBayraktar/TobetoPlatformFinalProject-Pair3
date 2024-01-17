@@ -17,9 +17,15 @@ public class AsyncContentConfiguration : IEntityTypeConfiguration<AsyncContent>
         builder.Property(b => b.CreatedDate).HasColumnName("CreatedDate").IsRequired();
         builder.Property(b => b.UpdatedDate).HasColumnName("UpdatedDate");
         builder.Property(b => b.DeletedDate).HasColumnName("DeletedDate");
-        
-        builder.HasMany(b => b.AsyncLessonsOfContents);
-        builder.HasOne(b => b.AsyncCourse);
+
+        builder.HasMany(b => b.AsyncLessonsOfContents)
+            .WithOne(acc => acc.AsyncContent)
+            .HasForeignKey(acc => acc.AsyncContentId);
+
+
+        builder.HasOne(b => b.AsyncCourse)
+            .WithMany(ac => ac.AsyncContents)
+            .HasForeignKey(b => b.AsyncCourseId);
 
         builder.HasQueryFilter(b => !b.DeletedDate.HasValue);
     }

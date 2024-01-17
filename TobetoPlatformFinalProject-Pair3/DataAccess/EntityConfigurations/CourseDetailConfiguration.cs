@@ -24,11 +24,22 @@ public class CourseDetailConfiguration : IEntityTypeConfiguration<CourseDetail>
         builder.Property(b => b.CreatedDate).HasColumnName("CreatedDate").IsRequired();
         builder.Property(b => b.UpdatedDate).HasColumnName("UpdatedDate");
         builder.Property(b => b.DeletedDate).HasColumnName("DeletedDate");
-        
-        builder.HasOne(b => b.CourseCategory);
-        builder.HasMany(b => b.AsyncCourses);
-        builder.HasMany(b => b.LiveCourses);
-        
+
+        builder.HasOne(b => b.CourseCategory)
+            .WithMany(cd => cd.CourseDetails)
+            .HasForeignKey(b => b.CourseCategoryId);
+
+
+        builder.HasMany(b => b.AsyncCourses)
+            .WithOne(cd => cd.CourseDetail)
+            .HasForeignKey(cd => cd.CourseDetailId);
+
+
+        builder.HasMany(b => b.LiveCourses)
+            .WithOne(cd => cd.CourseDetail)
+            .HasForeignKey(cd => cd.CourseDetailId);
+
+
         builder.HasQueryFilter(b => !b.DeletedDate.HasValue);
     }
 }

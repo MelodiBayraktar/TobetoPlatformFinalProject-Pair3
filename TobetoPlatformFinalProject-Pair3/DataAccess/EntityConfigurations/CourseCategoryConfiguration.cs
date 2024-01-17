@@ -16,9 +16,11 @@ public class CourseCategoryConfiguration : IEntityTypeConfiguration<CourseCatego
         builder.Property(b => b.CreatedDate).HasColumnName("CreatedDate").IsRequired();
         builder.Property(b => b.UpdatedDate).HasColumnName("UpdatedDate");
         builder.Property(b => b.DeletedDate).HasColumnName("DeletedDate");
-        
-        builder.HasMany(b => b.CourseDetails);
-        
+
+        builder.HasMany(b => b.CourseDetails)
+            .WithOne(cc => cc.CourseCategory)
+            .HasForeignKey(cc => cc.CourseCategoryId);
+
         builder.HasQueryFilter(b => !b.DeletedDate.HasValue);
     }
 }

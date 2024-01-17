@@ -15,10 +15,15 @@ public class AnnouncementsNewsCategoryConfiguration : IEntityTypeConfiguration<A
         
         builder.Property(b => b.CreatedDate).HasColumnName("CreatedDate").IsRequired();
         builder.Property(b => b.UpdatedDate).HasColumnName("UpdatedDate");
-        builder.Property(b => b.DeletedDate).HasColumnName("DeletedDate"); 
-        
-        builder.HasMany(s => s.Announcements);
-        builder.HasMany(s => s.News);
+        builder.Property(b => b.DeletedDate).HasColumnName("DeletedDate");
+
+        builder.HasMany(s => s.Announcements)
+            .WithOne(an => an.AnnouncementsNewsCategory)
+            .HasForeignKey(s => s.AnnouncementsNewsCategoryId);
+
+        builder.HasMany(s => s.News)
+            .WithOne(an => an.AnnouncementsNewsCategory)
+            .HasForeignKey(s => s.AnnouncementsNewsCategoryId);
 
         builder.HasQueryFilter(b => !b.DeletedDate.HasValue);
     }

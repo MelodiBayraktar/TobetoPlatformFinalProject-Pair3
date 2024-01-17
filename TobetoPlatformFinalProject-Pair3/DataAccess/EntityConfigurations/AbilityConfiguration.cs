@@ -11,15 +11,16 @@ public class AbilityConfiguration : IEntityTypeConfiguration<Ability>
         builder.ToTable("Abilities").HasKey(b => b.Id);
 
         builder.Property(b => b.Id).HasColumnName("Id").IsRequired();
+        builder.Property(b => b.UserId).HasColumnName("UserId").IsRequired();
         builder.Property(b => b.Name).HasColumnName("Name").IsRequired();
       
         builder.Property(b => b.CreatedDate).HasColumnName("CreatedDate").IsRequired();
         builder.Property(b => b.UpdatedDate).HasColumnName("UpdatedDate");
         builder.Property(b => b.DeletedDate).HasColumnName("DeletedDate");
 
-        builder.HasIndex(indexExpression: b => b.Name, name: "UK_Ability_Name").IsUnique();
-
-        builder.HasOne(b => b.User);
+        builder.HasOne(ab => ab.User)
+            .WithMany(u => u.Abilities)
+            .HasForeignKey(ab => ab.UserId);
 
         builder.HasQueryFilter(b => !b.DeletedDate.HasValue);
     }

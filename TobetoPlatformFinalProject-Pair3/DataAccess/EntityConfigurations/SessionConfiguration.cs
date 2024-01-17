@@ -23,10 +23,18 @@ public class SessionConfiguration : IEntityTypeConfiguration<Session>
         builder.Property(b => b.CreatedDate).HasColumnName("CreatedDate").IsRequired();
         builder.Property(b => b.UpdatedDate).HasColumnName("UpdatedDate");
         builder.Property(b => b.DeletedDate).HasColumnName("DeletedDate");
-        
-        builder.HasOne(b => b.Instructor);
-        builder.HasOne(b => b.LiveContent);
-        
+
+        builder.HasOne(b => b.Instructor)
+            .WithMany(s => s.Sessions)
+            .HasForeignKey(b => b.InstructorId);
+
+
+        builder.HasOne(b => b.LiveContent)
+            .WithMany(s => s.Sessions)
+            .HasForeignKey(b => b.LiveContentId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+
         builder.HasQueryFilter(b => !b.DeletedDate.HasValue);
     }
 }

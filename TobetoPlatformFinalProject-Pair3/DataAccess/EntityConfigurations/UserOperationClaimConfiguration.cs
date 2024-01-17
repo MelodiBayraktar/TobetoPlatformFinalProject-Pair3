@@ -23,9 +23,15 @@ namespace DataAccess.EntityConfigurations
             builder.Property(b => b.CreatedDate).HasColumnName("CreatedDate").IsRequired();
             builder.Property(b => b.UpdatedDate).HasColumnName("UpdatedDate");
             builder.Property(b => b.DeletedDate).HasColumnName("DeletedDate");
-            
-            builder.HasOne(uop => uop.User);
-            builder.HasOne(uop => uop.OperationClaim);
+
+            builder.HasOne(u => u.User)
+                .WithMany(uop => uop.UserOperationClaims)
+                .HasForeignKey(u => u.UserId);
+
+
+            builder.HasOne(oc => oc.OperationClaim)
+                .WithMany(uop => uop.UserOperationClaims)
+                .HasForeignKey(oc => oc.OperationClaimId);
 
             builder.HasQueryFilter(u => !u.DeletedDate.HasValue);
             

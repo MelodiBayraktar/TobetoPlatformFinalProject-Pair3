@@ -22,10 +22,16 @@ public class AsyncLessonsOfContentConfiguration : IEntityTypeConfiguration<Async
         builder.Property(b => b.CreatedDate).HasColumnName("CreatedDate").IsRequired();
         builder.Property(b => b.UpdatedDate).HasColumnName("UpdatedDate");
         builder.Property(b => b.DeletedDate).HasColumnName("DeletedDate");
-        
-        builder.HasOne(b => b.AsyncContent);
-        builder.HasMany(b => b.AsyncLessonsDetails);
-        
+
+        builder.HasOne(b => b.AsyncContent)
+            .WithMany(alc => alc.AsyncLessonsOfContents)
+            .HasForeignKey(b => b.AsyncContentId);
+
+
+        builder.HasMany(b => b.AsyncLessonsDetails)
+            .WithOne(alc => alc.AsyncLessonsOfContent)
+            .HasForeignKey(alc => alc.AsyncLessonId);
+
         builder.HasQueryFilter(b => !b.DeletedDate.HasValue);
     }
 }

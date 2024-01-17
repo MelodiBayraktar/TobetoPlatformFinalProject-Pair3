@@ -19,11 +19,21 @@ public class AsyncCourseConfiguration : IEntityTypeConfiguration<AsyncCourse>
         builder.Property(b => b.CreatedDate).HasColumnName("CreatedDate").IsRequired();
         builder.Property(b => b.UpdatedDate).HasColumnName("UpdatedDate");
         builder.Property(b => b.DeletedDate).HasColumnName("DeletedDate");
-        
-        builder.HasMany(b => b.AsyncContents);
-        builder.HasOne(b => b.Course);
-        builder.HasOne(b => b.CourseDetail);
-        
+
+        builder.HasMany(b => b.AsyncContents)
+            .WithOne(ac => ac.AsyncCourse)
+            .HasForeignKey(ac => ac.AsyncCourseId);
+
+
+        builder.HasOne(b => b.Course)
+            .WithMany(ac => ac.AsyncCourses)
+            .HasForeignKey(b => b.CourseId);
+
+
+        builder.HasOne(b => b.CourseDetail)
+            .WithMany(ac => ac.AsyncCourses)
+            .HasForeignKey(b => b.CourseDetailId);
+
         builder.HasQueryFilter(b => !b.DeletedDate.HasValue);
     }
 }

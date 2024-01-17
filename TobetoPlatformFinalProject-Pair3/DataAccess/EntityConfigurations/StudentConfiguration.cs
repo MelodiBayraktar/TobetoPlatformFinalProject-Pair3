@@ -16,11 +16,21 @@ public class StudentConfiguration : IEntityTypeConfiguration<Student>
         builder.Property(b => b.CreatedDate).HasColumnName("CreatedDate").IsRequired();
         builder.Property(b => b.UpdatedDate).HasColumnName("UpdatedDate");
         builder.Property(b => b.DeletedDate).HasColumnName("DeletedDate");
-        
-        builder.HasOne(b => b.User);
-        builder.HasMany(b => b.Surveys);
-        builder.HasMany(b => b.CourseExams);
-        
+
+        builder.HasOne(b => b.User)
+            .WithMany(s => s.Students)
+            .HasForeignKey(b => b.UserId);
+
+
+        builder.HasMany(b => b.Surveys)
+            .WithOne(s => s.Student)
+            .HasForeignKey(s => s.StudentId);
+
+
+        builder.HasMany(b => b.CourseExams)
+            .WithOne(s => s.Student)
+            .HasForeignKey(s => s.StudentId);
+
         builder.HasQueryFilter(b => !b.DeletedDate.HasValue);
     }
 }

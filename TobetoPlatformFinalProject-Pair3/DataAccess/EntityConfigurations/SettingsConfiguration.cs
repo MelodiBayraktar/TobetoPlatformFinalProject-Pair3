@@ -16,9 +16,11 @@ public class SettingsConfiguration : IEntityTypeConfiguration<Settings>
         builder.Property(b => b.CreatedDate).HasColumnName("CreatedDate").IsRequired();
         builder.Property(b => b.UpdatedDate).HasColumnName("UpdatedDate");
         builder.Property(b => b.DeletedDate).HasColumnName("DeletedDate");
-        
-        builder.HasOne(b => b.User);
-        
+
+        builder.HasOne(b => b.User)
+            .WithMany(s => s.Settings)
+            .HasForeignKey(b => b.UserId);
+
         builder.HasQueryFilter(b => !b.DeletedDate.HasValue);
     }
 }

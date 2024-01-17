@@ -25,8 +25,6 @@ public class User : Entity<Guid>, IUser
     public List<Instructor>? Instructors { get; set; }
     public List<Student>? Students { get; set; }
     public List<Course>? Courses { get; set; }
-
-
-    public List<UserOperationClaim> UserOperationClaims { get; set; }
+    public List<UserOperationClaim>? UserOperationClaims { get; set; }
 
 }

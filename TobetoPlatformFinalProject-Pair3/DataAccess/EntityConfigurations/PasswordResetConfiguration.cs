@@ -18,9 +18,11 @@ public class PasswordResetConfiguration : IEntityTypeConfiguration<PasswordReset
         builder.Property(b => b.CreatedDate).HasColumnName("CreatedDate").IsRequired();
         builder.Property(b => b.UpdatedDate).HasColumnName("UpdatedDate");
         builder.Property(b => b.DeletedDate).HasColumnName("DeletedDate");
-        
-        builder.HasOne(b => b.User);
-        
+
+        builder.HasOne(b => b.User)
+            .WithMany(pr => pr.PasswordResets)
+            .HasForeignKey(b => b.UserId);
+
         builder.HasQueryFilter(b => !b.DeletedDate.HasValue);
     }
 }

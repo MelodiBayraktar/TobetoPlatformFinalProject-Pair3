@@ -18,9 +18,11 @@ public class SurveyConfiguration : IEntityTypeConfiguration<Survey>
         builder.Property(b => b.CreatedDate).HasColumnName("CreatedDate").IsRequired();
         builder.Property(b => b.UpdatedDate).HasColumnName("UpdatedDate");
         builder.Property(b => b.DeletedDate).HasColumnName("DeletedDate");
-        
-        builder.HasOne(b => b.Student);
-        
+
+        builder.HasOne(b => b.Student)
+            .WithMany(s => s.Surveys)
+            .HasForeignKey(b => b.StudentId);
+
         builder.HasQueryFilter(b => !b.DeletedDate.HasValue);
     }
 }
