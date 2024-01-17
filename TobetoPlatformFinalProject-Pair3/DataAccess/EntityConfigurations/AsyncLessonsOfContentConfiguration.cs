@@ -12,6 +12,7 @@ public class AsyncLessonsOfContentConfiguration : IEntityTypeConfiguration<Async
 
         builder.Property(a => a.Id).HasColumnName("Id").IsRequired();
         builder.Property(a => a.AsyncContentId).HasColumnName("AsyncContentId").IsRequired();
+        builder.Property(a => a.AsyncContentId).HasColumnName("AsyncLessonId").IsRequired();
         builder.Property(a => a.Type).HasColumnName("Type").IsRequired();
         builder.Property(a => a.Name).HasColumnName("Name").IsRequired();
         builder.Property(a => a.Duration).HasColumnName("Duration").IsRequired();

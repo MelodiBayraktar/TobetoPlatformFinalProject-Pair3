@@ -12,6 +12,7 @@ public class LiveContentConfiguration : IEntityTypeConfiguration<LiveContent>
 
         builder.Property(a => a.Id).HasColumnName("Id").IsRequired();
         builder.Property(a => a.LiveCourseId).HasColumnName("LiveCourseId").IsRequired();
+
         builder.Property(a => a.Name).HasColumnName("Name").IsRequired();
         builder.Property(a => a.Type).HasColumnName("Type").IsRequired();
         builder.Property(a => a.IsContinue).HasColumnName("IsContinue").IsRequired();

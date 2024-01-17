@@ -12,7 +12,7 @@ public class CourseDetail : Entity<Guid>
     public bool? IsFavorited { get; set; }
     public DateTime? StartDate { get; set; }
     public DateTime? EndDate { get; set; }
-    public DateTime? SpentTime { get; set; }
+    public int? SpentTime { get; set; }
     public int? ContentCount { get; set; }
 
     public List<LiveCourse>? LiveCourses { get; set; }

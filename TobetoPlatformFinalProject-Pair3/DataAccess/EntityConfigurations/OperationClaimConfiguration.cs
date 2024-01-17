@@ -16,6 +16,7 @@ namespace DataAccess.EntityConfigurations
             builder.ToTable("OperationClaim").HasKey(op => op.Id);
 
             builder.Property(op => op.Id).HasColumnName("Id").IsRequired();
+
             builder.Property(op => op.Name).HasColumnName("Name").IsRequired();
 
             builder.Property(b => b.CreatedDate).HasColumnName("CreatedDate").IsRequired();

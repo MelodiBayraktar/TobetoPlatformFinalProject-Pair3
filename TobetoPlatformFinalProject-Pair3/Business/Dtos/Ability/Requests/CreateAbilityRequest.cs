@@ -9,4 +9,5 @@ namespace Business.Dtos.Ability.Requests;
 public class CreateAbilityRequest
 {
     public string? Name { get; set; }
+    public Guid? UserId { get; set; }
 }

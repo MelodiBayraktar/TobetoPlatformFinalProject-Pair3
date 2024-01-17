@@ -13,7 +13,8 @@ public class InstructorConfiguration : IEntityTypeConfiguration<Instructor>
 
         builder.Property(a => a.Id).HasColumnName("Id").IsRequired();
         builder.Property(a => a.UserId).HasColumnName("UserId").IsRequired();
-        
+
+
         builder.Property(b => b.CreatedDate).HasColumnName("CreatedDate").IsRequired();
         builder.Property(b => b.UpdatedDate).HasColumnName("UpdatedDate");
         builder.Property(b => b.DeletedDate).HasColumnName("DeletedDate");
