@@ -9,7 +9,6 @@ namespace Business.Dtos.AsyncLessonsOfContent.Requests
     public class UpdateAsyncLessonsOfContentRequest
     {
         public Guid? Id { get; set; }
-        public Guid? AsyncContentId { get; set; }
         public string? Name { get; set; }
         public string? Type { get; set; }
         public int? Duration { get; set; }

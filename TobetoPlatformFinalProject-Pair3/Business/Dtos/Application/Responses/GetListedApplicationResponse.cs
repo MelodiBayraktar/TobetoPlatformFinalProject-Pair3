@@ -1,6 +1,7 @@
 ﻿namespace Business.Dtos.Application.Responses;
 public class GetListedApplicationResponse
 {
+    public Guid? Id { get; set; }
     public string? ProjectName { get; set; }
     public string? Description { get; set; }
     public string? ApplicationForStatus { get; set; }

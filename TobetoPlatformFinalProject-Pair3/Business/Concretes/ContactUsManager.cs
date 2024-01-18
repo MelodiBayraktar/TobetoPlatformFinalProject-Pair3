@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Business.Abstracts;
+using Business.BusinessAspects.Autofac;
 using Core.DataAccess.Paging;
 using DataAccess.Abstracts;
 using Business.Dtos.ContactUs.Responses;
@@ -20,6 +21,7 @@ public class ContactUsManager:IContactUsService
         _mapper = mapper;
     }
 
+    [SecuredOperation("admin")]
     public async Task<CreatedContactUsResponse> AddAsync(CreateContactUsRequest createContactUsRequest)
     {
         var contactUs = _mapper.Map<ContactUs>(createContactUsRequest);

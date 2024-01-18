@@ -37,7 +37,8 @@ public class ApplicationManager : IApplicationService
 
     public async Task<GetApplicationResponse> GetById(GetApplicationRequest getApplicationRequest)
     {
-        var getApplication = await _applicationDal.GetAsync(c => c.Id == getApplicationRequest.Id);
+        var getApplication = await _applicationDal.GetAsync(c => c.Id == getApplicationRequest.Id,
+            include: p => p.Include(p => p.Project));
         return _mapper.Map<GetApplicationResponse>(getApplication);
     }
 

@@ -70,34 +70,34 @@ public class Program
         //});
 
         builder.Services.AddSwaggerGen();
-    //    builder.Services.AddSwaggerGen(setup =>
-    //    {
+        builder.Services.AddSwaggerGen(setup =>
+        {
 
-    //        setup.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    //        {
-    //            In = ParameterLocation.Header,
-    //            Description = "Please enter a valid token",
-    //            Name = "Authorization",
-    //            Type = SecuritySchemeType.Http,
-    //            Scheme = "Bearer"
+            setup.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                In = ParameterLocation.Header,
+                Description = "Please enter a valid token",
+                Name = "Authorization",
+                Type = SecuritySchemeType.Http,
+                Scheme = "Bearer"
 
-    //        });
-    //        setup.AddSecurityRequirement(new OpenApiSecurityRequirement
-    //{
-    //    {
-    //        new OpenApiSecurityScheme
-    //        {
-    //            Reference = new OpenApiReference
-    //            {
-    //                Type = ReferenceType.SecurityScheme,
-    //                Id = "Bearer"
-    //            }
+            });
+            setup.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
 
-    //        },
-    //        new List<string>()
-    //    }
-    //});
-    //    });
+            },
+            new List<string>()
+        }
+    });
+        });
     
         //Autofac, Ninject,CastleWindsor, StructureMap, LightInject, DryInject --> IoC Container
         //AOP

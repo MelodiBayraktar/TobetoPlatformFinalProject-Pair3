@@ -9,7 +9,6 @@ namespace Business.Dtos.AsyncLessonsDetail.Responses
     public class DeletedAsyncLessonsDetailResponse
     {
         public Guid? Id { get; set; }
-        public Guid? AsyncLessonId { get; set; }
         public bool? IsLiked { get; set; }
         public string? Category { get; set; }
         public string? Language { get; set; }

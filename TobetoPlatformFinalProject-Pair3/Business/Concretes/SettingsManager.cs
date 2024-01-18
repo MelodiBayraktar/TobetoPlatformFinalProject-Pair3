@@ -33,12 +33,7 @@ public class SettingsManager : ISettingsService
         var deleteSettings = await _settingsDal.DeleteAsync(settings);
         return _mapper.Map<DeletedSettingsResponse>(deleteSettings);
     }
-
-    public async Task<GetSettingsResponse> GetById(GetSettingsRequest getSettingsRequest)
-    {
-        var getSettings = await _settingsDal.GetAsync(c => c.Id == getSettingsRequest.Id);
-        return _mapper.Map<GetSettingsResponse>(getSettings);
-    }
+    
 
     public async Task<IPaginate<GetListedSettingsResponse>> GetListAsync(PageRequest pageRequest)
     {

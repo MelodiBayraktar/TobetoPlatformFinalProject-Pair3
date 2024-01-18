@@ -4,7 +4,7 @@ public class GetListedExperienceResponse
 {
     public Guid? Id { get; set; }
     public string? UserName { get; set; }
-    public string? OrganisationName { get; set; }
+    public string? OrganizationName { get; set; }
     public string? Position { get; set; }
     public string? Sector { get; set; }
     public string? City { get; set; }

@@ -13,7 +13,7 @@ public class PasswordResetConfiguration : IEntityTypeConfiguration<PasswordReset
         builder.Property(a => a.Id).HasColumnName("Id").IsRequired();
         builder.Property(a => a.UserId).HasColumnName("UserId").IsRequired();
         builder.Property(a => a.VerificationCode).HasColumnName("VerificationCode").IsRequired();
-        builder.Property(a => a.IsUsed).HasColumnName("IsUsed").IsRequired();
+     
         
         builder.Property(b => b.CreatedDate).HasColumnName("CreatedDate").IsRequired();
         builder.Property(b => b.UpdatedDate).HasColumnName("UpdatedDate");

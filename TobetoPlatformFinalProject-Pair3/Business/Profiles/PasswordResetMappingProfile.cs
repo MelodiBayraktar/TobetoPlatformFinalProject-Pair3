@@ -20,16 +20,7 @@ namespace Business.Profiles
 
             CreateMap<PasswordReset, UpdatePasswordResetRequest>().ReverseMap();
             CreateMap<PasswordReset, UpdatedPasswordResetResponse>().ReverseMap();
-
-            CreateMap<PasswordReset, DeletePasswordResetRequest>().ReverseMap();
-            CreateMap<PasswordReset, DeletedPasswordResetResponse>().ReverseMap();
-
-            CreateMap<PasswordReset, GetPasswordResetRequest>().ReverseMap();
-            CreateMap<PasswordReset, GetPasswordResetResponse>().ReverseMap();
-
-
-            CreateMap<PasswordReset, GetListedPasswordResetResponse>().ReverseMap();
-            CreateMap<Paginate<PasswordReset>, Paginate<GetListedPasswordResetResponse>>().ReverseMap();
+            
         }
     }
 }

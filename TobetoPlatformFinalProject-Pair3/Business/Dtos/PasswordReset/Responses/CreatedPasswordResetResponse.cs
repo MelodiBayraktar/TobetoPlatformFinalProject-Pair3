@@ -9,8 +9,6 @@ namespace Business.Dtos.PasswordReset.Responses
    public class CreatedPasswordResetResponse
     {
         public Guid? Id { get; set; }
-        public Guid? UserId { get; set; }
         public string? VerificationCode { get; set; }
-        public bool? IsUsed { get; set; }
     }
 }

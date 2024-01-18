@@ -8,7 +8,7 @@ namespace Business.Dtos.Ability.Requests
 {
     public class UpdateAbilityRequest
     {
-        public Guid? Id { get; set; }
+        public Guid? UserId { get; set; }
         public string? Name { get; set; }
     }
 }
