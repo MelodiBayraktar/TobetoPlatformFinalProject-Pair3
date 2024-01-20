@@ -2,6 +2,6 @@ namespace Business.Constants;
 
 public class AbilityMessages
 {
-    public static string AbilityNotExists = "Ability Not Exists";
+    public static string AbilityNotExists = "Yetenek bulunamadý.";
 
 }

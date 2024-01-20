@@ -2,15 +2,15 @@ namespace Business.Constants;
 
 public class UserMessages
 {
-    public static string AuthorizationDenied="Authorization is Denied";
-    public static string UserNotBeExist = "User not be exist";
-    public static string UserAlreadyExist = "User already exist";
+    public static string AuthorizationDenied="Yetki verilme reddedildi.";
+    public static string UserNotBeExist = "Kullanýcý bulunamadý.";
+    public static string UserAlreadyExist = "Mevcut kullanýcý.";
 
-    public static string UserMailAlreadyExists = "User Email Already Exists";
-    public static string PasswordDontMatch = "Password Dont Match";
+    public static string UserMailAlreadyExists = "Kullanýcý maili mevcut.";
+    public static string PasswordDontMatch = "Þifre eþleþmemektedir.";
     
-    public static string MustContainAtMinTwoChar = "Must contain at minimum 2 characters";
-    public static string MustContainAtMaxTenChar = "Must contain a maximum of 10 characters";
-    public static string PleaseEnterAStrongerPassword = "Please enter a stronger password";
-    public static string PleaseEnterAValidNationalyIdNumber = "Please enter a valid nationality id number";
+    public static string MustContainAtMinTwoChar = "En az 2 karakter olmalýdýr.";
+    public static string MustContainAtMaxTenChar = "En fazla 10 karakter olmalýdýr.";
+    public static string PleaseEnterAStrongerPassword = "Daha güçlü bir þifre giriniz.";
+    public static string PleaseEnterAValidNationalyIdNumber = "Lütfen geçerli bir kimlik numarasý giriniz.";
 }

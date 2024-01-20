@@ -18,7 +18,7 @@ public class AuthRegisterBusinessRules : BaseBusinessRules
     {
         bool doesExists = await _userDal.AnyAsync(predicate: u => u.Email == email, enableTracking: false);
         if (doesExists)
-            throw new BusinessException("Messages.UserMailAlreadyExists");
+            throw new BusinessException(UserMessages.UserMailAlreadyExists);
     }
 }
     

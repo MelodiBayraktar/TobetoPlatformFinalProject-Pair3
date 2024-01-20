@@ -2,9 +2,9 @@ namespace Business.Constants;
 
 public class CourseMessages
 {
-    public static string AddedCourse = "Course is added";
-    public static string DeletedCourse = "Course is deleted";
-    public static string UpdatedCourse = "Course is updated";
-    public static string ListedCourse = "Course is listed";
+    public static string AddedCourse = "Kurs eklendi.";
+    public static string DeletedCourse = "Kurs silindi";
+    public static string UpdatedCourse = "Kurs güncellendi.";
+    public static string ListedCourse = "Kurs listelendi.";
     
 }
