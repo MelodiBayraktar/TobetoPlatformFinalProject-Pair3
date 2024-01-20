@@ -12,8 +12,6 @@ public class AsyncLessonsOfContent : Entity<Guid>
     public string? ImageUrl { get; set; }
     public string? VideoUrl { get; set; }
 
-
-
     public AsyncContent? AsyncContent { get; set; }
     public List<AsyncLessonsDetail>? AsyncLessonsDetails { get; set; }
 

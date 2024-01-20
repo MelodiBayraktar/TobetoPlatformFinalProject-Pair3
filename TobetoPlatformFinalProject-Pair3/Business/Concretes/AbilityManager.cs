@@ -1,6 +1,7 @@
 using AutoMapper;
 using Business.Abstracts;
 using Business.BusinessAspects.Autofac;
+using Business.BusinessRules;
 using Business.Dtos.Ability.Requests;
 using Business.Dtos.Ability.Responses;
 using Core.DataAccess.Paging;
@@ -15,17 +16,22 @@ public class AbilityManager : IAbilityService
 {
     private IAbilityDal _abilityDal;
     private IMapper _mapper;
+    private AbilityBusinessRules _abilityBusinessRules;
 
-    public AbilityManager(IAbilityDal abilityDal, IMapper mapper)
+
+    public AbilityManager(IAbilityDal abilityDal, IMapper mapper, AbilityBusinessRules abilityBusinessRules)
     {
         _abilityDal = abilityDal;
         _mapper = mapper;
+        _abilityBusinessRules = abilityBusinessRules;
     }
 
     [SecuredOperation("admin")]
     public async Task<CreatedAbilityResponse> AddAsync(CreateAbilityRequest createAbilityRequest)
     {
         var ability = _mapper.Map<Ability>(createAbilityRequest);
+        await _abilityBusinessRules.AbilityShouldExistWhenSelected(ability);
+
         var createAbility = await _abilityDal.AddAsync(ability);
         return _mapper.Map<CreatedAbilityResponse>(createAbility);
     }

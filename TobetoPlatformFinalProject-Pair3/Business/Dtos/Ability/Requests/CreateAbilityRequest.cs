@@ -9,5 +9,6 @@ namespace Business.Dtos.Ability.Requests;
 public class CreateAbilityRequest
 {
     public Guid? UserId { get; set; }
+    public string? FirstName { get; set; }
     public string? Name { get; set; }
 }

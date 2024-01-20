@@ -1,5 +1,6 @@
 using AutoMapper;
 using Business.Abstracts;
+using Business.BusinessRules;
 using Business.Dtos.SocialAccount.Requests;
 using Business.Dtos.SocialAccount.Responses;
 using Core.DataAccess.Paging;
@@ -14,17 +15,22 @@ public class SocialAccountManager : ISocialAccountService
 {
     private ISocialAccountDal _socialAccountDal;
     private IMapper _mapper;
+    SocialAccountBusinessRules _socialAccountBusinessRules;
 
-    public SocialAccountManager(ISocialAccountDal socialAccountDal, IMapper mapper)
+
+    public SocialAccountManager(ISocialAccountDal socialAccountDal, IMapper mapper, SocialAccountBusinessRules socialAccountBusinessRules)
     {
         _socialAccountDal = socialAccountDal;
         _mapper = mapper;
+        _socialAccountBusinessRules = socialAccountBusinessRules;
     }
 
     public async Task<CreatedSocialAccountResponse> AddAsync(CreateSocialAccountRequest createSocialAccountRequest)
     {
+   
         var socialAccount = _mapper.Map<SocialAccount>(createSocialAccountRequest);
-        var createSocialAccount = await _socialAccountDal.AddAsync(socialAccount);
+        var createSocialAccount = await _socialAccountDal.AddAsync(socialAccount);    
+        await _socialAccountBusinessRules.MaxCountAsync(socialAccount.UserId);
         return _mapper.Map<CreatedSocialAccountResponse>(createSocialAccount);
     }
 

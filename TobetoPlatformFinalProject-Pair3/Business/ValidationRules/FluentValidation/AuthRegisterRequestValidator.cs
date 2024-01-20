@@ -1,13 +1,12 @@
 using Business.Constants;
-using Business.Dtos.User.Requests;
-using Entities;
+using Business.Dtos.Auth.Requests;
 using FluentValidation;
 
 namespace Business.ValidationRules.FluentValidation;
 
-public class UserRequestValidator : AbstractValidator<CreateUserRequest>
+public class AuthRegisterRequestValidator : AbstractValidator<AuthForRegisterRequest>
 {
-    public UserRequestValidator()
+    public AuthRegisterRequestValidator()
     {
         RuleFor(r => r.FirstName).MinimumLength(2).NotEmpty().WithMessage(UserMessages.MustContainAtMinTwoChar);
         RuleFor(r => r.LastName).MinimumLength(2).NotEmpty().WithMessage(UserMessages.MustContainAtMinTwoChar);

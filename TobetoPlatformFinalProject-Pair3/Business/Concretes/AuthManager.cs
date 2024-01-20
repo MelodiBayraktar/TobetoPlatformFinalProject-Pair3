@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Business.Abstracts;
+using Business.BusinessRules;
 using Business.Constants;
 using Business.Dtos.Auth.Requests;
 using Business.Dtos.Auth.Responses;
@@ -17,18 +18,27 @@ public class AuthManager : IAuthService
     IUserService _userService;
     IMapper _mapper;
     ITokenHelper _tokenHelper;
+    AuthRegisterBusinessRules _authRegisterBusinessRules;
+    AuthLoginBusinessRules _authLoginBusinessRules;
+    
 
-    public AuthManager(IUserService userService, IMapper mapper, ITokenHelper tokenHelper)
+    public AuthManager(IUserService userService, IMapper mapper, ITokenHelper tokenHelper, AuthRegisterBusinessRules authRegisterBusinessRules, AuthLoginBusinessRules authLoginBusinessRules)
     {
         _userService = userService;
         _mapper = mapper;
         _tokenHelper = tokenHelper;
+        _authRegisterBusinessRules = authRegisterBusinessRules;
+        _authLoginBusinessRules = authLoginBusinessRules;
     }
     public async Task<IUser> Login(AuthForLoginRequest authForLoginRequest)
     {
         User user = _mapper.Map<User>(authForLoginRequest);
         var userLogin = await _userService.GetByMailAsync(user.Email);
+        
+        await _authLoginBusinessRules.EmailExist(authForLoginRequest.Email);
+        await _authLoginBusinessRules.UserPasswordMustBeMatched(user ,authForLoginRequest.Password);
 
+        
         if (userLogin == null)
         {
 
@@ -45,6 +55,7 @@ public class AuthManager : IAuthService
 
     public async Task<IUser> Register(AuthForRegisterRequest authForRegisterRequest, string password)
     {
+        await _authRegisterBusinessRules.EmailExist(authForRegisterRequest.Email);
         User user = _mapper.Map<User>(authForRegisterRequest);
 
         byte[] passwordHash, passwordSalt;

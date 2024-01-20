@@ -10,7 +10,9 @@ namespace Business.Profiles
     {
         public AbilityMappingProfile()
         {
-            CreateMap<Ability, CreateAbilityRequest>().ReverseMap();
+            //CreateMap<Ability, CreateAbilityRequest>().ReverseMap();
+            CreateMap<Ability, CreateAbilityRequest>().ForMember(destinationMember: p => p.UserId,
+                memberOptions: o => o.MapFrom(p => p.User.Id)).ReverseMap();
             CreateMap<Ability, CreatedAbilityResponse>().ReverseMap();
 
             CreateMap<Ability, UpdateAbilityRequest>().ReverseMap();
