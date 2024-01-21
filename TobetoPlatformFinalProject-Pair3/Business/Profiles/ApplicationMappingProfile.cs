@@ -20,12 +20,13 @@ public class ApplicationMappingProfile : Profile
         CreateMap<Application, DeletedApplicationResponse>().ReverseMap();;
 
         CreateMap<Application, GetApplicationRequest>().ReverseMap();
-        CreateMap<Application, GetApplicationResponse>().ForMember(destinationMember: p => p.ProjectName,
-            memberOptions: opt => opt.MapFrom(p => p.Project.Name)).ReverseMap();;
 
+        CreateMap<Application, GetApplicationResponse>().ForMember(destinationMember: p => p.ProjectName,
+            memberOptions: opt => opt.MapFrom(p => p.Project.Name)).ReverseMap();
 
         CreateMap<Application, GetListedApplicationResponse>().ForMember(destinationMember: p => p.ProjectName,
                         memberOptions: opt => opt.MapFrom(p => p.Project.Name)).ReverseMap();
+
         CreateMap<Paginate<Application>, Paginate<GetListedApplicationResponse>>().ReverseMap();
     }
 }

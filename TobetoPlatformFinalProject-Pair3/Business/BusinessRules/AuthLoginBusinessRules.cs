@@ -20,7 +20,7 @@ public class AuthLoginBusinessRules : BaseBusinessRules
     public async Task EmailExist(string email)
     {
         bool doesExists = await _userDal.AnyAsync(predicate: u => u.Email == email, enableTracking: false);
-        if (doesExists)
+        if (!doesExists)
             throw new BusinessException(UserMessages.UserMailAlreadyExists);
     }
     public  Task UserPasswordMustBeMatched(User user, string password)

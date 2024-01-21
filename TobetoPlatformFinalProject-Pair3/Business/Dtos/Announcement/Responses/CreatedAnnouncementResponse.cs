@@ -13,5 +13,7 @@ namespace Business.Dtos.Announcement.Responses
         public Guid? ProjectId { get; set; }
         public string? Title { get; set; }
         public string? AnnouncementContent { get; set; }
+        public string? AnnouncementsNewsCategoryName { get; set; }
+        public string? ProjectName { get; set; }
     }
 }

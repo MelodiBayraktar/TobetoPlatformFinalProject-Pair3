@@ -9,12 +9,15 @@ namespace Business.Profiles
     public class AbilityMappingProfile : Profile
     {
         public AbilityMappingProfile()
-        {  
+        {
             CreateMap<Ability, CreateAbilityRequest>().ReverseMap();
             // CreateMap<Ability, CreateAbilityRequest>().ForMember(destinationMember: p => p.UserId,
             //     memberOptions: o => o.MapFrom(p => p.User.Id)).ReverseMap();
             CreateMap<Ability, CreatedAbilityResponse>().ForMember(destinationMember: p => p.FirstName,
                 memberOptions: opt => opt.MapFrom(p => p.User.FirstName)).ReverseMap();
+
+            CreateMap<Ability, CreatedAbilityResponse>().ForMember(destinationMember: p => p.UserId,
+                 memberOptions: o => o.MapFrom(p => p.User.Id)).ReverseMap();
 
             CreateMap<Ability, UpdateAbilityRequest>().ReverseMap();
             CreateMap<Ability, UpdatedAbilityResponse>().ReverseMap();
@@ -27,7 +30,7 @@ namespace Business.Profiles
 
 
             CreateMap<Ability, GetListedAbilityResponse>().ForMember(destinationMember: p => p.UserName,
-                            memberOptions: opt => opt.MapFrom(p => p.User.FirstName +" "+p.User.LastName)).ReverseMap();
+                            memberOptions: opt => opt.MapFrom(p => p.User.FirstName + " " + p.User.LastName)).ReverseMap();
             CreateMap<Paginate<Ability>, Paginate<GetListedAbilityResponse>>().ReverseMap();
         }
     }
