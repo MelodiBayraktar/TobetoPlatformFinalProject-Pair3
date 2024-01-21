@@ -12,8 +12,8 @@ public class UserRequestValidator : AbstractValidator<CreateUserRequest>
         RuleFor(r => r.FirstName).MinimumLength(2).NotEmpty().WithMessage(UserMessages.MustContainAtMinTwoChar);
         RuleFor(r => r.LastName).MinimumLength(2).NotEmpty().WithMessage(UserMessages.MustContainAtMinTwoChar);
         RuleFor(r => r.Email).NotEmpty().EmailAddress();
-        RuleFor(r => r.Password).MinimumLength(8).MaximumLength(10).NotEmpty()
-           .WithMessage(UserMessages.MustContainAtMinTwoChar).WithMessage(UserMessages.MustContainAtMaxTenChar);
+       // RuleFor(r => r.Password).MinimumLength(8).MaximumLength(10).NotEmpty()
+         //  .WithMessage(UserMessages.MustContainAtMinTwoChar).WithMessage(UserMessages.MustContainAtMaxTenChar);
         //RuleFor(r => r.PasswordSalt).NotEmpty()
         //    .WithMessage(UserMessages.MustContainAtMinTwoChar).WithMessage(UserMessages.MustContainAtMaxTenChar);
     }

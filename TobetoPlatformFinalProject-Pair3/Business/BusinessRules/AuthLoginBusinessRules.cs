@@ -23,7 +23,7 @@ public class AuthLoginBusinessRules : BaseBusinessRules
         if (doesExists)
             throw new BusinessException(UserMessages.UserMailAlreadyExists);
     }
-    public Task UserPasswordMustBeMatched(User user, string password)
+    public  Task UserPasswordMustBeMatched(User user, string password)
     {
         if (!HashingHelper.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
             throw new BusinessException(UserMessages.PasswordDontMatch);

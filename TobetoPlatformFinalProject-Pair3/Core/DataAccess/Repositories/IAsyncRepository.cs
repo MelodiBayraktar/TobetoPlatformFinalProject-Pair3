@@ -52,7 +52,8 @@ namespace Core.DataAccess.Repositories
             CancellationToken cancellationToken = default
         );
 
-        Task<TEntity> AddAsync(TEntity entity);
+        //Task<TEntity> AddAsync(TEntity entity);
+        Task<TEntity> AddAsync(TEntity entity, Expression<Func<TEntity, object>> include = null);
 
         Task<ICollection<TEntity>> AddRangeAsync(ICollection<TEntity> entity);
 

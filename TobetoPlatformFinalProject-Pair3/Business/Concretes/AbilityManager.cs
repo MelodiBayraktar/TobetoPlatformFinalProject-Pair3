@@ -9,6 +9,7 @@ using Core.Utilities.Business.Requests;
 using DataAccess.Abstracts;
 using Entities.Concretes;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Business.Concretes;
 
@@ -29,10 +30,17 @@ public class AbilityManager : IAbilityService
     [SecuredOperation("admin")]
     public async Task<CreatedAbilityResponse> AddAsync(CreateAbilityRequest createAbilityRequest)
     {
+        //var ability = _mapper.Map<Ability>(createAbilityRequest);
+        //await _abilityBusinessRules.AbilityShouldExistWhenSelected(ability);
+
+        //var createAbility = await _abilityDal.AddAsync(ability);
+        //return _mapper.Map<CreatedAbilityResponse>(createAbility);
         var ability = _mapper.Map<Ability>(createAbilityRequest);
         await _abilityBusinessRules.AbilityShouldExistWhenSelected(ability);
+        Expression<Func<Ability, object>> includeExpression = x => x.User;
 
-        var createAbility = await _abilityDal.AddAsync(ability);
+        var createAbility = await _abilityDal.AddAsync(ability, includeExpression);
+
         return _mapper.Map<CreatedAbilityResponse>(createAbility);
     }
 
