@@ -11,7 +11,13 @@ namespace Business.Profiles
         public AsyncCourseMappingProfile()
         {
             CreateMap<AsyncCourse, CreateAsyncCourseRequest>().ReverseMap();
-            CreateMap<AsyncCourse, CreatedAsyncCourseResponse>().ReverseMap();
+            //CreateMap<AsyncCourse, CreatedAsyncCourseResponse>().ReverseMap();
+
+            CreateMap<AsyncCourse, CreatedAsyncCourseResponse>().ForMember(destinationMember: p => p.CourseDetailId,
+                           memberOptions: opt => opt.MapFrom(p => p.CourseDetail.Id)).ReverseMap();
+
+            CreateMap<AsyncCourse, CreatedAsyncCourseResponse>().ForMember(destinationMember: p => p.CourseId,
+               memberOptions: opt => opt.MapFrom(p => p.Course.Id)).ReverseMap();
 
             CreateMap<AsyncCourse, UpdateAsyncCourseRequest>().ReverseMap();
             CreateMap<AsyncCourse, UpdatedAsyncCourseResponse>().ReverseMap();

@@ -11,7 +11,11 @@ public class AnnouncementMappingProfile : Profile
     public AnnouncementMappingProfile()
     {
         CreateMap<Announcement, CreateAnnouncementRequest>().ReverseMap();
+        //CreateMap<Announcement, CreatedAnnouncementResponse>().ForMember(destinationMember: p => p.AnnouncementsNewsCategoryId,
+        //                memberOptions: opt => opt.MapFrom(p => p.AnnouncementsNewsCategory.Id)).ReverseMap();
 
+        //CreateMap<Announcement, CreatedAnnouncementResponse>().ForMember(destinationMember: p => p.ProjectId,
+        //                memberOptions: opt => opt.MapFrom(p => p.Project.Id)).ReverseMap();
         CreateMap<Announcement, CreatedAnnouncementResponse>().ForMember(destinationMember: p => p.AnnouncementsNewsCategoryName,
                         memberOptions: opt => opt.MapFrom(p => p.AnnouncementsNewsCategory.Name)).ReverseMap();
 
