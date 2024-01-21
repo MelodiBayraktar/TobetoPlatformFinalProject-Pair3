@@ -30,26 +30,43 @@ public class AuthManager : IAuthService
         _authRegisterBusinessRules = authRegisterBusinessRules;
         _authLoginBusinessRules = authLoginBusinessRules;
     }
+
+    //public async Task<IUser> Login(AuthForLoginRequest authForLoginRequest)
+    //{
+    //    User user = _mapper.Map<User>(authForLoginRequest);
+    //    var userLogin = await _userService.GetByMailAsync(user.Email);
+
+    //    await _authLoginBusinessRules.EmailExist(authForLoginRequest.Email);
+    //    await _authLoginBusinessRules.UserPasswordMustBeMatched(user, authForLoginRequest.Password);
+
+
+    //    if (userLogin == null)
+    //    {
+
+    //        throw new BusinessException(BusinessMessages.UserNotBeExist);
+    //    }
+
+    //    if (!HashingHelper.VerifyPasswordHash(authForLoginRequest.Password, userLogin.PasswordHash, userLogin.PasswordSalt))
+    //    {
+    //        throw new BusinessException(BusinessMessages.PasswordUncorrect);
+    //    }
+
+    //    return user;
+    //}
     public async Task<IUser> Login(AuthForLoginRequest authForLoginRequest)
     {
         User user = _mapper.Map<User>(authForLoginRequest);
-        var userLogin = await _userService.GetByMailAsync(user.Email);
-        
+        var userToCheck = await _userService.GetByMailAsync(authForLoginRequest.Email);
         await _authLoginBusinessRules.EmailExist(authForLoginRequest.Email);
-        await _authLoginBusinessRules.UserPasswordMustBeMatched(user ,authForLoginRequest.Password);
+        await _authLoginBusinessRules.UserPasswordMustBeMatched(authForLoginRequest);
 
-        
-        if (userLogin == null)
-        {
+        //if (userToCheck == null || !HashingHelper.VerifyPasswordHash(authForLoginRequest.Password, userToCheck.PasswordHash, userToCheck.PasswordSalt))
+        //  throw new BusinessException(BusinessMessages.LoginError);
+        //return userToCheck;
+        //{
 
-            throw new BusinessException(BusinessMessages.UserNotBeExist);
-        }
-
-        if (!HashingHelper.VerifyPasswordHash(authForLoginRequest.Password, userLogin.PasswordHash, userLogin.PasswordSalt))
-        {
-            throw new BusinessException(BusinessMessages.PasswordUncorrect);
-        }
-
+        //    throw new BusinessException(BusinessMessages.UserNotBeExist);
+        //}
         return user;
     }
 
