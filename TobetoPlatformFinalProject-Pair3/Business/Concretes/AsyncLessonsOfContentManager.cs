@@ -1,5 +1,7 @@
+using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
+using Business.Dtos.Announcement.Responses;
 using Business.Dtos.AsyncLessonsOfContent.Requests;
 using Business.Dtos.AsyncLessonsOfContent.Responses;
 using Core.DataAccess.Paging;
@@ -23,9 +25,14 @@ public class AsyncLessonsOfContentManager : IAsyncLessonsOfContentService
 
     public async Task<CreatedAsyncLessonsOfContentResponse> AddAsync(CreateAsyncLessonsOfContentRequest createAsyncLessonsOfContentRequest)
     {
+        // var asyncLessonsOfContent = _mapper.Map<AsyncLessonsOfContent>(createAsyncLessonsOfContentRequest);
+        // var createAsyncLessonsOfContent = await _asyncLessonsOfContentDal.AddAsync(asyncLessonsOfContent);
+        // return _mapper.Map<CreatedAsyncLessonsOfContentResponse>(createAsyncLessonsOfContent);
         var asyncLessonsOfContent = _mapper.Map<AsyncLessonsOfContent>(createAsyncLessonsOfContentRequest);
-        var createAsyncLessonsOfContent = await _asyncLessonsOfContentDal.AddAsync(asyncLessonsOfContent);
-        return _mapper.Map<CreatedAsyncLessonsOfContentResponse>(createAsyncLessonsOfContent);
+        Expression<Func<AsyncLessonsOfContent, object>> includeExpressionForAsyncContent= x => x.AsyncContent;
+        
+        var createAsyncLessonsOfContent = await _asyncLessonsOfContentDal.AddAsync(asyncLessonsOfContent, includeExpressionForAsyncContent);
+        return _mapper.Map<CreatedAsyncLessonsOfContentResponse>(createAsyncLessonsOfContent);    
     }
 
     public async Task<DeletedAsyncLessonsOfContentResponse> DeleteAsync(DeleteAsyncLessonsOfContentRequest deleteAsyncLessonsOfContentRequest)

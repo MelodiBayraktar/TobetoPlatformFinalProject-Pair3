@@ -1,5 +1,7 @@
+using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
+using Business.Dtos.Ability.Responses;
 using Business.Dtos.Certificate.Requests;
 using Business.Dtos.Certificate.Responses;
 using Core.DataAccess.Paging;
@@ -23,8 +25,13 @@ public class CertificateManager : ICertificateService
 
     public async Task<CreatedCertificateResponse> AddAsync(CreateCertificateRequest createCertificateRequest)
     {
+        // var certificate = _mapper.Map<Certificate>(createCertificateRequest);
+        // var createCertificate = await _certificateDal.AddAsync(certificate);
+        // return _mapper.Map<CreatedCertificateResponse>(createCertificate);
         var certificate = _mapper.Map<Certificate>(createCertificateRequest);
-        var createCertificate = await _certificateDal.AddAsync(certificate);
+        Expression<Func<Certificate, object>> includeExpressionForUser = x => x.User;
+
+        var createCertificate = await _certificateDal.AddAsync(certificate, includeExpressionForUser);
         return _mapper.Map<CreatedCertificateResponse>(createCertificate);
     }
 

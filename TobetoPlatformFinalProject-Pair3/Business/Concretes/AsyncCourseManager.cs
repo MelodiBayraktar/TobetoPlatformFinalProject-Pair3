@@ -1,5 +1,7 @@
+using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
+using Business.Dtos.Announcement.Responses;
 using Business.Dtos.AsyncCourse.Requests;
 using Business.Dtos.AsyncCourse.Responses;
 using Core.DataAccess.Paging;
@@ -23,9 +25,15 @@ public class AsyncCourseManager : IAsyncCourseService
 
     public async Task<CreatedAsyncCourseResponse> AddAsync(CreateAsyncCourseRequest createAsyncCourseRequest)
     {
+        // var asyncCourse = _mapper.Map<AsyncCourse>(createAsyncCourseRequest);
+        // var createAsyncCourse = await _asyncCourseDal.AddAsync(asyncCourse);
+        // return _mapper.Map<CreatedAsyncCourseResponse>(createAsyncCourse);
         var asyncCourse = _mapper.Map<AsyncCourse>(createAsyncCourseRequest);
-        var createAsyncCourse = await _asyncCourseDal.AddAsync(asyncCourse);
-        return _mapper.Map<CreatedAsyncCourseResponse>(createAsyncCourse);
+        Expression<Func<AsyncCourse, object>> includeExpressionForCourseDetail = x => x.CourseDetail;
+        Expression<Func<AsyncCourse, object>> includeExpressionForCourse = y => y.Course;
+        
+        var createAsyncCourse = await _asyncCourseDal.AddAsync(asyncCourse, includeExpressionForCourseDetail,includeExpressionForCourse);
+        return _mapper.Map<CreatedAsyncCourseResponse>(createAsyncCourse);    
     }
 
     public async Task<DeletedAsyncCourseResponse> DeleteAsync(DeleteAsyncCourseRequest deleteAsyncCourseRequest)

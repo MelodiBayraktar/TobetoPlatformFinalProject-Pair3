@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
 using Business.Dtos.LiveCourse.Requests;
@@ -23,8 +24,14 @@ public class LiveCourseManager : ILiveCourseService
 
     public async Task<CreatedLiveCourseResponse> AddAsync(CreateLiveCourseRequest createLiveCourseRequest)
     {
+        // var liveCourse = _mapper.Map<LiveCourse>(createLiveCourseRequest);
+        // var createLiveCourse = await _liveCourseDal.AddAsync(liveCourse);
+        // return _mapper.Map<CreatedLiveCourseResponse>(createLiveCourse);
         var liveCourse = _mapper.Map<LiveCourse>(createLiveCourseRequest);
-        var createLiveCourse = await _liveCourseDal.AddAsync(liveCourse);
+        Expression<Func<LiveCourse, object>> includeExpressionForCourse = x => x.Course;
+        Expression<Func<LiveCourse, object>> includeExpressionForCourseDetail = y => y.CourseDetail;
+        
+        var createLiveCourse = await _liveCourseDal.AddAsync(liveCourse, includeExpressionForCourse,includeExpressionForCourseDetail);
         return _mapper.Map<CreatedLiveCourseResponse>(createLiveCourse);
     }
 

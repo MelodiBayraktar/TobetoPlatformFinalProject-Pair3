@@ -1,5 +1,7 @@
+using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
+using Business.Dtos.Experience.Responses;
 using Business.Dtos.PersonalInfo.Requests;
 using Business.Dtos.PersonalInfo.Responses;
 using Core.DataAccess.Paging;
@@ -23,8 +25,13 @@ public class PersonalInfoManager : IPersonalInfoService
 
     public async Task<CreatedPersonalInfoResponse> AddAsync(CreatePersonalInfoRequest createPersonalInfoRequest)
     {
+        // var personalInfo = _mapper.Map<PersonalInfo>(createPersonalInfoRequest);
+        // var createPersonalInfo = await _personalInfoDal.AddAsync(personalInfo);
+        // return _mapper.Map<CreatedPersonalInfoResponse>(createPersonalInfo);
         var personalInfo = _mapper.Map<PersonalInfo>(createPersonalInfoRequest);
-        var createPersonalInfo = await _personalInfoDal.AddAsync(personalInfo);
+        Expression<Func<PersonalInfo, object>> includeExpressionForUser = x => x.User;
+
+        var createPersonalInfo = await _personalInfoDal.AddAsync(personalInfo, includeExpressionForUser);
         return _mapper.Map<CreatedPersonalInfoResponse>(createPersonalInfo);
     }
 

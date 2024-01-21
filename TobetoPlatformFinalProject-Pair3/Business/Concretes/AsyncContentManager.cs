@@ -1,5 +1,7 @@
+using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
+using Business.Dtos.Announcement.Responses;
 using Business.Dtos.AsyncContent.Requests;
 using Business.Dtos.AsyncContent.Responses;
 using Core.DataAccess.Paging;
@@ -23,9 +25,14 @@ public class AsyncContentManager : IAsyncContentService
 
     public async Task<CreatedAsyncContentResponse> AddAsync(CreateAsyncContentRequest createAsyncContentRequest)
     {
+        // var asyncContent = _mapper.Map<AsyncContent>(createAsyncContentRequest);
+        // var createAsyncContent = await _asyncContentDal.AddAsync(asyncContent);
+        // return _mapper.Map<CreatedAsyncContentResponse>(createAsyncContent);
         var asyncContent = _mapper.Map<AsyncContent>(createAsyncContentRequest);
-        var createAsyncContent = await _asyncContentDal.AddAsync(asyncContent);
-        return _mapper.Map<CreatedAsyncContentResponse>(createAsyncContent);
+        Expression<Func<AsyncContent, object>> includeExpressionForAsyncCourse = x => x.AsyncCourse;
+        
+        var createAsyncContent = await _asyncContentDal.AddAsync(asyncContent, includeExpressionForAsyncCourse);
+        return _mapper.Map<CreatedAsyncContentResponse>(createAsyncContent);    
     }
 
     public async Task<DeletedAsyncContentResponse> DeleteAsync(DeleteAsyncContentRequest deleteAsyncContentRequest)

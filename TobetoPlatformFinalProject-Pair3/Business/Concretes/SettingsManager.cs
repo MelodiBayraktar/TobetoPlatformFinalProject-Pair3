@@ -1,5 +1,7 @@
+using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
+using Business.Dtos.Instructor.Responses;
 using Business.Dtos.Settings.Requests;
 using Business.Dtos.Settings.Responses;
 using Core.DataAccess.Paging;
@@ -22,8 +24,13 @@ public class SettingsManager : ISettingsService
 
     public async Task<CreatedSettingsResponse> AddAsync(CreateSettingsRequest createSettingsRequest)
     {
+        // var settings = _mapper.Map<Settings>(createSettingsRequest);
+        // var createSettings = await _settingsDal.AddAsync(settings);
+        // return _mapper.Map<CreatedSettingsResponse>(createSettings);
         var settings = _mapper.Map<Settings>(createSettingsRequest);
-        var createSettings = await _settingsDal.AddAsync(settings);
+        Expression<Func<Settings, object>> includeExpressionForUser = x => x.User;
+
+        var createSettings = await _settingsDal.AddAsync(settings, includeExpressionForUser);
         return _mapper.Map<CreatedSettingsResponse>(createSettings);
     }
 

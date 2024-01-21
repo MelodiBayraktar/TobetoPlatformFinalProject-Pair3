@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
 using Business.Dtos.CourseDetail.Requests;
@@ -24,8 +25,13 @@ public class CourseDetailManager : ICourseDetailService
 
     public async Task<CreatedCourseDetailResponse> AddAsync(CreateCourseDetailRequest createCourseDetailRequest)
     {
+        // var courseDetail = _mapper.Map<CourseDetail>(createCourseDetailRequest);
+        // var createCourseDetail = await _courseDetailDal.AddAsync(courseDetail);
+        // return _mapper.Map<CreatedCourseDetailResponse>(createCourseDetail);
         var courseDetail = _mapper.Map<CourseDetail>(createCourseDetailRequest);
-        var createCourseDetail = await _courseDetailDal.AddAsync(courseDetail);
+        Expression<Func<CourseDetail, object>> includeExpressionForCourseCategory = x => x.CourseCategory;
+
+        var createCourseDetail = await _courseDetailDal.AddAsync(courseDetail, includeExpressionForCourseCategory);
         return _mapper.Map<CreatedCourseDetailResponse>(createCourseDetail);
     }
 

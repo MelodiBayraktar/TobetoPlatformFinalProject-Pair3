@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
 using Business.Dtos.Student.Requests;
@@ -23,8 +24,13 @@ public class StudentManager : IStudentService
 
     public async Task<CreatedStudentResponse> AddAsync(CreateStudentRequest createStudentRequest)
     {
+        // var student = _mapper.Map<Student>(createStudentRequest);
+        // var createStudent = await _studentDal.AddAsync(student);
+        // return _mapper.Map<CreatedStudentResponse>(createStudent);
         var student = _mapper.Map<Student>(createStudentRequest);
-        var createStudent = await _studentDal.AddAsync(student);
+        Expression<Func<Student, object>> includeExpressionForUser = x => x.User;
+
+        var createStudent = await _studentDal.AddAsync(student, includeExpressionForUser);
         return _mapper.Map<CreatedStudentResponse>(createStudent);
     }
 

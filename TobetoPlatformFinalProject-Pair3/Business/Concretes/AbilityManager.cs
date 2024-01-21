@@ -37,9 +37,9 @@ public class AbilityManager : IAbilityService
         //return _mapper.Map<CreatedAbilityResponse>(createAbility);
         var ability = _mapper.Map<Ability>(createAbilityRequest);
         await _abilityBusinessRules.AbilityShouldExistWhenSelected(ability);
-        Expression<Func<Ability, object>> includeExpression = x => x.User;
+        Expression<Func<Ability, object>> includeExpressionForUser = x => x.User;
 
-        var createAbility = await _abilityDal.AddAsync(ability, includeExpression);
+        var createAbility = await _abilityDal.AddAsync(ability, includeExpressionForUser);
 
         return _mapper.Map<CreatedAbilityResponse>(createAbility);
     }

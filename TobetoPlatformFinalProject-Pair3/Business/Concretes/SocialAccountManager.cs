@@ -1,6 +1,8 @@
+using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
 using Business.BusinessRules;
+using Business.Dtos.Ability.Responses;
 using Business.Dtos.SocialAccount.Requests;
 using Business.Dtos.SocialAccount.Responses;
 using Core.DataAccess.Paging;
@@ -27,10 +29,15 @@ public class SocialAccountManager : ISocialAccountService
 
     public async Task<CreatedSocialAccountResponse> AddAsync(CreateSocialAccountRequest createSocialAccountRequest)
     {
-   
+        // var socialAccount = _mapper.Map<SocialAccount>(createSocialAccountRequest);
+        // var createSocialAccount = await _socialAccountDal.AddAsync(socialAccount);    
+        // await _socialAccountBusinessRules.MaxCountAsync(socialAccount.UserId);
+        // return _mapper.Map<CreatedSocialAccountResponse>(createSocialAccount);
         var socialAccount = _mapper.Map<SocialAccount>(createSocialAccountRequest);
-        var createSocialAccount = await _socialAccountDal.AddAsync(socialAccount);    
         await _socialAccountBusinessRules.MaxCountAsync(socialAccount.UserId);
+        Expression<Func<SocialAccount, object>> includeExpressionForUser = x => x.User;
+
+        var createSocialAccount = await _socialAccountDal.AddAsync(socialAccount, includeExpressionForUser);
         return _mapper.Map<CreatedSocialAccountResponse>(createSocialAccount);
     }
 

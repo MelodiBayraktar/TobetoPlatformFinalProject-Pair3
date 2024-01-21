@@ -1,5 +1,7 @@
+using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
+using Business.Dtos.Certificate.Responses;
 using Business.Dtos.Course.Requests;
 using Business.Dtos.Course.Responses;
 using Core.DataAccess.Paging;
@@ -23,8 +25,13 @@ public class CourseManager : ICourseService
 
     public async Task<CreatedCourseResponse> AddAsync(CreateCourseRequest createCourseRequest)
     {
+        // var course = _mapper.Map<Course>(createCourseRequest);
+        // var createCourse = await _courseDal.AddAsync(course);
+        // return _mapper.Map<CreatedCourseResponse>(createCourse);
         var course = _mapper.Map<Course>(createCourseRequest);
-        var createCourse = await _courseDal.AddAsync(course);
+        Expression<Func<Course, object>> includeExpressionForUser = x => x.User;
+
+        var createCourse = await _courseDal.AddAsync(course, includeExpressionForUser);
         return _mapper.Map<CreatedCourseResponse>(createCourse);
     }
 

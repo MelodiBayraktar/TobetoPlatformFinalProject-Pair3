@@ -1,5 +1,7 @@
+using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
+using Business.Dtos.Experience.Responses;
 using Business.Dtos.ForeignLanguage.Requests;
 using Business.Dtos.ForeignLanguage.Responses;
 using Core.DataAccess.Paging;
@@ -24,8 +26,13 @@ public class ForeignLanguageManager : IForeignLanguageService
 
     public async Task<CreatedForeignLanguageResponse> AddAsync(CreateForeignLanguageRequest createForeignLanguageRequest)
     {
+        // var foreignLanguage = _mapper.Map<ForeignLanguage>(createForeignLanguageRequest);
+        // var createForeignLanguage = await _foreignLanguageDal.AddAsync(foreignLanguage);
+        // return _mapper.Map<CreatedForeignLanguageResponse>(createForeignLanguage);
         var foreignLanguage = _mapper.Map<ForeignLanguage>(createForeignLanguageRequest);
-        var createForeignLanguage = await _foreignLanguageDal.AddAsync(foreignLanguage);
+        Expression<Func<ForeignLanguage, object>> includeExpressionForUser = x => x.User;
+
+        var createForeignLanguage = await _foreignLanguageDal.AddAsync(foreignLanguage, includeExpressionForUser);
         return _mapper.Map<CreatedForeignLanguageResponse>(createForeignLanguage);
     }
 

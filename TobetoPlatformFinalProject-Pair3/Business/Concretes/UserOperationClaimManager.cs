@@ -1,5 +1,7 @@
+using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
+using Business.Dtos.Announcement.Responses;
 using Business.Dtos.OperationClaim.Requests;
 using Business.Dtos.OperationClaim.Responses;
 using Core.DataAccess.Paging;
@@ -24,9 +26,15 @@ public class UserOperationClaimManager: IUserOperationClaimService
 
     public async Task<CreatedUserOperationClaimResponse> AddAsync(CreateUserOperationClaimRequest createUserOperationClaimRequest)
     {
+        // var userOperationClaim = _mapper.Map<UserOperationClaim>(createUserOperationClaimRequest);
+        // var createUserOperationClaim = await _userOperationClaimDal.AddAsync(userOperationClaim);
+        // return _mapper.Map<CreatedUserOperationClaimResponse>(createUserOperationClaim);
         var userOperationClaim = _mapper.Map<UserOperationClaim>(createUserOperationClaimRequest);
-        var createUserOperationClaim = await _userOperationClaimDal.AddAsync(userOperationClaim);
-        return _mapper.Map<CreatedUserOperationClaimResponse>(createUserOperationClaim);
+        Expression<Func<UserOperationClaim, object>> includeExpressionForUser = x => x.User;
+        Expression<Func<UserOperationClaim, object>> includeExpressionForOperationClaim = y => y.OperationClaim;
+        
+        var createUserOperationClaim = await _userOperationClaimDal.AddAsync(userOperationClaim, includeExpressionForUser,includeExpressionForOperationClaim);
+        return _mapper.Map<CreatedUserOperationClaimResponse>(createUserOperationClaim);    
     }
 
     public async Task<DeletedUserOperationClaimResponse> DeleteAsync(DeleteUserOperationClaimRequest deleteUserOperationClaimRequest)

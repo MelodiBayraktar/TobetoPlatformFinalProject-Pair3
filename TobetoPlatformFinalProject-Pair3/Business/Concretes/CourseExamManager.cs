@@ -1,5 +1,7 @@
+using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
+using Business.Dtos.Announcement.Responses;
 using Business.Dtos.CourseExam.Requests;
 using Business.Dtos.CourseExam.Responses;
 
@@ -24,9 +26,14 @@ public class CourseExamManager : ICourseExamService
 
     public async Task<CreatedCourseExamResponse> AddAsync(CreateCourseExamRequest createCourseExamRequest)
     {
+        // var courseExam = _mapper.Map<CourseExam>(createCourseExamRequest);
+        // var createCourseExam = await _courseExamDal.AddAsync(courseExam);
+        // return _mapper.Map<CreatedCourseExamResponse>(createCourseExam);
         var courseExam = _mapper.Map<CourseExam>(createCourseExamRequest);
-        var createCourseExam = await _courseExamDal.AddAsync(courseExam);
-        return _mapper.Map<CreatedCourseExamResponse>(createCourseExam);
+        Expression<Func<CourseExam, object>> includeExpressionForStudent = x => x.Student;
+        
+        var createCourseExam = await _courseExamDal.AddAsync(courseExam, includeExpressionForStudent);
+        return _mapper.Map<CreatedCourseExamResponse>(createCourseExam);    
     }
 
     public async Task<DeletedCourseExamResponse> DeleteAsync(DeleteCourseExamRequest deleteCourseExamRequest)

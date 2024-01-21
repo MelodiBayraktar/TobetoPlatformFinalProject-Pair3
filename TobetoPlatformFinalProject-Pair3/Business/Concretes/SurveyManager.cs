@@ -1,5 +1,7 @@
+using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
+using Business.Dtos.Student.Responses;
 using Business.Dtos.Survey.Requests;
 using Business.Dtos.Survey.Responses;
 using Core.DataAccess.Paging;
@@ -22,8 +24,13 @@ public class SurveyManager : ISurveyService
 
     public async Task<CreatedSurveyResponse> AddAsync(CreateSurveyRequest createSurveyRequest)
     {
+        // var survey = _mapper.Map<Survey>(createSurveyRequest);
+        // var createSurvey = await _surveyDal.AddAsync(survey);
+        // return _mapper.Map<CreatedSurveyResponse>(createSurvey);
         var survey = _mapper.Map<Survey>(createSurveyRequest);
-        var createSurvey = await _surveyDal.AddAsync(survey);
+        Expression<Func<Survey, object>> includeExpressionForStudent = x => x.Student;
+
+        var createSurvey = await _surveyDal.AddAsync(survey, includeExpressionForStudent);
         return _mapper.Map<CreatedSurveyResponse>(createSurvey);
     }
 

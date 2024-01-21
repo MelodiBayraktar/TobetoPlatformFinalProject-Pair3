@@ -1,5 +1,7 @@
+using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
+using Business.Dtos.Ability.Responses;
 using Business.Dtos.Announcement.Requests;
 using Business.Dtos.Announcement.Responses;
 using Core.DataAccess.Paging;
@@ -23,9 +25,15 @@ public class AnnouncementManager : IAnnouncementService
 
     public async Task<CreatedAnnouncementResponse> AddAsync(CreateAnnouncementRequest createAnnouncementRequest)
     {
+        // var announcement = _mapper.Map<Announcement>(createAnnouncementRequest);
+        // var createAnnouncement = await _announcementDal.AddAsync(announcement);
+        // return _mapper.Map<CreatedAnnouncementResponse>(createAnnouncement);
         var announcement = _mapper.Map<Announcement>(createAnnouncementRequest);
-        var createAnnouncement = await _announcementDal.AddAsync(announcement);
-        return _mapper.Map<CreatedAnnouncementResponse>(createAnnouncement);
+        Expression<Func<Announcement, object>> includeExpressionForProject = x => x.Project;
+        Expression<Func<Announcement, object>> includeExpressionForAnnouncementsNewsCategory = y => y.AnnouncementsNewsCategory;
+        
+        var createAnnouncement = await _announcementDal.AddAsync(announcement, includeExpressionForProject,includeExpressionForAnnouncementsNewsCategory);
+        return _mapper.Map<CreatedAnnouncementResponse>(createAnnouncement);    
     }
 
     public async Task<DeletedAnnouncementResponse> DeleteAsync(DeleteAnnouncementRequest deleteAnnouncementRequest)

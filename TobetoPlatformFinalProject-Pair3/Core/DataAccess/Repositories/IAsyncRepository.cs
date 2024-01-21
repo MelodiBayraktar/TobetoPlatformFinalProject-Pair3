@@ -53,7 +53,7 @@ namespace Core.DataAccess.Repositories
         );
 
         //Task<TEntity> AddAsync(TEntity entity);
-        Task<TEntity> AddAsync(TEntity entity, Expression<Func<TEntity, object>> include = null);
+        Task<TEntity> AddAsync(TEntity entity, params Expression<Func<TEntity, object>>[] includes);
 
         Task<ICollection<TEntity>> AddRangeAsync(ICollection<TEntity> entity);
 

@@ -29,23 +29,36 @@ namespace Core.DataAccess.Repositories
         }
 
         public IQueryable<TEntity> Query() => Context.Set<TEntity>();
-
-        //public async Task<TEntity> AddAsync(TEntity entity)
-        //{
-        //    entity.CreatedDate = DateTime.UtcNow;
-        //    await Context.AddAsync(entity);
-        //    await Context.SaveChangesAsync();
-        //    return entity;
-        //}
-        public async Task<TEntity> AddAsync(TEntity entity, Expression<Func<TEntity, object>> include = null)
+        
+        // public async Task<TEntity> AddAsync(TEntity entity, Expression<Func<TEntity, object>> include = null)
+        // {
+        //     entity.CreatedDate = DateTime.UtcNow;
+        //     var entry = await Context.Set<TEntity>().AddAsync(entity);
+        //     if (include != null)
+        //     {
+        //         Context.Entry(entity).Reference(include).Load();
+        //     }
+        //
+        //     await Context.SaveChangesAsync();
+        //
+        //     return entry.Entity;
+        //
+        //     //entity.CreatedDate = DateTime.UtcNow;
+        //     //await Context.AddAsync(entity);
+        //     //await Context.SaveChangesAsync();
+        //     //return entity;
+        // }
+        public async Task<TEntity> AddAsync(TEntity entity, params Expression<Func<TEntity, object>>[] includes)
         {
             entity.CreatedDate = DateTime.UtcNow;
             var entry = await Context.Set<TEntity>().AddAsync(entity);
-            if (include != null)
+            foreach (var include in includes)
             {
-                Context.Entry(entity).Reference(include).Load();
+                if (include != null)
+                {
+                    Context.Entry(entity).Reference(include).Load();
+                }
             }
-
             await Context.SaveChangesAsync();
 
             return entry.Entity;

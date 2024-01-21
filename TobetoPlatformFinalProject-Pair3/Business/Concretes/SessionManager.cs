@@ -1,5 +1,7 @@
+using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
+using Business.Dtos.LiveCourse.Responses;
 using Business.Dtos.Session.Requests;
 using Business.Dtos.Session.Responses;
 using Core.DataAccess.Paging;
@@ -22,8 +24,14 @@ public class SessionManager : ISessionService
 
     public async Task<CreatedSessionResponse> AddAsync(CreateSessionRequest createSessionRequest)
     {
+        // var session = _mapper.Map<Session>(createSessionRequest);
+        // var createSession = await _sessionDal.AddAsync(session);
+        // return _mapper.Map<CreatedSessionResponse>(createSession);
         var session = _mapper.Map<Session>(createSessionRequest);
-        var createSession = await _sessionDal.AddAsync(session);
+        Expression<Func<Session, object>> includeExpressionForLiveContent = x => x.LiveContent;
+        Expression<Func<Session, object>> includeExpressionForInstructor = y => y.Instructor;
+        
+        var createSession = await _sessionDal.AddAsync(session, includeExpressionForLiveContent,includeExpressionForInstructor);
         return _mapper.Map<CreatedSessionResponse>(createSession);
     }
 

@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
 using Business.Dtos.Application.Requests;
@@ -23,9 +24,14 @@ public class ApplicationManager : IApplicationService
 
     public async Task<CreatedApplicationResponse> AddAsync(CreateApplicationRequest createApplicationRequest)
     {
+        // var application = _mapper.Map<Application>(createApplicationRequest);
+        // var createApplication = await _applicationDal.AddAsync(application);
+        // return _mapper.Map<CreatedApplicationResponse>(createApplication);
         var application = _mapper.Map<Application>(createApplicationRequest);
-        var createApplication = await _applicationDal.AddAsync(application);
-        return _mapper.Map<CreatedApplicationResponse>(createApplication);
+        Expression<Func<Application, object>> includeExpressionForProject = x => x.Project;
+        
+        var createApplication = await _applicationDal.AddAsync(application, includeExpressionForProject);
+        return _mapper.Map<CreatedApplicationResponse>(createApplication);    
     }
 
     public async Task<DeletedApplicationResponse> DeleteAsync(DeleteApplicationRequest deleteApplicationRequest)

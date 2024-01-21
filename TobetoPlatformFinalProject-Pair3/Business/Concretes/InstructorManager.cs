@@ -1,5 +1,7 @@
+using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
+using Business.Dtos.ForeignLanguage.Responses;
 using Business.Dtos.Instructor.Requests;
 using Business.Dtos.Instructor.Responses;
 using Core.DataAccess.Paging;
@@ -24,8 +26,13 @@ public class InstructorManager : IInstructorService
 
     public async Task<CreatedInstructorResponse> AddAsync(CreateInstructorRequest createInstructorRequest)
     {
+        // var instructor = _mapper.Map<Instructor>(createInstructorRequest);
+        // var createInstructor = await _instructorDal.AddAsync(instructor);
+        // return _mapper.Map<CreatedInstructorResponse>(createInstructor);
         var instructor = _mapper.Map<Instructor>(createInstructorRequest);
-        var createInstructor = await _instructorDal.AddAsync(instructor);
+        Expression<Func<Instructor, object>> includeExpressionForUser = x => x.User;
+
+        var createInstructor = await _instructorDal.AddAsync(instructor, includeExpressionForUser);
         return _mapper.Map<CreatedInstructorResponse>(createInstructor);
     }
 

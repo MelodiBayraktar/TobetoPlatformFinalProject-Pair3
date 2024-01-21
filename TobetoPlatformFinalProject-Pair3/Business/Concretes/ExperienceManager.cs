@@ -1,5 +1,7 @@
+using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
+using Business.Dtos.Education.Responses;
 using Business.Dtos.Experience.Requests;
 using Business.Dtos.Experience.Responses;
 using Core.DataAccess.Paging;
@@ -24,8 +26,13 @@ public class ExperienceManager : IExperienceService
 
     public async Task<CreatedExperienceResponse> AddAsync(CreateExperienceRequest createExperienceRequest)
     {
+        // var experience = _mapper.Map<Experience>(createExperienceRequest);
+        // var createExperience = await _experienceDal.AddAsync(experience);
+        // return _mapper.Map<CreatedExperienceResponse>(createExperience);
         var experience = _mapper.Map<Experience>(createExperienceRequest);
-        var createExperience = await _experienceDal.AddAsync(experience);
+        Expression<Func<Experience, object>> includeExpressionForUser = x => x.User;
+
+        var createExperience = await _experienceDal.AddAsync(experience, includeExpressionForUser);
         return _mapper.Map<CreatedExperienceResponse>(createExperience);
     }
 

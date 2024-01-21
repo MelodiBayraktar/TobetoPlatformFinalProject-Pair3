@@ -1,5 +1,7 @@
+using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
+using Business.Dtos.Announcement.Responses;
 using Business.Dtos.News.Requests;
 using Business.Dtos.News.Responses;
 using Core.DataAccess.Paging;
@@ -23,9 +25,15 @@ public class NewsManager : INewsService
 
     public async Task<CreatedNewsResponse> AddAsync(CreateNewsRequest createNewsRequest)
     {
+        // var news = _mapper.Map<News>(createNewsRequest);
+        // var createNews = await _newsDal.AddAsync(news);
+        // return _mapper.Map<CreatedNewsResponse>(createNews);
         var news = _mapper.Map<News>(createNewsRequest);
-        var createNews = await _newsDal.AddAsync(news);
-        return _mapper.Map<CreatedNewsResponse>(createNews);
+        Expression<Func<News, object>> includeExpressionForProject = x => x.Project;
+        Expression<Func<News, object>> includeExpressionForAnnouncementsNewsCategory = y => y.AnnouncementsNewsCategory;
+        
+        var createNews = await _newsDal.AddAsync(news, includeExpressionForProject,includeExpressionForAnnouncementsNewsCategory);
+        return _mapper.Map<CreatedNewsResponse>(createNews);    
     }
 
     public async Task<DeletedNewsResponse> DeleteAsync(DeleteNewsRequest deleteNewsRequest)

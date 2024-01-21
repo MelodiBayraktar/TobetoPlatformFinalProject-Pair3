@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
 using Business.Dtos.LiveContent.Requests;
@@ -22,8 +23,13 @@ public class LiveContentManager : ILiveContentService
 
     public async Task<CreatedLiveContentResponse> AddAsync(CreateLiveContentRequest createLiveContentRequest)
     {
+        // var liveContent = _mapper.Map<LiveContent>(createLiveContentRequest);
+        // var createLiveContent = await _liveContentDal.AddAsync(liveContent);
+        // return _mapper.Map<CreatedLiveContentResponse>(createLiveContent);
         var liveContent = _mapper.Map<LiveContent>(createLiveContentRequest);
-        var createLiveContent = await _liveContentDal.AddAsync(liveContent);
+        Expression<Func<LiveContent, object>> includeExpressionForLiveCourse = x => x.LiveCourse;
+
+        var createLiveContent = await _liveContentDal.AddAsync(liveContent, includeExpressionForLiveCourse);
         return _mapper.Map<CreatedLiveContentResponse>(createLiveContent);
     }
 
