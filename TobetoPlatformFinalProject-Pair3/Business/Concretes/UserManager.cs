@@ -2,6 +2,8 @@ using AutoMapper;
 using Business.Abstracts;
 using Business.Dtos.User.Requests;
 using Business.Dtos.User.Responses;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.DataAccess.Paging;
 using Core.Entities.Abstracts;
 using Core.Utilities.Business.Requests;
@@ -21,6 +23,7 @@ public class UserManager: IUserService
         _mapper = mapper;
     }
 
+    [ValidationAspect(typeof(UserRequestValidator))]
     public async Task<CreatedUserResponse> AddAsync(CreateUserRequest createUserRequest)
     {
         var user = _mapper.Map<User>(createUserRequest);

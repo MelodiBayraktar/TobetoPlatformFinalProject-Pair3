@@ -4,6 +4,8 @@ using Business.Abstracts;
 using Business.Dtos.Experience.Responses;
 using Business.Dtos.PersonalInfo.Requests;
 using Business.Dtos.PersonalInfo.Responses;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.DataAccess.Paging;
 using Core.Utilities.Business.Requests;
 using DataAccess.Abstracts;
@@ -23,6 +25,7 @@ public class PersonalInfoManager : IPersonalInfoService
         _mapper = mapper;
     }
 
+    [ValidationAspect(typeof(PersonalInfoRequestValidator))]
     public async Task<CreatedPersonalInfoResponse> AddAsync(CreatePersonalInfoRequest createPersonalInfoRequest)
     {
         // var personalInfo = _mapper.Map<PersonalInfo>(createPersonalInfoRequest);

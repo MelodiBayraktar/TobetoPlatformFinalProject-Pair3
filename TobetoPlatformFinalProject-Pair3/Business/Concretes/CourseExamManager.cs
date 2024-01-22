@@ -5,7 +5,8 @@ using Business.Dtos.Announcement.Responses;
 using Business.Dtos.AsyncCourse.Responses;
 using Business.Dtos.CourseExam.Requests;
 using Business.Dtos.CourseExam.Responses;
-
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.DataAccess.Paging;
 using Core.Utilities.Business.Requests;
 using DataAccess.Abstracts;

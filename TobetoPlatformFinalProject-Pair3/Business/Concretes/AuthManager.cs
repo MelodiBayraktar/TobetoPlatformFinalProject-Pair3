@@ -6,6 +6,8 @@ using Business.Dtos.Auth.Requests;
 using Business.Dtos.Auth.Responses;
 using Business.Dtos.User.Requests;
 using Business.Dtos.User.Responses;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerns.Exceptions.Types;
 using Core.Entities.Abstracts;
 using Core.Utilities.Security.Hashing;
@@ -53,6 +55,8 @@ public class AuthManager : IAuthService
 
     //    return user;
     //}
+
+    [ValidationAspect(typeof(AuthLoginRequestValidator))]
     public async Task<IUser> Login(AuthForLoginRequest authForLoginRequest)
     {
         User user = _mapper.Map<User>(authForLoginRequest);
@@ -70,6 +74,7 @@ public class AuthManager : IAuthService
         return user;
     }
 
+    [ValidationAspect(typeof(AuthRegisterRequestValidator))]
     public async Task<IUser> Register(AuthForRegisterRequest authForRegisterRequest, string password)
     {
         await _authRegisterBusinessRules.EmailExist(authForRegisterRequest.Email);

@@ -7,6 +7,8 @@ using Business.Dtos.ContactUs.Responses;
 using Business.Dtos.ContactUs.Requests;
 using Core.Utilities.Business.Requests;
 using Entities.Concretes;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 
 namespace Business.Concretes;
 
@@ -21,7 +23,8 @@ public class ContactUsManager:IContactUsService
         _mapper = mapper;
     }
 
-    [SecuredOperation("admin")]
+    //[SecuredOperation("admin")]
+
     public async Task<CreatedContactUsResponse> AddAsync(CreateContactUsRequest createContactUsRequest)
     {
         var contactUs = _mapper.Map<ContactUs>(createContactUsRequest);

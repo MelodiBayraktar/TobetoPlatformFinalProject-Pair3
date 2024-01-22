@@ -4,6 +4,8 @@ using Business.BusinessAspects.Autofac;
 using Business.BusinessRules;
 using Business.Dtos.Ability.Requests;
 using Business.Dtos.Ability.Responses;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.DataAccess.Paging;
 using Core.Utilities.Business.Requests;
 using DataAccess.Abstracts;
@@ -28,6 +30,7 @@ public class AbilityManager : IAbilityService
     }
 
     [SecuredOperation("admin")]
+
     public async Task<CreatedAbilityResponse> AddAsync(CreateAbilityRequest createAbilityRequest)
     {
         //var ability = _mapper.Map<Ability>(createAbilityRequest);

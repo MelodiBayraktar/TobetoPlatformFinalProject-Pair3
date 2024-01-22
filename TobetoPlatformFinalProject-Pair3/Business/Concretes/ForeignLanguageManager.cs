@@ -4,6 +4,8 @@ using Business.Abstracts;
 using Business.Dtos.Experience.Responses;
 using Business.Dtos.ForeignLanguage.Requests;
 using Business.Dtos.ForeignLanguage.Responses;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.DataAccess.Paging;
 using Core.Utilities.Business.Requests;
 using DataAccess.Abstracts;
@@ -24,6 +26,7 @@ public class ForeignLanguageManager : IForeignLanguageService
         _mapper = mapper;
     }
 
+    [ValidationAspect(typeof(ForeignLanguageRequestValidator))]
     public async Task<CreatedForeignLanguageResponse> AddAsync(CreateForeignLanguageRequest createForeignLanguageRequest)
     {
         // var foreignLanguage = _mapper.Map<ForeignLanguage>(createForeignLanguageRequest);

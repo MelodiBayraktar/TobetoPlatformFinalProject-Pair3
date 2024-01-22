@@ -5,6 +5,8 @@ using Business.BusinessRules;
 using Business.Dtos.Ability.Responses;
 using Business.Dtos.SocialAccount.Requests;
 using Business.Dtos.SocialAccount.Responses;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.DataAccess.Paging;
 using Core.Utilities.Business.Requests;
 using DataAccess.Abstracts;
@@ -27,6 +29,7 @@ public class SocialAccountManager : ISocialAccountService
         _socialAccountBusinessRules = socialAccountBusinessRules;
     }
 
+    [ValidationAspect(typeof(SocialAccountRequestValidator))]
     public async Task<CreatedSocialAccountResponse> AddAsync(CreateSocialAccountRequest createSocialAccountRequest)
     {
         // var socialAccount = _mapper.Map<SocialAccount>(createSocialAccountRequest);

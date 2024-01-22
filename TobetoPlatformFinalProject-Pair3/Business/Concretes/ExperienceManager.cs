@@ -4,6 +4,8 @@ using Business.Abstracts;
 using Business.Dtos.Education.Responses;
 using Business.Dtos.Experience.Requests;
 using Business.Dtos.Experience.Responses;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.DataAccess.Paging;
 using Core.Utilities.Business.Requests;
 using DataAccess.Abstracts;
@@ -24,6 +26,7 @@ public class ExperienceManager : IExperienceService
         _mapper = mapper;
     }
 
+    [ValidationAspect(typeof(ExperienceRequestValidator))]
     public async Task<CreatedExperienceResponse> AddAsync(CreateExperienceRequest createExperienceRequest)
     {
         // var experience = _mapper.Map<Experience>(createExperienceRequest);

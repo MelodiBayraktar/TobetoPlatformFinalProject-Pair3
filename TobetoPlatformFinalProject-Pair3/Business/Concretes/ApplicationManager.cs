@@ -3,6 +3,8 @@ using AutoMapper;
 using Business.Abstracts;
 using Business.Dtos.Application.Requests;
 using Business.Dtos.Application.Responses;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.DataAccess.Paging;
 using Core.Utilities.Business.Requests;
 using DataAccess.Abstracts;

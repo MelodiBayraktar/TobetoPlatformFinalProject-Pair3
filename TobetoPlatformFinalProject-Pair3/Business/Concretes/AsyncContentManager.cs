@@ -4,6 +4,8 @@ using Business.Abstracts;
 using Business.Dtos.Announcement.Responses;
 using Business.Dtos.AsyncContent.Requests;
 using Business.Dtos.AsyncContent.Responses;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.DataAccess.Paging;
 using Core.Utilities.Business.Requests;
 using DataAccess.Abstracts;
