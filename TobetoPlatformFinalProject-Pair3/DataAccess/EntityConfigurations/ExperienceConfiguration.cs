@@ -13,7 +13,7 @@ public class ExperienceConfiguration : IEntityTypeConfiguration<Experience>
 
         builder.Property(a => a.Id).HasColumnName("Id").IsRequired();
         builder.Property(a => a.UserId).HasColumnName("UserId").IsRequired();
-        builder.Property(a => a.OrganisationName).HasColumnName("OrganisationName").IsRequired();
+        builder.Property(a => a.OrganizationName).HasColumnName("OrganizationName").IsRequired();
         builder.Property(a => a.Position).HasColumnName("Position").IsRequired();
         builder.Property(a => a.Sector).HasColumnName("Sector").IsRequired();
         builder.Property(a => a.City).HasColumnName("City").IsRequired();

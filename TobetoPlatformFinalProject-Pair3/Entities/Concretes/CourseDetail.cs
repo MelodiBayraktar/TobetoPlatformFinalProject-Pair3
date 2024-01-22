@@ -17,6 +17,7 @@ public class CourseDetail : Entity<Guid>
 
     public List<LiveCourse>? LiveCourses { get; set; }
     public List<AsyncCourse>? AsyncCourses { get; set; }
+    public List<CourseExam>? CourseExams { get; set; }
 
     public CourseCategory? CourseCategory { get; set; }
 }

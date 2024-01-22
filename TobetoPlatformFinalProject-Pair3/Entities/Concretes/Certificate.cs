@@ -8,7 +8,6 @@ public class Certificate : Entity<Guid>
     public string? FilePath { get; set; }
     public string? FileType { get; set; }
     public DateTime? UploadDate { get; set; }
-
     public User? User { get; set; }
 }
 

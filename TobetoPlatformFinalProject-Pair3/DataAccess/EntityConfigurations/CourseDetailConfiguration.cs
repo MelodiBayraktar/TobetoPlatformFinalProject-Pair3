@@ -34,6 +34,9 @@ public class CourseDetailConfiguration : IEntityTypeConfiguration<CourseDetail>
             .WithOne(cd => cd.CourseDetail)
             .HasForeignKey(cd => cd.CourseDetailId);
 
+        builder.HasMany(b => b.CourseExams)
+            .WithOne(cd => cd.CourseDetail)
+            .HasForeignKey(cd => cd.CourseDetailId);
 
         builder.HasMany(b => b.LiveCourses)
             .WithOne(cd => cd.CourseDetail)

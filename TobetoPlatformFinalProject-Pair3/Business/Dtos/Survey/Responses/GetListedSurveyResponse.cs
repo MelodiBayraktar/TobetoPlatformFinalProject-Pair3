@@ -10,6 +10,7 @@ namespace Business.Dtos.Survey.Responses
     {
         public Guid? Id { get; set; }
         public Guid? StudentId { get; set; }
+        public string? StudentFullName { get; set; }
         public string? Title { get; set; }
         public string? Url { get; set; }
     }

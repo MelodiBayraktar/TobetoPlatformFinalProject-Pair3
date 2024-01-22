@@ -53,7 +53,7 @@ public class CourseExamManager : ICourseExamService
 
     public async Task<IPaginate<GetListedCourseExamResponse>> GetListAsync(PageRequest pageRequest)
     {
-        var getList = await _courseExamDal.GetListAsync(include: p => p.Include(p => p.Student),index: pageRequest.Index, size: pageRequest.Size);
+        var getList = await _courseExamDal.GetListAsync(include: p => p.Include(p => p.Student).Include(p=> p.CourseDetail),index: pageRequest.Index, size: pageRequest.Size);
         return _mapper.Map<Paginate<GetListedCourseExamResponse>>(getList);
   
     }

@@ -27,10 +27,32 @@ namespace Business.Profiles
 
             CreateMap<AsyncCourse, GetAsyncCourseRequest>().ReverseMap();
             CreateMap<AsyncCourse, GetAsyncCourseResponse>().ReverseMap();
-
-
-            CreateMap<AsyncCourse, GetListedAsyncCourseResponse>().ForMember(destinationMember: p => p.CourseDetailName,
-                            memberOptions: opt => opt.MapFrom(p => p.CourseDetail.Name)).ReverseMap();
+            
+            CreateMap<AsyncCourse, GetListedAsyncCourseResponse>().ForMember(destinationMember: p => p.AsyncCourseName,
+                memberOptions: opt => opt.MapFrom(p => p.Course.Title)).ReverseMap();
+            
+            
+            CreateMap<AsyncCourse, GetListedAsyncCourseResponse>().ForMember(destinationMember: p => p.AsyncCourseStartDate,
+                memberOptions: opt => opt.MapFrom(p => p.CourseDetail.StartDate )).ReverseMap();
+            
+            CreateMap<AsyncCourse, GetListedAsyncCourseResponse>().ForMember(destinationMember: p => p.AsyncCourseEndDate,
+                memberOptions: opt => opt.MapFrom(p => p.CourseDetail.EndDate )).ReverseMap();
+            
+            CreateMap<AsyncCourse, GetListedAsyncCourseResponse>().ForMember(destinationMember: p => p.AsyncCourseSpentTime,
+                memberOptions: opt => opt.MapFrom(p => p.CourseDetail.SpentTime )).ReverseMap();
+            
+            CreateMap<AsyncCourse, GetListedAsyncCourseResponse>().ForMember(destinationMember: p => p.AsyncCourseCategoryName,
+                memberOptions: opt => opt.MapFrom(p => p.CourseDetail.CourseCategory.Name)).ReverseMap();
+            
+            CreateMap<AsyncCourse, GetListedAsyncCourseResponse>().ForMember(destinationMember: p => p.AsyncCourseContentCount,
+                memberOptions: opt => opt.MapFrom(p => p.CourseDetail.ContentCount)).ReverseMap();
+            
+            CreateMap<AsyncCourse, GetListedAsyncCourseResponse>().ForMember(destinationMember: p => p.AsyncCourseIsFavorited,
+                memberOptions: opt => opt.MapFrom(p => p.CourseDetail.IsFavorited)).ReverseMap();
+            
+            CreateMap<AsyncCourse, GetListedAsyncCourseResponse>().ForMember(destinationMember: p => p.AsyncCourseIsLiked,
+                memberOptions: opt => opt.MapFrom(p => p.CourseDetail.IsLiked)).ReverseMap();
+            
             CreateMap<Paginate<AsyncCourse>, Paginate<GetListedAsyncCourseResponse>>().ReverseMap();
         }
     }

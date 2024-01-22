@@ -25,23 +25,7 @@ namespace Business.Profiles
 
             CreateMap<ContactUs, GetListedContactUsResponse>().ReverseMap();
             CreateMap<Paginate<ContactUs>, Paginate<GetListedContactUsResponse>>().ReverseMap();
-
-
-            //CreateMap<ContactUs, GetListedContactUsResponse>()
-            //    .ForMember(destinationMember: p => p.CategoryId,
-            //    memberOptions: opt => opt.MapFrom(p => p.Category.Id)).ReverseMap();
-
-            //CreateMap<ContactUs, GetListedContactUsResponse>()
-            //    .ForMember(destinationMember: p => p.CategoryName,
-            //    memberOptions: opt => opt.MapFrom(p => p.Category.Name)).ReverseMap();
-
-            //CreateMap<ContactUs, GetListedContactUsResponse>()
-            //    .ForMember(destinationMember: p => p.InstructorId,
-            //    memberOptions: opt => opt.MapFrom(p => p.Instructor.Id)).ReverseMap();
-
-            //CreateMap<ContactUs, GetListedContactUsResponse>()
-            //    .ForMember(destinationMember: p => p.InstructorName,
-            //    memberOptions: opt => opt.MapFrom(p => p.Instructor.Name)).ReverseMap();
+            
         }
     }
 }

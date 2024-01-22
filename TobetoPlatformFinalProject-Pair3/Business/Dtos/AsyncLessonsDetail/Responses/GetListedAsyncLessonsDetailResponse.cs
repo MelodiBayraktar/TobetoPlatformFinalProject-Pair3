@@ -8,6 +8,7 @@ public class GetListedAsyncLessonsDetailResponse
     public string? Category { get; set; }
     public string? Language { get; set; }
     public string? SubType { get; set; }
+    public int? AsyncLessonsOfContentDuration { get; set; }
     public string? Description { get; set; }
     public string? ProducingCompany { get; set; }
 }

@@ -13,6 +13,8 @@ public class CourseExamConfiguration : IEntityTypeConfiguration<CourseExam>
 
         builder.Property(a => a.Id).HasColumnName("Id").IsRequired();
         builder.Property(a => a.StudentId).HasColumnName("StudentId").IsRequired();
+        builder.Property(a => a.CourseDetailId).HasColumnName("CourseDetailId").IsRequired();
+
         builder.Property(a => a.Name).HasColumnName("Name").IsRequired();
         builder.Property(a => a.Description).HasColumnName("Description").IsRequired();
         builder.Property(a => a.Time).HasColumnName("Time").IsRequired();
@@ -26,7 +28,10 @@ public class CourseExamConfiguration : IEntityTypeConfiguration<CourseExam>
         builder.HasOne(b => b.Student)
             .WithMany(ce => ce.CourseExams)
             .HasForeignKey(b => b.StudentId);
-
+        
+        builder.HasOne(b => b.CourseDetail)
+            .WithMany(ce => ce.CourseExams)
+            .HasForeignKey(b => b.CourseDetailId);
 
         builder.HasQueryFilter(b => !b.DeletedDate.HasValue);
     }

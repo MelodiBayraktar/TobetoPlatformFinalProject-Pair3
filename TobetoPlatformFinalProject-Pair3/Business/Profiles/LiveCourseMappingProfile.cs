@@ -21,10 +21,32 @@ public class LiveCourseMappingProfile : Profile
 
         CreateMap<LiveCourse, GetLiveCourseRequest>().ReverseMap();
         CreateMap<LiveCourse, GetLiveCourseResponse>().ReverseMap();
-
-
-        CreateMap<LiveCourse, GetListedLiveCourseResponse>().ForMember(destinationMember: p => p.CourseDetailName,
-                        memberOptions: opt => opt.MapFrom(p => p.CourseDetail.Name)).ReverseMap();
+        
+        CreateMap<LiveCourse, GetListedLiveCourseResponse>().ForMember(destinationMember: p => p.LiveCourseTitle,
+                        memberOptions: opt => opt.MapFrom(p => p.Course.Title)).ReverseMap();
+        
+        
+        CreateMap<LiveCourse, GetListedLiveCourseResponse>().ForMember(destinationMember: p => p.LiveCourseStartDate,
+            memberOptions: opt => opt.MapFrom(p => p.CourseDetail.StartDate)).ReverseMap();
+        
+        CreateMap<LiveCourse, GetListedLiveCourseResponse>().ForMember(destinationMember: p => p.LiveCourseEndDate,
+            memberOptions: opt => opt.MapFrom(p => p.CourseDetail.EndDate)).ReverseMap();
+        
+        CreateMap<LiveCourse, GetListedLiveCourseResponse>().ForMember(destinationMember: p => p.LiveCourseSpentTime,
+            memberOptions: opt => opt.MapFrom(p => p.CourseDetail.SpentTime)).ReverseMap();
+        
+        CreateMap<LiveCourse, GetListedLiveCourseResponse>().ForMember(destinationMember: p => p.LiveCourseCategoryName,
+            memberOptions: opt => opt.MapFrom(p => p.CourseDetail.CourseCategory.Name)).ReverseMap();
+        
+        CreateMap<LiveCourse, GetListedLiveCourseResponse>().ForMember(destinationMember: p => p.LiveCourseContentCount,
+            memberOptions: opt => opt.MapFrom(p => p.CourseDetail.ContentCount)).ReverseMap();
+        
+        CreateMap<LiveCourse, GetListedLiveCourseResponse>().ForMember(destinationMember: p => p.LiveCourseIsFavorited,
+            memberOptions: opt => opt.MapFrom(p => p.CourseDetail.IsFavorited)).ReverseMap();
+        
+        CreateMap<LiveCourse, GetListedLiveCourseResponse>().ForMember(destinationMember: p => p.LiveCourseIsLiked,
+            memberOptions: opt => opt.MapFrom(p => p.CourseDetail.IsLiked)).ReverseMap();
+        
         CreateMap<Paginate<LiveCourse>, Paginate<GetListedLiveCourseResponse>>().ReverseMap();
     }
 }

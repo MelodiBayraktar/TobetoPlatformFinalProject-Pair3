@@ -14,7 +14,6 @@ public class SessionConfiguration : IEntityTypeConfiguration<Session>
         builder.Property(a => a.InstructorId).HasColumnName("InstructorId").IsRequired();
         builder.Property(a => a.LiveContentId).HasColumnName("LiveContentId").IsRequired();
         builder.Property(a => a.Name).HasColumnName("Name").IsRequired();
-        builder.Property(a => a.ImageUrl).HasColumnName("ImageUrl").IsRequired();
         builder.Property(a => a.StartDate).HasColumnName("StartDate").IsRequired();
         builder.Property(a => a.EndDate).HasColumnName("EndDate").IsRequired();
         builder.Property(a => a.RecordUrl).HasColumnName("RecordUrl").IsRequired();

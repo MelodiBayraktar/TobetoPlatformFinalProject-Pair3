@@ -28,8 +28,9 @@ namespace Business.Profiles
             CreateMap<CourseExam, GetCourseExamRequest>().ReverseMap();
             CreateMap<CourseExam, GetCourseExamResponse>().ReverseMap();
 
+            CreateMap<CourseExam, GetListedCourseExamResponse>().ForMember(destinationMember: p => p.CourseExamDetailName,
+                memberOptions: opt => opt.MapFrom(p => p.CourseDetail.Name)).ReverseMap();
 
-            CreateMap<CourseExam, GetListedCourseExamResponse>().ReverseMap();
             CreateMap<Paginate<CourseExam>, Paginate<GetListedCourseExamResponse>>().ReverseMap();
         }
     }
