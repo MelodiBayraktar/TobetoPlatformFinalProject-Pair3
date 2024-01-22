@@ -9,6 +9,7 @@ using Core.Utilities.Business.Requests;
 using DataAccess.Abstracts;
 
 using Entities.Concretes;
+using Microsoft.EntityFrameworkCore;
 
 namespace Business.Concretes;
 
@@ -52,7 +53,7 @@ public class UserOperationClaimManager: IUserOperationClaimService
 
     public async Task<IPaginate<GetListedUserOperationClaimResponse>> GetListAsync(PageRequest pageRequest)
     {
-        var result = await _userOperationClaimDal.GetListAsync(index: pageRequest.Index, size: pageRequest.Size);
+        var result = await _userOperationClaimDal.GetListAsync(include: p => p.Include(p => p.User).Include(p => p.OperationClaim),index: pageRequest.Index, size: pageRequest.Size);
         Paginate<GetListedUserOperationClaimResponse> response = _mapper.Map<Paginate<GetListedUserOperationClaimResponse>>(result);
         return response;
     }

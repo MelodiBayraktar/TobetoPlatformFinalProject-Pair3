@@ -2,6 +2,7 @@ using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
 using Business.Dtos.Announcement.Responses;
+using Business.Dtos.AsyncCourse.Responses;
 using Business.Dtos.CourseExam.Requests;
 using Business.Dtos.CourseExam.Responses;
 
@@ -10,6 +11,7 @@ using Core.Utilities.Business.Requests;
 using DataAccess.Abstracts;
 using Entities;
 using Entities.Concretes;
+using Microsoft.EntityFrameworkCore;
 
 namespace Business.Concretes;
 
@@ -51,8 +53,9 @@ public class CourseExamManager : ICourseExamService
 
     public async Task<IPaginate<GetListedCourseExamResponse>> GetListAsync(PageRequest pageRequest)
     {
-        var getList = await _courseExamDal.GetListAsync(index: pageRequest.Index, size: pageRequest.Size);
+        var getList = await _courseExamDal.GetListAsync(include: p => p.Include(p => p.Student),index: pageRequest.Index, size: pageRequest.Size);
         return _mapper.Map<Paginate<GetListedCourseExamResponse>>(getList);
+  
     }
 
     public async Task<UpdatedCourseExamResponse> UpdateAsync(UpdateCourseExamRequest updateCourseExamRequest)

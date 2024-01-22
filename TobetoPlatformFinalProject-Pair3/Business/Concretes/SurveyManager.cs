@@ -8,6 +8,7 @@ using Core.DataAccess.Paging;
 using Core.Utilities.Business.Requests;
 using DataAccess.Abstracts;
 using Entities.Concretes;
+using Microsoft.EntityFrameworkCore;
 
 namespace Business.Concretes;
 
@@ -49,7 +50,7 @@ public class SurveyManager : ISurveyService
 
     public async Task<IPaginate<GetListedSurveyResponse>> GetListAsync(PageRequest pageRequest)
     {
-        var getList = await _surveyDal.GetListAsync(index: pageRequest.Index, size: pageRequest.Size);
+        var getList = await _surveyDal.GetListAsync(include: p => p.Include(p => p.Student),index: pageRequest.Index, size: pageRequest.Size);
         return _mapper.Map<Paginate<GetListedSurveyResponse>>(getList);
     }
 

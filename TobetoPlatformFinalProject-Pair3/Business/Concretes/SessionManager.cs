@@ -8,6 +8,7 @@ using Core.DataAccess.Paging;
 using Core.Utilities.Business.Requests;
 using DataAccess.Abstracts;
 using Entities.Concretes;
+using Microsoft.EntityFrameworkCore;
 
 namespace Business.Concretes;
 
@@ -50,7 +51,7 @@ public class SessionManager : ISessionService
 
     public async Task<IPaginate<GetListedSessionResponse>> GetListAsync(PageRequest pageRequest)
     {
-        var getList = await _sessionDal.GetListAsync(index: pageRequest.Index, size: pageRequest.Size);
+        var getList = await _sessionDal.GetListAsync(include: p => p.Include(p => p.LiveContent).Include(p => p.Instructor),index: pageRequest.Index, size: pageRequest.Size);
         return _mapper.Map<Paginate<GetListedSessionResponse>>(getList);
     }
 

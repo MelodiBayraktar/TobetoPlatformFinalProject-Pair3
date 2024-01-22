@@ -7,6 +7,7 @@ using Core.DataAccess.Paging;
 using Core.Utilities.Business.Requests;
 using DataAccess.Abstracts;
 using Entities.Concretes;
+using Microsoft.EntityFrameworkCore;
 
 namespace Business.Concretes;
 
@@ -48,8 +49,9 @@ public class LiveContentManager : ILiveContentService
 
     public async Task<IPaginate<GetListedLiveContentResponse>> GetListAsync(PageRequest pageRequest)
     {
-        var getList = await _liveContentDal.GetListAsync(index: pageRequest.Index, size: pageRequest.Size);
+        var getList = await _liveContentDal.GetListAsync(include: p => p.Include(p => p.LiveCourse),index: pageRequest.Index, size: pageRequest.Size);
         return _mapper.Map<Paginate<GetListedLiveContentResponse>>(getList);
+       
     }
 
     public async Task<UpdatedLiveContentResponse> UpdateAsync(UpdateLiveContentRequest updateLiveContentRequest)

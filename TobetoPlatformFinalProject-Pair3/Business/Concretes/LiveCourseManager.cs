@@ -50,7 +50,7 @@ public class LiveCourseManager : ILiveCourseService
 
     public async Task<IPaginate<GetListedLiveCourseResponse>> GetListAsync(PageRequest pageRequest)
     {
-        var getList = await _liveCourseDal.GetListAsync(include: p => p.Include(p => p.CourseDetail), index: pageRequest.Index, size: pageRequest.Size);
+        var getList = await _liveCourseDal.GetListAsync(include: p => p.Include(p => p.CourseDetail).Include(p => p.Course), index: pageRequest.Index, size: pageRequest.Size);
         return _mapper.Map<Paginate<GetListedLiveCourseResponse>>(getList);
     }
 

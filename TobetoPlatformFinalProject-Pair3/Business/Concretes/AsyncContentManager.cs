@@ -50,7 +50,7 @@ public class AsyncContentManager : IAsyncContentService
 
     public async Task<IPaginate<GetListedAsyncContentResponse>> GetListAsync(PageRequest pageRequest)
     {
-        var getList = await _asyncContentDal.GetListAsync(index: pageRequest.Index, size: pageRequest.Size);
+        var getList = await _asyncContentDal.GetListAsync(include: p => p.Include(p => p.AsyncCourse),index: pageRequest.Index, size: pageRequest.Size);
         return _mapper.Map<Paginate<GetListedAsyncContentResponse>>(getList);
     }
 

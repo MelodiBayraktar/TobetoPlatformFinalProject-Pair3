@@ -8,6 +8,7 @@ using Core.DataAccess.Paging;
 using Core.Utilities.Business.Requests;
 using DataAccess.Abstracts;
 using Entities.Concretes;
+using Microsoft.EntityFrameworkCore;
 
 namespace Business.Concretes;
 
@@ -44,7 +45,7 @@ public class SettingsManager : ISettingsService
 
     public async Task<IPaginate<GetListedSettingsResponse>> GetListAsync(PageRequest pageRequest)
     {
-        var getList = await _settingsDal.GetListAsync(index: pageRequest.Index, size: pageRequest.Size);
+        var getList = await _settingsDal.GetListAsync(include: p => p.Include(p => p.User),index: pageRequest.Index, size: pageRequest.Size);
         return _mapper.Map<Paginate<GetListedSettingsResponse>>(getList);
     }
 

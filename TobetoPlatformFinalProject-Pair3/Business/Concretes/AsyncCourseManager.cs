@@ -51,7 +51,7 @@ public class AsyncCourseManager : IAsyncCourseService
 
     public async Task<IPaginate<GetListedAsyncCourseResponse>> GetListAsync(PageRequest pageRequest)
     {
-        var getList = await _asyncCourseDal.GetListAsync(include: p => p.Include(p => p.CourseDetail), index: pageRequest.Index, size: pageRequest.Size);
+        var getList = await _asyncCourseDal.GetListAsync(include: p => p.Include(p => p.CourseDetail).Include(p => p.Course), index: pageRequest.Index, size: pageRequest.Size);
         return _mapper.Map<Paginate<GetListedAsyncCourseResponse>>(getList);
     }
 
