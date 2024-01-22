@@ -4,7 +4,7 @@ namespace Entities.Concretes;
 
 public class AsyncLessonsDetail : Entity<Guid>
 {
-    public Guid? AsyncLessonId { get; set; }
+    public Guid? AsyncLessonsOfContentId { get; set; }
     public bool? IsLiked { get; set; }
     public string? Category { get; set; }
     public string? Language { get; set; }

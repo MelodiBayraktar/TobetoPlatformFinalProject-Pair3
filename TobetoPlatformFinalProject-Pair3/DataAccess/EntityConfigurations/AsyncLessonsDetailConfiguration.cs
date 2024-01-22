@@ -11,7 +11,7 @@ public class AsyncLessonsDetailConfiguration : IEntityTypeConfiguration<AsyncLes
         builder.ToTable("AsyncLessonsDetails").HasKey(a => a.Id);
 
         builder.Property(a => a.Id).HasColumnName("Id").IsRequired();
-        builder.Property(a => a.AsyncLessonId).HasColumnName("AsyncLessonId").IsRequired();
+        builder.Property(a => a.AsyncLessonsOfContentId).HasColumnName("AsyncLessonsOfContentId").IsRequired();
         builder.Property(a => a.IsLiked).HasColumnName("IsLiked").IsRequired();
         builder.Property(a => a.SubType).HasColumnName("SubType").IsRequired();
         builder.Property(a => a.Category).HasColumnName("Category").IsRequired();
@@ -25,7 +25,7 @@ public class AsyncLessonsDetailConfiguration : IEntityTypeConfiguration<AsyncLes
 
         builder.HasOne(b => b.AsyncLessonsOfContent)
             .WithMany(ald => ald.AsyncLessonsDetails)
-            .HasForeignKey(b => b.AsyncLessonId);
+            .HasForeignKey(b => b.AsyncLessonsOfContentId);
 
         builder.HasQueryFilter(b => !b.DeletedDate.HasValue);
     }
