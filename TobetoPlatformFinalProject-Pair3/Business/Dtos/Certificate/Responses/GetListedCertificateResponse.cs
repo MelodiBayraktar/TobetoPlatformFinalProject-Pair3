@@ -8,10 +8,10 @@ namespace Business.Dtos.Certificate.Responses
 {
     public class GetListedCertificateResponse
     {
-        public Guid? Id { get; set;}
-        public string? UserName { get; set;}
-        public string? FilePath { get; set; }
-        public string? FileType { get; set; }
-        public DateTime? UploadDate { get; set; }
+        public Guid Id { get; set;}
+        public string UserName { get; set;}
+        public string FilePath { get; set; }
+        public string FileType { get; set; }
+        public DateTime UploadDate { get; set; }
     }
 }

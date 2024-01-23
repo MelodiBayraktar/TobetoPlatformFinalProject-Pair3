@@ -8,5 +8,5 @@ namespace Business.Dtos.Ability.Requests;
 
 public  class GetAbilityRequest
 {
-    public Guid? Id { get; set; }
+    public Guid Id { get; set; }
 }

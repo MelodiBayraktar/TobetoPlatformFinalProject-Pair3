@@ -8,9 +8,9 @@ namespace Business.Dtos.Survey.Responses
 {
     public class DeletedSurveyResponse
     {
-        public Guid? Id { get; set; }
-        public Guid? StudentId { get; set; }
-        public string? Title { get; set; }
-        public string? Url { get; set; }
+        public Guid Id { get; set; }
+        public Guid StudentId { get; set; }
+        public string Title { get; set; }
+        public string Url { get; set; }
     }
 }

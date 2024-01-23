@@ -8,8 +8,8 @@ namespace Business.Dtos.AsyncContent.Requests
 {
     public class UpdateAsyncContentRequest
     {
-        public Guid? AsyncCourseId { get; set; }
-        public string? Name { get; set; }
+        public Guid AsyncCourseId { get; set; }
+        public string Name { get; set; }
     }
 }
 

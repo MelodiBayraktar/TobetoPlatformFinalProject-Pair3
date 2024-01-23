@@ -8,7 +8,7 @@ namespace Business.Dtos.Ability.Responses
 {
     public class UpdatedAbilityResponse
     {
-        public Guid? Id { get; set; }
-        public string? Name { get; set; }
+        public Guid Id { get; set; }
+        public string Name { get; set; }
     }
 }

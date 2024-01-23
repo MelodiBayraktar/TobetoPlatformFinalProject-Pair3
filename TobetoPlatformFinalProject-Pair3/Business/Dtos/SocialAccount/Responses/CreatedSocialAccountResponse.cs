@@ -8,9 +8,9 @@ namespace Business.Dtos.SocialAccount.Responses
 {
     public class CreatedSocialAccountResponse
     {
-        public Guid? Id { get; set; }
-        public Guid? UserId { get; set; }
-        public string? Name { get; set; }
-        public string? AccountUrl { get; set; }
+        public Guid Id { get; set; }
+        public Guid UserId { get; set; }
+        public string Name { get; set; }
+        public string AccountUrl { get; set; }
     }
 }

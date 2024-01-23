@@ -8,6 +8,6 @@ namespace Business.Dtos.User.Responses
 {
     public class GetUserResponse
     {
-        public Guid? Id { get; set; }
+        public Guid Id { get; set; }
     }
 }

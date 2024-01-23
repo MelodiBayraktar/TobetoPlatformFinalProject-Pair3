@@ -8,7 +8,7 @@ namespace Business.Dtos.Announcement.Responses
 {
     public class DeletedAnnouncementResponse
     {    
-        public Guid? Id { get; set; }
-        public string? Title { get; set; }
+        public Guid Id { get; set; }
+        public string Title { get; set; }
     }
 }

@@ -8,9 +8,9 @@ namespace Business.Dtos.ContactUs.Responses
 {
     public class GetContactUsResponse
     {
-        public Guid? Id { get; set; }
-        public string? FirstName { get; set; }
-        public string? LastName { get; set; }
-        public string? Message { get; set; }
+        public Guid Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Message { get; set; }
     }
 }

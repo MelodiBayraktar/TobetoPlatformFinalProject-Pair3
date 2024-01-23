@@ -8,10 +8,10 @@ namespace Business.Dtos.Announcement.Responses
 {
     public class UpdatedAnnouncementResponse
     {
-        public Guid? Id { get; set; }
-        public Guid? AnnouncementsNewsCategoryId { get; set; }
-        public Guid? ProjectId { get; set; }
-        public string? Title { get; set; }
-        public string? AnnouncementContent { get; set; }
+        public Guid Id { get; set; }
+        public Guid AnnouncementsNewsCategoryId { get; set; }
+        public Guid ProjectId { get; set; }
+        public string Title { get; set; }
+        public string AnnouncementContent { get; set; }
     }
 }

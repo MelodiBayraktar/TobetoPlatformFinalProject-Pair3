@@ -8,7 +8,7 @@ namespace Business.Dtos.Instructor.Responses
 {
     public class DeletedInstructorResponse
     {
-        public Guid? Id { get; set;}
-        public Guid? UserId { get; set;}
+        public Guid Id { get; set;}
+        public Guid UserId { get; set;}
     }
 }

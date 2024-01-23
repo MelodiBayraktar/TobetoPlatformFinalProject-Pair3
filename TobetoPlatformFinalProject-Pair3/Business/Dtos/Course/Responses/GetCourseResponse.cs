@@ -8,10 +8,10 @@ namespace Business.Dtos.Course.Responses
 {
     public class GetCourseResponse
     {
-        public Guid? Id { get; set; }
-        public Guid? UserId { get; set; }
-        public string? UserName { get; set; }
-        public string? ImageUrl { get; set; }
-        public string? Title { get; set; }
+        public Guid Id { get; set; }
+        public Guid UserId { get; set; }
+        public string UserName { get; set; }
+        public string ImageUrl { get; set; }
+        public string Title { get; set; }
     }
 }

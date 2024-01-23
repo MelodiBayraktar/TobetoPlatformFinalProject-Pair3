@@ -8,10 +8,10 @@ namespace Business.Dtos.LiveContent.Responses
 {
     public class GetLiveContentResponse
     {
-        public Guid? Id { get; set;}
-        public Guid? LiveCourseId { get; set;}
-        public string? Name { get; set; }
-        public string? Type { get; set; }
-        public bool? IsContinue { get; set; }
+        public Guid Id { get; set;}
+        public Guid LiveCourseId { get; set;}
+        public string Name { get; set; }
+        public string Type { get; set; }
+        public bool IsContinue { get; set; }
     }
 }

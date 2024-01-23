@@ -8,8 +8,8 @@ namespace Business.Dtos.AsyncContent.Responses
 {
     public class CreatedAsyncContentResponse
     {
-        public Guid? Id { get; set; }
-        public Guid? AsyncCourseId { get; set; }
-        public string? Name { get; set; }
+        public Guid Id { get; set; }
+        public Guid AsyncCourseId { get; set; }
+        public string Name { get; set; }
     }
 }

@@ -2,5 +2,5 @@ namespace Business.Dtos.News.Requests;
 
 public class DeleteNewsRequest
 {
-    public Guid? Id { get; set; }
+    public Guid Id { get; set; }
 }

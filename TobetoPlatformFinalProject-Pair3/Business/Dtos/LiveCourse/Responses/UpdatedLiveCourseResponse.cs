@@ -8,8 +8,8 @@ namespace Business.Dtos.LiveCourse.Responses
 {
     public class UpdatedLiveCourseResponse
     {
-        public Guid? Id { get; set;}
-        public Guid? CourseId { get; set;}
-        public Guid? CourseDetailId { get; set; }
+        public Guid Id { get; set;}
+        public Guid CourseId { get; set;}
+        public Guid CourseDetailId { get; set; }
     }
 }

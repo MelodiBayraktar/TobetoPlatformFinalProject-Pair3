@@ -8,7 +8,7 @@ namespace Business.Dtos.Project.Requests
 {
     public class UpdateProjectRequest
     {
-        public Guid? Id { get; set; }
-        public string? Name { get; set; }
+        public Guid Id { get; set; }
+        public string Name { get; set; }
     }
 }

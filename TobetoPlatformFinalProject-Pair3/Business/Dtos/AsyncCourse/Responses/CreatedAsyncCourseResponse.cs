@@ -8,10 +8,10 @@ namespace Business.Dtos.AsyncCourse.Responses
 {
     public class CreatedAsyncCourseResponse
     {
-        public Guid? Id { get; set; }
-        public Guid? CourseId { get; set; }
-        public Guid? CourseDetailId { get; set; }
-        public DateTime? EstimatedTime { get; set; }
-        public string? ProducingCompany { get; set; }
+        public Guid Id { get; set; }
+        public Guid CourseId { get; set; }
+        public Guid CourseDetailId { get; set; }
+        public DateTime EstimatedTime { get; set; }
+        public string ProducingCompany { get; set; }
     }
 }

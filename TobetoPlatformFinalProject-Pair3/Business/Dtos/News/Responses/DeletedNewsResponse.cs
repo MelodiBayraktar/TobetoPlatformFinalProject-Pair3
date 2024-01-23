@@ -8,10 +8,10 @@ namespace Business.Dtos.News.Responses
 {
     public class DeletedNewsResponse
     {
-        public Guid? Id { get; set; }
-        public Guid? AnnouncementsNewsCategoryId { get; set; }
-        public Guid? ProjectId { get; set; }
-        public string? Title { get; set; }
-        public string? NewsContent { get; set; }
+        public Guid Id { get; set; }
+        public Guid AnnouncementsNewsCategoryId { get; set; }
+        public Guid ProjectId { get; set; }
+        public string Title { get; set; }
+        public string NewsContent { get; set; }
     }
 }

@@ -8,7 +8,7 @@ namespace Business.Dtos.CourseCategory.Responses
 {
     public class UpdatedCourseCategoryResponse
     {
-        public Guid? Id { get; set; }
-        public string? Name { get; set; }
+        public Guid Id { get; set; }
+        public string Name { get; set; }
     }
 }
