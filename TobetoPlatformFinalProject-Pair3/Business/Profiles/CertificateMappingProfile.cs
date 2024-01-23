@@ -25,7 +25,8 @@ namespace Business.Profiles
             CreateMap<Certificate, DeletedCertificateResponse>().ReverseMap();
 
             CreateMap<Certificate, GetCertificateRequest>().ReverseMap();
-            CreateMap<Certificate, GetCertificateResponse>().ReverseMap();
+            CreateMap<Certificate, GetCertificateResponse>().ForMember(destinationMember: p => p.UserName,
+                memberOptions: opt => opt.MapFrom(p => p.User.FirstName + " " + p.User.LastName)).ReverseMap();
 
 
             CreateMap<Certificate, GetListedCertificateResponse>().ForMember(destinationMember: p => p.UserName,

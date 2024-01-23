@@ -21,9 +21,9 @@ public class ExperienceMappingProfile : Profile
         CreateMap<Experience, DeletedExperienceResponse>().ReverseMap();
 
         CreateMap<Experience, GetExperienceRequest>().ReverseMap();
-        CreateMap<Experience, GetExperienceResponse>().ReverseMap();
-
-
+        CreateMap<Experience, GetExperienceResponse>().ForMember(destinationMember: p => p.UserName,
+            memberOptions: opt => opt.MapFrom(p => p.User.FirstName + " " + p.User.LastName)).ReverseMap();
+        
         CreateMap<Experience, GetListedExperienceResponse>().ForMember(destinationMember: p => p.UserName,
                         memberOptions: opt => opt.MapFrom(p => p.User.FirstName + " " + p.User.LastName)).ReverseMap();
         CreateMap<Paginate<Experience>, Paginate<GetListedExperienceResponse>>().ReverseMap();

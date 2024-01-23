@@ -10,6 +10,7 @@ namespace Business.Dtos.CourseDetail.Responses
     {
         public Guid? Id { get; set; }
         public Guid? CourseCategoryId { get; set; }
+        public string? CourseCategoryName { get; set; }
         public string? Name { get; set; }
         public bool? IsLiked { get; set; }
         public bool? IsFavorited { get; set; }

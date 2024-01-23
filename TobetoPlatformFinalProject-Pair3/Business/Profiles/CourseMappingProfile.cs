@@ -20,7 +20,8 @@ public class CourseMappingProfile : Profile
         CreateMap<Course, DeletedCourseResponse>().ReverseMap();
 
         CreateMap<Course, GetCourseRequest>().ReverseMap();
-        CreateMap<Course, GetCourseResponse>().ReverseMap();
+        CreateMap<Course, GetCourseResponse>().ForMember(destinationMember: p => p.UserName,
+            memberOptions: opt => opt.MapFrom(p => p.User.FirstName + " " + p.User.LastName)).ReverseMap();
 
 
         CreateMap<Course, GetListedCourseResponse>().ForMember(destinationMember: p => p.UserName,
