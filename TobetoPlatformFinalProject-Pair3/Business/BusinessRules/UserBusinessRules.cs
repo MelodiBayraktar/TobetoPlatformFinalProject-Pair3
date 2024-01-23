@@ -22,7 +22,7 @@ namespace Business.BusinessRules
 
         public Task CheckIfUserNotExist(User? user)
         {
-            if (user == null) throw new BusinessException(UserMessages.UserNotBeExist);
+            if (user == null) throw new BusinessException(UserMessages.UserNotExist);
             return Task.CompletedTask;
 
         }

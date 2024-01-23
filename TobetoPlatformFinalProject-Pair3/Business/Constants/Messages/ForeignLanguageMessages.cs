@@ -2,7 +2,7 @@ namespace Business.Constants;
 
 public class ForeignLanguageMessages
 {
-    public static string InputCanNotBeEmpty = "Giriş alanı boş bırakılamaz.";
-    public static string ForeignLanguageNotExists = "Yabancı dil bulunamadı.";
+    public static string InputCanNotBeEmpty = "GiriÅŸ alanÄ± boÅŸ bÄ±rakÄ±lamaz.";
+    public static string ForeignLanguageNotExists = "YabancÄ± dil bulunamadÄ±.";
 
 }

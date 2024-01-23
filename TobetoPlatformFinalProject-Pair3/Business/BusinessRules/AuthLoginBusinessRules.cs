@@ -6,7 +6,7 @@ using Core.Entities.Abstracts;
 using Core.Utilities.Business.Rules;
 using Core.Utilities.Security.Hashing;
 using DataAccess.Abstracts;
-using Entities.Concretes;
+
 
 
 namespace Business.BusinessRules;
@@ -36,7 +36,7 @@ public class AuthLoginBusinessRules : BaseBusinessRules
         //return Task.CompletedTask;
         var user = await _userService.GetByMailAsync(authForLoginRequest.Email);
         if (user == null || !HashingHelper.VerifyPasswordHash(authForLoginRequest.Password, user.PasswordHash, user.PasswordSalt))
-        throw new BusinessException(BusinessMessages.PasswordError);
+        throw new BusinessException(UserMessages.PasswordError);
         return user;  
     }
 }

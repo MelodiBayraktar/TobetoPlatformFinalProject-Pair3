@@ -98,7 +98,7 @@ public class AuthManager : IAuthService
 
         if (user != null)
         {
-            throw new BusinessException(BusinessMessages.UserAlreadyExists);
+            throw new BusinessException(UserMessages.UserAlreadyExists);
         }
     }
 

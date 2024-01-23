@@ -2,16 +2,20 @@ namespace Business.Constants;
 
 public class UserMessages
 {
-    public static string AuthorizationDenied="Yetki verilme reddedildi.";
-    public static string UserNotBeExist = "Kullanıcı bulunamadı.";
-    public static string UserAlreadyExist = "Mevcut kullanıcı.";
-    public static string UserMailAlreadyExists = "Kayıtlı mail adresi.";
-
-    public static string UserMailNotExists = "Mail kayıtlı değil.";
-    public static string PasswordDontMatch = "Şifre eşleşmemektedir.";
+    public static string UserNotExist = "KullanÄ±cÄ± bulunamadÄ±.";
+    public static string UserAlreadyExists ="KayÄ±tlÄ± KullanÄ±cÄ±.";
+    public static string UserMailAlreadyExists = "KayÄ±tlÄ± mail adresi.";
+    public static string UserMailNotExists = "Mail kayÄ±tlÄ± deÄŸil."; 
     
-    public static string MustContainAtMinTwoChar = "En az 2 karakter olmalıdır.";
-    public static string MustContainAtMaxTenChar = "En fazla 10 karakter olmalıdır.";
-    public static string PleaseEnterAStrongerPassword = "Daha güçlü bir şifre giriniz.";
-    public static string PleaseEnterAValidNationalyIdNumber = "Lütfen geçerli bir kimlik numarası giriniz.";
+    public static string PasswordError = "Åifre HatalÄ±.";
+    public static string PasswordDontMatch = "Åifre eÅŸleÅŸmemektedir.";
+    
+    public static string MustContainAtMinTwoChar = "En az 2 karakter olmalÄ±dÄ±r.";
+    public static string MustContainAtMaxTenChar = "En fazla 10 karakter olmalÄ±dÄ±r.";
+    
+    public static string PleaseEnterAStrongerPassword = "Daha gÃ¼Ã§lÃ¼ bir ÅŸifre giriniz.";
+    public static string PleaseEnterAValidNationalyIdNumber = "LÃ¼tfen geÃ§erli bir kimlik numarasÄ± giriniz.";
+    
+    public static string Success ="GiriÅŸ BaÅŸarÄ±lÄ±.";
+    public static string AuthorizationDenied="Yetki verilme reddedildi.";
 }

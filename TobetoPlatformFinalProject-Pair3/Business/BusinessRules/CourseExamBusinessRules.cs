@@ -13,16 +13,17 @@ namespace Business.BusinessRules
 {
     public class CourseExamBusinessRules : BaseBusinessRules
     {
-        ICourseExamDal _courseexamDal;
+        ICourseExamDal _courseExamDal;
 
-        public CourseExamBusinessRules(ICourseExamDal courseexamDal)
+        public CourseExamBusinessRules(ICourseExamDal courseExamDal)
         {
-            _courseexamDal = courseexamDal;
+            _courseExamDal = courseExamDal;
         }
 
-        public Task CheckIfExamNotExist(CourseExam courseexam)
+        public Task CheckIfExamNotExist(CourseExam courseExam)
         {
-            if (courseexam == null) throw new BusinessException(CourseExamMessages.NotExist);
+            if (courseExam == null) 
+                throw new BusinessException(CourseExamMessages.NotExist);
             return Task.CompletedTask;
 
         }

@@ -22,7 +22,8 @@ namespace Business.BusinessRules
 
         public Task CheckIfExperienceNotExist(Experience? experience)
         {
-            if (experience == null) throw new BusinessException(ExperienceMessages.NotExist);
+            if (experience == null) 
+                throw new BusinessException(ExperienceMessages.NotExist);
             return Task.CompletedTask;
 
         }

@@ -22,7 +22,8 @@ namespace Business.BusinessRules
 
         public Task CheckIfEducationNotExist(Education? education)
         {
-            if (education == null) throw new BusinessException(EducationMessages.NotExist);
+            if (education == null) 
+                throw new BusinessException(EducationMessages.NotExist);
             return Task.CompletedTask;
 
         }
