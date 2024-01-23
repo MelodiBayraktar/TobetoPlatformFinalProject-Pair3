@@ -15,17 +15,17 @@ public class CertificatesController : ControllerBase
         _certificateService = certificateService;
     }
     [HttpPost("Add")]
-    public async Task<IActionResult> AddAsync([FromQuery] CreateCertificateRequest createCertificateRequest)
+    public async Task<IActionResult> AddAsync([FromBody] CreateCertificateRequest createCertificateRequest)
     {
         var result = await _certificateService.AddAsync(createCertificateRequest); return Ok(result);
     }
     [HttpPost("Update")]
-    public async Task<IActionResult> UpdateAsync([FromQuery] UpdateCertificateRequest updateCertificateRequest)
+    public async Task<IActionResult> UpdateAsync([FromBody] UpdateCertificateRequest updateCertificateRequest)
     {
         var result = await _certificateService.UpdateAsync(updateCertificateRequest); return Ok(result);
     }
     [HttpDelete("Delete")]
-    public async Task<IActionResult> DeleteAsync([FromQuery] DeleteCertificateRequest deleteCertificateRequest)
+    public async Task<IActionResult> DeleteAsync([FromBody] DeleteCertificateRequest deleteCertificateRequest)
     {
         var result = await _certificateService.DeleteAsync(deleteCertificateRequest); return Ok(result);
     }

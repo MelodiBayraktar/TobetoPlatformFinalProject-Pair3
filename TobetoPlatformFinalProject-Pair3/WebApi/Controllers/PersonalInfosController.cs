@@ -15,17 +15,17 @@ namespace WebApi.Controllers
             _personalInfoService = personalInfoService;
         }
         [HttpPost("Add")]
-        public async Task<IActionResult> AddAsync([FromQuery] CreatePersonalInfoRequest createPersonalInfoRequest)
+        public async Task<IActionResult> AddAsync([FromBody] CreatePersonalInfoRequest createPersonalInfoRequest)
         {
             var result = await _personalInfoService.AddAsync(createPersonalInfoRequest); return Ok(result);
         }
         [HttpPost("Update")]
-        public async Task<IActionResult> UpdateAsync([FromQuery] UpdatePersonalInfoRequest updatePersonalInfoRequest)
+        public async Task<IActionResult> UpdateAsync([FromBody] UpdatePersonalInfoRequest updatePersonalInfoRequest)
         {
             var result = await _personalInfoService.UpdateAsync(updatePersonalInfoRequest); return Ok(result);
         }
         [HttpDelete("Delete")]
-        public async Task<IActionResult> DeleteAsync([FromQuery] DeletePersonalInfoRequest deletePersonalInfoRequest)
+        public async Task<IActionResult> DeleteAsync([FromBody] DeletePersonalInfoRequest deletePersonalInfoRequest)
         {
             var result = await _personalInfoService.DeleteAsync(deletePersonalInfoRequest); return Ok(result);
         }

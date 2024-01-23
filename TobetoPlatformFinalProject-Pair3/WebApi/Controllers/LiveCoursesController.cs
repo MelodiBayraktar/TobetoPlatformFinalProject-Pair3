@@ -15,17 +15,17 @@ namespace WebApi.Controllers
             _liveCourseService = liveCourseService;
         }
         [HttpPost("Add")]
-        public async Task<IActionResult> AddAsync([FromQuery] CreateLiveCourseRequest createLiveCourseRequest)
+        public async Task<IActionResult> AddAsync([FromBody] CreateLiveCourseRequest createLiveCourseRequest)
         {
             var result = await _liveCourseService.AddAsync(createLiveCourseRequest); return Ok(result);
         }
         [HttpPost("Update")]
-        public async Task<IActionResult> UpdateAsync([FromQuery] UpdateLiveCourseRequest updateLiveCourseRequest)
+        public async Task<IActionResult> UpdateAsync([FromBody] UpdateLiveCourseRequest updateLiveCourseRequest)
         {
             var result = await _liveCourseService.UpdateAsync(updateLiveCourseRequest); return Ok(result);
         }
         [HttpDelete("Delete")]
-        public async Task<IActionResult> DeleteAsync([FromQuery] DeleteLiveCourseRequest deleteLiveCourseRequest)
+        public async Task<IActionResult> DeleteAsync([FromBody] DeleteLiveCourseRequest deleteLiveCourseRequest)
         {
             var result = await _liveCourseService.DeleteAsync(deleteLiveCourseRequest); return Ok(result);
         }

@@ -15,17 +15,17 @@ namespace WebApi.Controllers
             _socialAccountService = socialAccountService;
         }
         [HttpPost("Add")]
-        public async Task<IActionResult> AddAsync([FromQuery] CreateSocialAccountRequest createSocialAccountRequest)
+        public async Task<IActionResult> AddAsync([FromBody] CreateSocialAccountRequest createSocialAccountRequest)
         {
             var result = await _socialAccountService.AddAsync(createSocialAccountRequest); return Ok(result);
         }
         [HttpPost("Update")]
-        public async Task<IActionResult> UpdateAsync([FromQuery] UpdateSocialAccountRequest updateSocialAccountRequest)
+        public async Task<IActionResult> UpdateAsync([FromBody] UpdateSocialAccountRequest updateSocialAccountRequest)
         {
             var result = await _socialAccountService.UpdateAsync(updateSocialAccountRequest); return Ok(result);
         }
         [HttpDelete("Delete")]
-        public async Task<IActionResult> DeleteAsync([FromQuery] DeleteSocialAccountRequest deleteSocialAccountRequest)
+        public async Task<IActionResult> DeleteAsync([FromBody] DeleteSocialAccountRequest deleteSocialAccountRequest)
         {
             var result = await _socialAccountService.DeleteAsync(deleteSocialAccountRequest); return Ok(result);
         }

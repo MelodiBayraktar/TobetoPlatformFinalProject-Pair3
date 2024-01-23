@@ -15,17 +15,17 @@ public class AsyncLessonsDetailsController : ControllerBase
         _asyncLessonsDetailService = asyncLessonsDetailService;
     }
     [HttpPost("Add")]
-    public async Task<IActionResult> AddAsync([FromQuery] CreateAsyncLessonsDetailRequest createAsyncLessonsDetailRequest)
+    public async Task<IActionResult> AddAsync([FromBody] CreateAsyncLessonsDetailRequest createAsyncLessonsDetailRequest)
     {
         var result = await _asyncLessonsDetailService.AddAsync(createAsyncLessonsDetailRequest); return Ok(result);
     }
     [HttpPost("Update")]
-    public async Task<IActionResult> UpdateAsync([FromQuery] UpdateAsyncLessonsDetailRequest updateAsyncLessonsDetailRequest)
+    public async Task<IActionResult> UpdateAsync([FromBody] UpdateAsyncLessonsDetailRequest updateAsyncLessonsDetailRequest)
     {
         var result = await _asyncLessonsDetailService.UpdateAsync(updateAsyncLessonsDetailRequest); return Ok(result);
     }
     [HttpDelete("Delete")]
-    public async Task<IActionResult> DeleteAsync([FromQuery] DeleteAsyncLessonsDetailRequest deleteAsyncLessonsDetailRequest)
+    public async Task<IActionResult> DeleteAsync([FromBody] DeleteAsyncLessonsDetailRequest deleteAsyncLessonsDetailRequest)
     {
         var result = await _asyncLessonsDetailService.DeleteAsync(deleteAsyncLessonsDetailRequest); return Ok(result);
     }

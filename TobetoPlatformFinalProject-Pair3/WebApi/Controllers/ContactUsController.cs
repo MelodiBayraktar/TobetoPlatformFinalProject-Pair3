@@ -17,17 +17,17 @@ namespace WebApi.Controllers
             _contactUsService = contactUsService;
         }
         [HttpPost("Add")]
-        public async Task<IActionResult> AddAsync([FromQuery] CreateContactUsRequest createContactUsRequest)
+        public async Task<IActionResult> AddAsync([FromBody] CreateContactUsRequest createContactUsRequest)
         {
             var result = await _contactUsService.AddAsync(createContactUsRequest); return Ok(result);
         }
         [HttpPost("Update")]
-        public async Task<IActionResult> UpdateAsync([FromQuery] UpdateContactUsRequest updateContactUsRequest)
+        public async Task<IActionResult> UpdateAsync([FromBody] UpdateContactUsRequest updateContactUsRequest)
         {
             var result = await _contactUsService.UpdateAsync(updateContactUsRequest); return Ok(result);
         }
         [HttpDelete("Delete")]
-        public async Task<IActionResult> DeleteAsync([FromQuery] DeleteContactUsRequest deleteContactUsRequest)
+        public async Task<IActionResult> DeleteAsync([FromBody] DeleteContactUsRequest deleteContactUsRequest)
         {
             var result = await _contactUsService.DeleteAsync(deleteContactUsRequest); return Ok(result);
         }

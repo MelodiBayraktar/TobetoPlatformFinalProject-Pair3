@@ -15,17 +15,17 @@ namespace WebApi.Controllers
             _newsService = newsService;
         }
         [HttpPost("Add")]
-        public async Task<IActionResult> AddAsync([FromQuery] CreateNewsRequest createNewsRequest)
+        public async Task<IActionResult> AddAsync([FromBody] CreateNewsRequest createNewsRequest)
         {
             var result = await _newsService.AddAsync(createNewsRequest); return Ok(result);
         }
         [HttpPost("Update")]
-        public async Task<IActionResult> UpdateAsync([FromQuery] UpdateNewsRequest updateNewsRequest)
+        public async Task<IActionResult> UpdateAsync([FromBody] UpdateNewsRequest updateNewsRequest)
         {
             var result = await _newsService.UpdateAsync(updateNewsRequest); return Ok(result);
         }
         [HttpDelete("Delete")]
-        public async Task<IActionResult> DeleteAsync([FromQuery] DeleteNewsRequest deleteNewsRequest)
+        public async Task<IActionResult> DeleteAsync([FromBody] DeleteNewsRequest deleteNewsRequest)
         {
             var result = await _newsService.DeleteAsync(deleteNewsRequest); return Ok(result);
         }

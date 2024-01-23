@@ -18,7 +18,7 @@ public class AuthController : Controller
     }
 
     [HttpPost("Login")]
-    public async Task<IActionResult> Login([FromQuery] AuthForLoginRequest authForLoginRequest)
+    public async Task<IActionResult> Login([FromBody] AuthForLoginRequest authForLoginRequest)
     {
 
 
@@ -30,7 +30,7 @@ public class AuthController : Controller
     }
 
     [HttpPost("Register")]
-    public async Task<IActionResult> Register([FromQuery] AuthForRegisterRequest authForRegisterRequest)
+    public async Task<IActionResult> Register([FromBody] AuthForRegisterRequest authForRegisterRequest)
     {
         await _authService.UserExists(authForRegisterRequest.Email);
 

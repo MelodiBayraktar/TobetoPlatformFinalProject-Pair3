@@ -15,17 +15,17 @@ public class CourseCategoriesController : ControllerBase
         _courseCategoryService = courseCategoryService;
     }
     [HttpPost("Add")]
-    public async Task<IActionResult> AddAsync([FromQuery] CreateCourseCategoryRequest createCourseCategoryRequest)
+    public async Task<IActionResult> AddAsync([FromBody] CreateCourseCategoryRequest createCourseCategoryRequest)
     {
         var result = await _courseCategoryService.AddAsync(createCourseCategoryRequest); return Ok(result);
     }
     [HttpPost("Update")]
-    public async Task<IActionResult> UpdateAsync([FromQuery] UpdateCourseCategoryRequest updateCourseCategoryRequest)
+    public async Task<IActionResult> UpdateAsync([FromBody] UpdateCourseCategoryRequest updateCourseCategoryRequest)
     {
         var result = await _courseCategoryService.UpdateAsync(updateCourseCategoryRequest); return Ok(result);
     }
     [HttpDelete("Delete")]
-    public async Task<IActionResult> DeleteAsync([FromQuery] DeleteCourseCategoryRequest deleteCourseCategoryRequest)
+    public async Task<IActionResult> DeleteAsync([FromBody] DeleteCourseCategoryRequest deleteCourseCategoryRequest)
     {
         var result = await _courseCategoryService.DeleteAsync(deleteCourseCategoryRequest); return Ok(result);
     }

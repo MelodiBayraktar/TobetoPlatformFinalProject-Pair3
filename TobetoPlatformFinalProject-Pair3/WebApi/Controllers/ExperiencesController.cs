@@ -15,17 +15,17 @@ namespace WebApi.Controllers
             _experienceService = experienceService;
         }
         [HttpPost("Add")]
-        public async Task<IActionResult> AddAsync([FromQuery] CreateExperienceRequest createExperienceRequest)
+        public async Task<IActionResult> AddAsync([FromBody] CreateExperienceRequest createExperienceRequest)
         {
             var result = await _experienceService.AddAsync(createExperienceRequest); return Ok(result);
         }
         [HttpPost("Update")]
-        public async Task<IActionResult> UpdateAsync([FromQuery] UpdateExperienceRequest updateExperienceRequest)
+        public async Task<IActionResult> UpdateAsync([FromBody] UpdateExperienceRequest updateExperienceRequest)
         {
             var result = await _experienceService.UpdateAsync(updateExperienceRequest); return Ok(result);
         }
         [HttpDelete("Delete")]
-        public async Task<IActionResult> DeleteAsync([FromQuery] DeleteExperienceRequest deleteExperienceRequest)
+        public async Task<IActionResult> DeleteAsync([FromBody] DeleteExperienceRequest deleteExperienceRequest)
         {
             var result = await _experienceService.DeleteAsync(deleteExperienceRequest); return Ok(result);
         }

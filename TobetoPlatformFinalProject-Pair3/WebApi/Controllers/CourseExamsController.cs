@@ -15,17 +15,17 @@ namespace WebApi.Controllers
             _courseExamService = courseExamService;
         }
         [HttpPost("Add")]
-        public async Task<IActionResult> AddAsync([FromQuery] CreateCourseExamRequest createCourseExamRequest)
+        public async Task<IActionResult> AddAsync([FromBody] CreateCourseExamRequest createCourseExamRequest)
         {
             var result = await _courseExamService.AddAsync(createCourseExamRequest); return Ok(result);
         }
         [HttpPost("Update")]
-        public async Task<IActionResult> UpdateAsync([FromQuery] UpdateCourseExamRequest updateCourseExamRequest)
+        public async Task<IActionResult> UpdateAsync([FromBody] UpdateCourseExamRequest updateCourseExamRequest)
         {
             var result = await _courseExamService.UpdateAsync(updateCourseExamRequest); return Ok(result);
         }
         [HttpDelete("Delete")]
-        public async Task<IActionResult> DeleteAsync([FromQuery] DeleteCourseExamRequest deleteCourseExamRequest)
+        public async Task<IActionResult> DeleteAsync([FromBody] DeleteCourseExamRequest deleteCourseExamRequest)
         {
             var result = await _courseExamService.DeleteAsync(deleteCourseExamRequest); return Ok(result);
         }

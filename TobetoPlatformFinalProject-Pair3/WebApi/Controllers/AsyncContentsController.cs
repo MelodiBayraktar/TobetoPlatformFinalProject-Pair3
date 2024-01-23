@@ -15,17 +15,17 @@ public class AsyncContentsController : ControllerBase
         _asyncContentService = asyncContentService;
     }
     [HttpPost("Add")]
-    public async Task<IActionResult> AddAsync([FromQuery] CreateAsyncContentRequest createAsyncContentRequest)
+    public async Task<IActionResult> AddAsync([FromBody] CreateAsyncContentRequest createAsyncContentRequest)
     {
         var result = await _asyncContentService.AddAsync(createAsyncContentRequest); return Ok(result);
     }
     [HttpPost("Update")]
-    public async Task<IActionResult> UpdateAsync([FromQuery] UpdateAsyncContentRequest updateAsyncContentRequest)
+    public async Task<IActionResult> UpdateAsync([FromBody] UpdateAsyncContentRequest updateAsyncContentRequest)
     {
         var result = await _asyncContentService.UpdateAsync(updateAsyncContentRequest); return Ok(result);
     }
     [HttpDelete("Delete")]
-    public async Task<IActionResult> DeleteAsync([FromQuery] DeleteAsyncContentRequest deleteAsyncContentRequest)
+    public async Task<IActionResult> DeleteAsync([FromBody] DeleteAsyncContentRequest deleteAsyncContentRequest)
     {
         var result = await _asyncContentService.DeleteAsync(deleteAsyncContentRequest); return Ok(result);
     }

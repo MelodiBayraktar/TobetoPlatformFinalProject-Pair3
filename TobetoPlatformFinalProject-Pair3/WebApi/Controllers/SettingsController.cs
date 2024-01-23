@@ -15,12 +15,12 @@ namespace WebApi.Controllers
         }
 
         [HttpPost("Update")]
-        public async Task<IActionResult> UpdateAsync([FromQuery] UpdateSettingsRequest updateSettingsRequest)
+        public async Task<IActionResult> UpdateAsync([FromBody] UpdateSettingsRequest updateSettingsRequest)
         {
             var result = await _settingsService.UpdateAsync(updateSettingsRequest); return Ok(result);
         }
         [HttpDelete("Delete")]
-        public async Task<IActionResult> DeleteAsync([FromQuery] DeleteSettingsRequest deleteSettingsRequest)
+        public async Task<IActionResult> DeleteAsync([FromBody] DeleteSettingsRequest deleteSettingsRequest)
         {
             var result = await _settingsService.DeleteAsync(deleteSettingsRequest); return Ok(result);
         }

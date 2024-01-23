@@ -15,17 +15,17 @@ namespace WebApi.Controllers
             _foreignLanguageService = foreignLanguageService;
         }
         [HttpPost("Add")]
-        public async Task<IActionResult> AddAsync([FromQuery] CreateForeignLanguageRequest createForeignLanguageRequest)
+        public async Task<IActionResult> AddAsync([FromBody] CreateForeignLanguageRequest createForeignLanguageRequest)
         {
             var result = await _foreignLanguageService.AddAsync(createForeignLanguageRequest); return Ok(result);
         }
         [HttpPost("Update")]
-        public async Task<IActionResult> UpdateAsync([FromQuery] UpdateForeignLanguageRequest updateForeignLanguageRequest)
+        public async Task<IActionResult> UpdateAsync([FromBody] UpdateForeignLanguageRequest updateForeignLanguageRequest)
         {
             var result = await _foreignLanguageService.UpdateAsync(updateForeignLanguageRequest); return Ok(result);
         }
         [HttpDelete("Delete")]
-        public async Task<IActionResult> DeleteAsync([FromQuery] DeleteForeignLanguageRequest deleteForeignLanguageRequest)
+        public async Task<IActionResult> DeleteAsync([FromBody] DeleteForeignLanguageRequest deleteForeignLanguageRequest)
         {
             var result = await _foreignLanguageService.DeleteAsync(deleteForeignLanguageRequest); return Ok(result);
         }

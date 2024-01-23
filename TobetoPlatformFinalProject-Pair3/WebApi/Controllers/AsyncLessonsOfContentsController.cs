@@ -15,17 +15,17 @@ public class AsyncLessonsOfContentsController : ControllerBase
         _asyncLessonsOfContentService = asyncLessonsOfContentService;
     }
     [HttpPost("Add")]
-    public async Task<IActionResult> AddAsync([FromQuery] CreateAsyncLessonsOfContentRequest createAsyncLessonsOfContentRequest)
+    public async Task<IActionResult> AddAsync([FromBody] CreateAsyncLessonsOfContentRequest createAsyncLessonsOfContentRequest)
     {
         var result = await _asyncLessonsOfContentService.AddAsync(createAsyncLessonsOfContentRequest); return Ok(result);
     }
     [HttpPost("Update")]
-    public async Task<IActionResult> UpdateAsync([FromQuery] UpdateAsyncLessonsOfContentRequest updateAsyncLessonsOfContentRequest)
+    public async Task<IActionResult> UpdateAsync([FromBody] UpdateAsyncLessonsOfContentRequest updateAsyncLessonsOfContentRequest)
     {
         var result = await _asyncLessonsOfContentService.UpdateAsync(updateAsyncLessonsOfContentRequest); return Ok(result);
     }
     [HttpDelete("Delete")]
-    public async Task<IActionResult> DeleteAsync([FromQuery] DeleteAsyncLessonsOfContentRequest deleteAsyncLessonsOfContentRequest)
+    public async Task<IActionResult> DeleteAsync([FromBody] DeleteAsyncLessonsOfContentRequest deleteAsyncLessonsOfContentRequest)
     {
         var result = await _asyncLessonsOfContentService.DeleteAsync(deleteAsyncLessonsOfContentRequest); return Ok(result);
     }

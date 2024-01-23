@@ -15,17 +15,17 @@ namespace WebApi.Controllers
             _projectService = projectService;
         }
         [HttpPost("Add")]
-        public async Task<IActionResult> AddAsync([FromQuery] CreateProjectRequest createProjectRequest)
+        public async Task<IActionResult> AddAsync([FromBody] CreateProjectRequest createProjectRequest)
         {
             var result = await _projectService.AddAsync(createProjectRequest); return Ok(result);
         }
         [HttpPost("Update")]
-        public async Task<IActionResult> UpdateAsync([FromQuery] UpdateProjectRequest updateProjectRequest)
+        public async Task<IActionResult> UpdateAsync([FromBody] UpdateProjectRequest updateProjectRequest)
         {
             var result = await _projectService.UpdateAsync(updateProjectRequest); return Ok(result);
         }
         [HttpDelete("Delete")]
-        public async Task<IActionResult> DeleteAsync([FromQuery] DeleteProjectRequest deleteProjectRequest)
+        public async Task<IActionResult> DeleteAsync([FromBody] DeleteProjectRequest deleteProjectRequest)
         {
             var result = await _projectService.DeleteAsync(deleteProjectRequest); return Ok(result);
         }

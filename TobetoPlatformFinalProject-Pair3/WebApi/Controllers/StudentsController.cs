@@ -15,17 +15,17 @@ namespace WebApi.Controllers
             _studentService = studentService;
         }
         [HttpPost("Add")]
-        public async Task<IActionResult> AddAsync([FromQuery] CreateStudentRequest createStudentRequest)
+        public async Task<IActionResult> AddAsync([FromBody] CreateStudentRequest createStudentRequest)
         {
             var result = await _studentService.AddAsync(createStudentRequest); return Ok(result);
         }
         [HttpPost("Update")]
-        public async Task<IActionResult> UpdateAsync([FromQuery] UpdateStudentRequest updateStudentRequest)
+        public async Task<IActionResult> UpdateAsync([FromBody] UpdateStudentRequest updateStudentRequest)
         {
             var result = await _studentService.UpdateAsync(updateStudentRequest); return Ok(result);
         }
         [HttpDelete("Delete")]
-        public async Task<IActionResult> DeleteAsync([FromQuery] DeleteStudentRequest deleteStudentRequest)
+        public async Task<IActionResult> DeleteAsync([FromBody] DeleteStudentRequest deleteStudentRequest)
         {
             var result = await _studentService.DeleteAsync(deleteStudentRequest); return Ok(result);
         }

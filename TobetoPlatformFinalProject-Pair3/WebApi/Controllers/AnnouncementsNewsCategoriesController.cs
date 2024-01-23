@@ -15,17 +15,17 @@ public class AnnouncementsNewsCategoriesController : ControllerBase
         _announcementsNewsCategoryService = announcementsNewsCategoryService;
     }
     [HttpPost("Add")]
-    public async Task<IActionResult> AddAsync([FromQuery] CreateAnnouncementsNewsCategoryRequest createAnnouncementsNewsCategoryRequest)
+    public async Task<IActionResult> AddAsync([FromBody] CreateAnnouncementsNewsCategoryRequest createAnnouncementsNewsCategoryRequest)
     {
         var result = await _announcementsNewsCategoryService.AddAsync(createAnnouncementsNewsCategoryRequest); return Ok(result);
     }
     [HttpPost("Update")]
-    public async Task<IActionResult> UpdateAsync([FromQuery] UpdateAnnouncementsNewsCategoryRequest updateAnnouncementsNewsCategoryRequest)
+    public async Task<IActionResult> UpdateAsync([FromBody] UpdateAnnouncementsNewsCategoryRequest updateAnnouncementsNewsCategoryRequest)
     {
         var result = await _announcementsNewsCategoryService.UpdateAsync(updateAnnouncementsNewsCategoryRequest); return Ok(result);
     }
     [HttpDelete("Delete")]
-    public async Task<IActionResult> DeleteAsync([FromQuery] DeleteAnnouncementsNewsCategoryRequest deleteAnnouncementsNewsCategoryRequest)
+    public async Task<IActionResult> DeleteAsync([FromBody] DeleteAnnouncementsNewsCategoryRequest deleteAnnouncementsNewsCategoryRequest)
     {
         var result = await _announcementsNewsCategoryService.DeleteAsync(deleteAnnouncementsNewsCategoryRequest); return Ok(result);
     }

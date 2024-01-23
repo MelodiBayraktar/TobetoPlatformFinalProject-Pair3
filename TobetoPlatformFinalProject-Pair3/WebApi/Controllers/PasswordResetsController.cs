@@ -15,7 +15,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost("Update")]
-        public async Task<IActionResult> UpdateAsync([FromQuery] UpdatePasswordResetRequest updatePasswordResetRequest)
+        public async Task<IActionResult> UpdateAsync([FromBody] UpdatePasswordResetRequest updatePasswordResetRequest)
         {
             var result = await _passwordResetService.UpdateAsync(updatePasswordResetRequest); return Ok(result);
         }

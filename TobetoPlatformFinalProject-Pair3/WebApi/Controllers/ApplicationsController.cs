@@ -15,17 +15,17 @@ public class ApplicationsController : ControllerBase
         _applicationService = applicationService;
     }
     [HttpPost("Add")]
-    public async Task<IActionResult> AddAsync([FromQuery] CreateApplicationRequest createApplicationRequest)
+    public async Task<IActionResult> AddAsync([FromBody] CreateApplicationRequest createApplicationRequest)
     {
         var result = await _applicationService.AddAsync(createApplicationRequest); return Ok(result);
     }
     [HttpPost("Update")]
-    public async Task<IActionResult> UpdateAsync([FromQuery] UpdateApplicationRequest updateApplicationRequest)
+    public async Task<IActionResult> UpdateAsync([FromBody] UpdateApplicationRequest updateApplicationRequest)
     {
         var result = await _applicationService.UpdateAsync(updateApplicationRequest); return Ok(result);
     }
     [HttpDelete("Delete")]
-    public async Task<IActionResult> DeleteAsync([FromQuery] DeleteApplicationRequest deleteApplicationRequest)
+    public async Task<IActionResult> DeleteAsync([FromBody] DeleteApplicationRequest deleteApplicationRequest)
     {
         var result = await _applicationService.DeleteAsync(deleteApplicationRequest); return Ok(result);
     }
