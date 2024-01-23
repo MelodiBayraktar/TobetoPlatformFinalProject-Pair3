@@ -11,6 +11,7 @@ namespace Business.Dtos.CourseExam.Responses
         public Guid? Id { get; set; }
         public Guid? StudentId { get; set; }
         public string? Name { get; set; }
+        public string? CourseExamDetailName { get; set; }
         public string? Time { get; set; }
         public bool? Status { get; set; }
         public string? Description { get; set; }

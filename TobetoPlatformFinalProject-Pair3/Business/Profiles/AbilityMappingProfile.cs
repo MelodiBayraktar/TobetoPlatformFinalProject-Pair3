@@ -26,9 +26,9 @@ namespace Business.Profiles
             CreateMap<Ability, DeletedAbilityResponse>().ReverseMap();
 
             CreateMap<Ability, GetAbilityRequest>().ReverseMap();
-            CreateMap<Ability, GetAbilityResponse>().ReverseMap();
-
-
+            CreateMap<Ability, GetAbilityResponse>().ForMember(destinationMember: p => p.UserName,
+                memberOptions: opt => opt.MapFrom(p => p.User.FirstName + " " + p.User.LastName)).ReverseMap();
+            
             CreateMap<Ability, GetListedAbilityResponse>().ForMember(destinationMember: p => p.UserName,
                             memberOptions: opt => opt.MapFrom(p => p.User.FirstName + " " + p.User.LastName)).ReverseMap();
             CreateMap<Paginate<Ability>, Paginate<GetListedAbilityResponse>>().ReverseMap();

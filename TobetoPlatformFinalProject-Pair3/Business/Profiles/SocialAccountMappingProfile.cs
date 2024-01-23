@@ -20,9 +20,9 @@ public class SocialAccountMappingProfile : Profile
         CreateMap<SocialAccount, DeletedSocialAccountResponse>().ReverseMap();
 
         CreateMap<SocialAccount, GetSocialAccountRequest>().ReverseMap();
-        CreateMap<SocialAccount, GetSocialAccountResponse>().ReverseMap();
-
-
+        CreateMap<SocialAccount, GetSocialAccountResponse>().ForMember(destinationMember: p => p.UserName,
+            memberOptions: opt => opt.MapFrom(p => p.User.FirstName + " " + p.User.LastName)).ReverseMap();
+        
         CreateMap<SocialAccount, GetListedSocialAccountResponse>().ForMember(destinationMember: p => p.UserName,
                         memberOptions: opt => opt.MapFrom(p => p.User.FirstName + " " + p.User.LastName)).ReverseMap();
         CreateMap<Paginate<SocialAccount>, Paginate<GetListedSocialAccountResponse>>().ReverseMap();

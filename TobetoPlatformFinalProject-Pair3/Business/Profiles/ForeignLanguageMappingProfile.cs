@@ -21,8 +21,8 @@ public class ForeignLanguageMappingProfile : Profile
         CreateMap<ForeignLanguage, DeletedForeignLanguageResponse>().ReverseMap();
 
         CreateMap<ForeignLanguage, GetForeignLanguageRequest>().ReverseMap();
-        CreateMap<ForeignLanguage, GetForeignLanguageResponse>().ReverseMap();
-
+        CreateMap<ForeignLanguage, GetForeignLanguageResponse>().ForMember(destinationMember: p => p.UserName,
+            memberOptions: opt => opt.MapFrom(p => p.User.FirstName + " " + p.User.LastName)).ReverseMap();
 
         CreateMap<ForeignLanguage, GetListedForeignLanguageResponse>().ForMember(destinationMember: p => p.UserName,
                         memberOptions: opt => opt.MapFrom(p => p.User.FirstName + " " + p.User.LastName)).ReverseMap();

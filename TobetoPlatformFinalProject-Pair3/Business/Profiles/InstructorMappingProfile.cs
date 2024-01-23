@@ -21,7 +21,8 @@ public class InstructorMappingProfile : Profile
         CreateMap<Instructor, DeletedInstructorResponse>().ReverseMap();
 
         CreateMap<Instructor, GetInstructorRequest>().ReverseMap();
-        CreateMap<Instructor, GetInstructorResponse>().ReverseMap();
+        CreateMap<Instructor, GetInstructorResponse>().ForMember(destinationMember: p => p.UserName,
+            memberOptions: opt => opt.MapFrom(p => p.User.FirstName + " " + p.User.LastName)).ReverseMap();
 
 
         CreateMap<Instructor, GetListedInstructorResponse>().ForMember(destinationMember: p => p.UserName,

@@ -21,7 +21,8 @@ public class EducationMappingProfile : Profile
         CreateMap<Education, DeletedEducationResponse>().ReverseMap();
 
         CreateMap<Education, GetEducationRequest>().ReverseMap();
-        CreateMap<Education, GetEducationResponse>().ReverseMap();
+        CreateMap<Education, GetEducationResponse>().ForMember(destinationMember: p => p.UserName,
+            memberOptions: opt => opt.MapFrom(p => p.User.FirstName + " " + p.User.LastName)).ReverseMap();
 
 
         CreateMap<Education, GetListedEducationResponse>().ForMember(destinationMember: p => p.UserName,

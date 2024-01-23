@@ -30,6 +30,13 @@ public class AnnouncementMappingProfile : Profile
 
         CreateMap<Announcement, GetAnnouncementRequest>().ReverseMap();
         CreateMap<Announcement, GetAnnouncementResponse>().ReverseMap();
+        
+        CreateMap<Announcement, GetAnnouncementResponse>().ForMember(destinationMember: p => p.AnnouncementsNewsCategoryName,
+            memberOptions: opt => opt.MapFrom(p => p.AnnouncementsNewsCategory.Name)).ReverseMap();
+        
+        CreateMap<Announcement, GetAnnouncementResponse>().ForMember(destinationMember: p => p.ProjectName,
+            memberOptions: opt => opt.MapFrom(p =>  p.Project.Name)).ReverseMap();
+
 
         CreateMap<Announcement, GetListedAnnouncementResponse>().ForMember(destinationMember: p => p.AnnouncementsNewsCategoryName,
                         memberOptions: opt => opt.MapFrom(p => p.AnnouncementsNewsCategory.Name)).ReverseMap();

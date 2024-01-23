@@ -29,7 +29,13 @@ public class PersonalInfoMappingProfile : Profile
         CreateMap<PersonalInfo, DeletedPersonalInfoResponse>().ReverseMap();
 
         CreateMap<PersonalInfo, GetPersonalInfoRequest>().ReverseMap();
-        CreateMap<PersonalInfo, GetPersonalInfoResponse>().ReverseMap();
+        
+        CreateMap<PersonalInfo, GetPersonalInfoResponse>().ForMember(destinationMember: p => p.FirstName,
+            memberOptions: opt => opt.MapFrom(p => p.User.FirstName)).ReverseMap();
+        
+        CreateMap<PersonalInfo, GetPersonalInfoResponse>().ForMember(destinationMember: p => p.LastName,
+            memberOptions: opt => opt.MapFrom(p => p.User.LastName
+            )).ReverseMap();
 
 
         CreateMap<PersonalInfo, GetListedPersonalInfoResponse>().ForMember(destinationMember: p => p.FirstName,
