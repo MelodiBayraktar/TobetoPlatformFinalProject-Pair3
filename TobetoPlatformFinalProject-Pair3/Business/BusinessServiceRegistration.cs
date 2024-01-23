@@ -51,11 +51,6 @@ public static class BusinessServiceRegistration
         services.AddScoped<IUserOperationClaimService, UserOperationClaimManager>();
         services.AddScoped<IAuthService, AuthManager>();
         services.AddScoped<ITokenHelper, JwtHelper>();
-        //services.AddScoped<AbilityBusinessRules>();
-        //services.AddScoped<AuthLoginBusinessRules>();
-        //services.AddScoped<AuthRegisterBusinessRules>();
-        //services.AddScoped<SocialAccountBusinessRules>();
-        //services.AddScoped<UserBusinessRules>();
 
 
         return services;

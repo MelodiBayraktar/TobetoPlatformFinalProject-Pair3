@@ -25,6 +25,7 @@ public class AnnouncementManager : IAnnouncementService
         _mapper = mapper;
     }
 
+    [ValidationAspect(typeof(AnnouncementRequestValidator))]
     public async Task<CreatedAnnouncementResponse> AddAsync(CreateAnnouncementRequest createAnnouncementRequest)
     {
         // var announcement = _mapper.Map<Announcement>(createAnnouncementRequest);

@@ -24,6 +24,7 @@ public class ApplicationManager : IApplicationService
         _mapper = mapper;
     }
 
+    [ValidationAspect(typeof(ApplicationRequestValidator))]
     public async Task<CreatedApplicationResponse> AddAsync(CreateApplicationRequest createApplicationRequest)
     {
         // var application = _mapper.Map<Application>(createApplicationRequest);

@@ -15,10 +15,6 @@ public class AutofacBusinessModule : Module
 {
     protected override void Load(ContainerBuilder builder)
     {
-        //builder.RegisterType<UserManager>().As<IUserService>();
-        //builder.RegisterType<EfUserDal>().As<IUserDal>();
-
-
         var assembly = System.Reflection.Assembly.GetExecutingAssembly();
         builder.RegisterType<HttpContextAccessor>().As<IHttpContextAccessor>();
 
@@ -27,6 +23,5 @@ public class AutofacBusinessModule : Module
             {
                 Selector = new AspectInterceptorSelector()
             }).SingleInstance();
-
     }
 }

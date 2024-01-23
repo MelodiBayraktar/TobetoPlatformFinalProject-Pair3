@@ -1,6 +1,14 @@
-﻿namespace Business.ValidationRules.FluentValidation
+﻿using Business.Dtos.CourseDetail.Requests;
+using Business.Dtos.CourseExam.Requests;
+using FluentValidation;
+
+namespace Business.ValidationRules.FluentValidation
 {
-    public class CourseExamRequestValidator
+    public class CourseExamRequestValidator : AbstractValidator<CreateCourseExamRequest>
     {
+        public CourseExamRequestValidator()
+        {
+
+        }
     }
 }

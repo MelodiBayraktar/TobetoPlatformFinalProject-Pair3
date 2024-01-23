@@ -1,3 +1,4 @@
+using System.Configuration;
 using AutoMapper;
 using Business.Abstracts;
 using Business.Dtos.AnnouncementsNewsCategory.Requests;
@@ -23,6 +24,7 @@ public class AnnouncementsNewsCategoryManager : IAnnouncementsNewsCategoryServic
         _mapper = mapper;
     }
 
+    [ValidationAspect(typeof(AnnouncementsNewsCategoryRequestValidator))]
     public async Task<CreatedAnnouncementsNewsCategoryResponse> AddAsync(CreateAnnouncementsNewsCategoryRequest createAnnouncementsNewsCategoryRequest)
     {
         var announcementsNewsCategory = _mapper.Map<AnnouncementsNewsCategory>(createAnnouncementsNewsCategoryRequest);

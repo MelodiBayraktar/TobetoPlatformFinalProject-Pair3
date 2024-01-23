@@ -2,6 +2,8 @@ using AutoMapper;
 using Business.Abstracts;
 using Business.Dtos.PasswordReset.Requests;
 using Business.Dtos.PasswordReset.Responses;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using DataAccess.Abstracts;
 using Entities.Concretes;
 
@@ -44,6 +46,7 @@ public class PasswordResetManager : IPasswordResetService
     //    return _mapper.Map<Paginate<GetListedPasswordResetResponse>>(getList);
     //}
 
+    [ValidationAspect(typeof(PasswordResetUpdateValidator))]
     public async Task<UpdatedPasswordResetResponse> UpdateAsync(UpdatePasswordResetRequest updatePasswordResetRequest)
     {
         var passwordReset = _mapper.Map<PasswordReset>(updatePasswordResetRequest);

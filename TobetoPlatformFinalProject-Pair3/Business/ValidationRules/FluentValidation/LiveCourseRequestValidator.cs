@@ -1,6 +1,14 @@
-﻿namespace Business.ValidationRules.FluentValidation
+﻿using Business.Dtos.LiveContent.Requests;
+using Business.Dtos.LiveCourse.Requests;
+using FluentValidation;
+
+namespace Business.ValidationRules.FluentValidation
 {
-    public class LiveCourseRequestValidator
+    public class LiveCourseRequestValidator : AbstractValidator<CreateLiveCourseRequest>
     {
+        public LiveCourseRequestValidator()
+        {
+
+        }
     }
 }
