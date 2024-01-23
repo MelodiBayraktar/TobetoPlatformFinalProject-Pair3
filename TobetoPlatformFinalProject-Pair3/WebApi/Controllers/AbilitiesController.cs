@@ -15,17 +15,17 @@ public class AbilitiesController : ControllerBase
         _abilityService = abilityService;
     }
     [HttpPost("Add")]
-    public async Task<IActionResult> AddAsync([FromQuery] CreateAbilityRequest createAbilityRequest)
+    public async Task<IActionResult> AddAsync([FromBody] CreateAbilityRequest createAbilityRequest)
     {
         var result = await _abilityService.AddAsync(createAbilityRequest); return Ok(result);
     }
     [HttpPost("Update")]
-    public async Task<IActionResult> UpdateAsync([FromQuery] UpdateAbilityRequest updateAbilityRequest)
+    public async Task<IActionResult> UpdateAsync([FromBody] UpdateAbilityRequest updateAbilityRequest)
     {
         var result = await _abilityService.UpdateAsync(updateAbilityRequest); return Ok(result);
     }
     [HttpDelete("Delete")]
-    public async Task<IActionResult> DeleteAsync([FromQuery] DeleteAbilityRequest deleteAbilityRequest)
+    public async Task<IActionResult> DeleteAsync([FromBody] DeleteAbilityRequest deleteAbilityRequest)
     {
         var result = await _abilityService.DeleteAsync(deleteAbilityRequest); return Ok(result);
     }
