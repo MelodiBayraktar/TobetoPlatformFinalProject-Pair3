@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
+using Business.BusinessRules;
 using Business.Dtos.Ability.Responses;
 using Business.Dtos.Announcement.Requests;
 using Business.Dtos.Announcement.Responses;
@@ -18,11 +19,13 @@ public class AnnouncementManager : IAnnouncementService
 {
     private IAnnouncementDal _announcementDal;
     private IMapper _mapper;
+    private AnnouncementBusinessRules _announcementBusinessRules;
 
-    public AnnouncementManager(IAnnouncementDal announcementDal, IMapper mapper)
+    public AnnouncementManager(IAnnouncementDal announcementDal, IMapper mapper, AnnouncementBusinessRules announcementBusinessRules)
     {
         _announcementDal = announcementDal;
         _mapper = mapper;
+        _announcementBusinessRules = announcementBusinessRules;
     }
 
     [ValidationAspect(typeof(AnnouncementRequestValidator))]
@@ -49,6 +52,7 @@ public class AnnouncementManager : IAnnouncementService
     public async Task<GetAnnouncementResponse> GetById(GetAnnouncementRequest getAnnouncementRequest)
     {
         var getAnnouncement = await _announcementDal.GetAsync(c => c.Id == getAnnouncementRequest.Id);
+        await _announcementBusinessRules.AnnouncementMustExistWhenSelected(getAnnouncement);
         return _mapper.Map<GetAnnouncementResponse>(getAnnouncement);
     }
 

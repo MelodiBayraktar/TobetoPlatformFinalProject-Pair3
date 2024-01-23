@@ -46,7 +46,7 @@ public class PasswordResetManager : IPasswordResetService
     //    return _mapper.Map<Paginate<GetListedPasswordResetResponse>>(getList);
     //}
 
-    [ValidationAspect(typeof(PasswordResetUpdateValidator))]
+    [ValidationAspect(typeof(PasswordResetRequestValidator))]
     public async Task<UpdatedPasswordResetResponse> UpdateAsync(UpdatePasswordResetRequest updatePasswordResetRequest)
     {
         var passwordReset = _mapper.Map<PasswordReset>(updatePasswordResetRequest);

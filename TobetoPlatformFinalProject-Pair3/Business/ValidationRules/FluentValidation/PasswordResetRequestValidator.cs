@@ -4,9 +4,9 @@ using FluentValidation;
 
 namespace Business.ValidationRules.FluentValidation
 {
-    public class PasswordResetUpdateValidator : AbstractValidator<UpdatePasswordResetRequest>
+    public class PasswordResetRequestValidator : AbstractValidator<UpdatePasswordResetRequest>
     {
-        public PasswordResetUpdateValidator()
+        public PasswordResetRequestValidator()
         {
             RuleFor(r => r.Email).MinimumLength(5).NotEmpty().EmailAddress();
             
