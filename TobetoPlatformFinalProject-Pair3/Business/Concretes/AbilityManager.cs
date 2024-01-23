@@ -29,7 +29,7 @@ public class AbilityManager : IAbilityService
         _abilityBusinessRules = abilityBusinessRules;
     }
 
-    [SecuredOperation("admin")]
+    [SecuredOperation("abilities.add,admin")]
 
     public async Task<CreatedAbilityResponse> AddAsync(CreateAbilityRequest createAbilityRequest)
     {

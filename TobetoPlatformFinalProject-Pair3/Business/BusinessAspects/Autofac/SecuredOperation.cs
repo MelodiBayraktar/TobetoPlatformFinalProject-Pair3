@@ -23,6 +23,7 @@ namespace Business.BusinessAspects.Autofac
         {
             _roles = roles.Split(',');
             _httpContextAccessor = ServiceTool.ServiceProvider.GetService<IHttpContextAccessor>();
+
         }
 
         protected override void OnBefore(IInvocation invocation)
@@ -30,16 +31,12 @@ namespace Business.BusinessAspects.Autofac
             var roleClaims = _httpContextAccessor.HttpContext.User.ClaimRoles();
             foreach (var role in _roles)
             {
-                //if (roleClaims.Contains(role))
-                //{
-                //    return;
-                //}
-                if (roleClaims.AsQueryable().SingleOrDefault(r => r == role).IsNullOrEmpty())
+                if (roleClaims.Contains(role))
                 {
                     return;
                 }
             }
-            throw new Exception(BusinessMessages.AuthorizationDenied);
+            throw new Exception("Erişim engellendi.");
         }
     }
 }
