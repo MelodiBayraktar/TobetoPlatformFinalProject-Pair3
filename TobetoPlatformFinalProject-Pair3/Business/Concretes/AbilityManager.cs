@@ -5,6 +5,7 @@ using Business.BusinessRules;
 using Business.Dtos.Ability.Requests;
 using Business.Dtos.Ability.Responses;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Validation;
 using Core.DataAccess.Paging;
 using Core.Utilities.Business.Requests;
@@ -30,20 +31,19 @@ public class AbilityManager : IAbilityService
     }
 
     [SecuredOperation("abilities.add,admin")]
-
+    [ValidationAspect(typeof(AbilityRequestValidator), Priority = 2)]
+    [CacheRemoveAspect("IAbilityService.Get")]
     public async Task<CreatedAbilityResponse> AddAsync(CreateAbilityRequest createAbilityRequest)
     {
         //var ability = _mapper.Map<Ability>(createAbilityRequest);
         //await _abilityBusinessRules.AbilityShouldExistWhenSelected(ability);
-
         //var createAbility = await _abilityDal.AddAsync(ability);
         //return _mapper.Map<CreatedAbilityResponse>(createAbility);
+
         var ability = _mapper.Map<Ability>(createAbilityRequest);
         await _abilityBusinessRules.AbilityShouldExistWhenSelected(ability);
         Expression<Func<Ability, object>> includeExpressionForUser = x => x.User;
-
         var createAbility = await _abilityDal.AddAsync(ability, includeExpressionForUser);
-
         return _mapper.Map<CreatedAbilityResponse>(createAbility);
     }
 
@@ -54,12 +54,14 @@ public class AbilityManager : IAbilityService
         return _mapper.Map<DeletedAbilityResponse>(deleteAbility);
     }
 
+    [CacheAspect(duration: 10)]
     public async Task<GetAbilityResponse> GetById(GetAbilityRequest getAbilityRequest)
     {
         var getAbility = await _abilityDal.GetAsync(c => c.Id == getAbilityRequest.Id);
         return _mapper.Map<GetAbilityResponse>(getAbility);
     }
 
+    [CacheAspect(duration: 10)]
     public async Task<IPaginate<GetListedAbilityResponse>> GetListAsync(PageRequest pageRequest)
     {
         var getList = await _abilityDal.GetListAsync(include: p => p.Include(p => p.User), index: pageRequest.Index, size: pageRequest.Size);
