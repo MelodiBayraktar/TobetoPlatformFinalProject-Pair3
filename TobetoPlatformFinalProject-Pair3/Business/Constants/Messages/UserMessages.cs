@@ -14,7 +14,7 @@ public class UserMessages
     public static string MustContainAtMaxTenChar = "En fazla 10 karakter olmalıdır.";
     
     public static string PleaseEnterAStrongerPassword = "Daha güçlü bir şifre giriniz.";
-    public static string PleaseEnterAValidNationalyIdNumber = "Lütfen geçerli bir kimlik numarası giriniz.";
+    public static string PleaseEnterAValidNationalityIdNumber = "Lütfen geçerli bir kimlik numarası giriniz.";
     
     public static string Success ="Giriş Başarılı.";
     public static string AuthorizationDenied="Yetki verilme reddedildi.";
