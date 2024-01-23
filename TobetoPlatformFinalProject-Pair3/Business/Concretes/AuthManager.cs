@@ -59,7 +59,7 @@ public class AuthManager : IAuthService
     [ValidationAspect(typeof(AuthLoginRequestValidator))]
     public async Task<IUser> Login(AuthForLoginRequest authForLoginRequest)
     {
-        User user = _mapper.Map<User>(authForLoginRequest);
+        //User user = _mapper.Map<User>(authForLoginRequest);
         var userToCheck = await _userService.GetByMailAsync(authForLoginRequest.Email);
         await _authLoginBusinessRules.EmailExist(authForLoginRequest.Email);
         await _authLoginBusinessRules.UserPasswordMustBeMatched(authForLoginRequest);
@@ -71,7 +71,7 @@ public class AuthManager : IAuthService
 
         //    throw new BusinessException(BusinessMessages.UserNotBeExist);
         //}
-        return user;
+        return userToCheck;
     }
 
     [ValidationAspect(typeof(AuthRegisterRequestValidator))]
