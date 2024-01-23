@@ -9,6 +9,8 @@ namespace Business.ValidationRules.FluentValidation
         public NewsRequestValidator()
         {
 
+            RuleFor(p => p.Title).NotEmpty().MaximumLength(25);
+            RuleFor(p => p.NewsContent).NotEmpty().MaximumLength(1500);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Business.Constants;
+﻿using Business.Constants.Messages;
 using Core.CrossCuttingConcerns.Exceptions.Types;
 using Core.Utilities.Business.Rules;
 using DataAccess.Abstracts;
@@ -11,21 +11,21 @@ using System.Threading.Tasks;
 
 namespace Business.BusinessRules
 {
-    public class UserBusinessRules : BaseBusinessRules
+    public class NewsBusinessRules : BaseBusinessRules
     {
-        IUserDal _userDal;
 
-        public UserBusinessRules(IUserDal userDal)
+        INewsDal _newsDal;
+
+        public NewsBusinessRules (INewsDal newsDal)
         {
-            _userDal = userDal;
+            _newsDal = newsDal;
         }
 
-        public Task CheckIfUserNotExist(User? user)
+        public Task NewsMustExistWhenSelected(News news)
         {
-            if (user == null) throw new BusinessException(UserMessages.UserNotBeExist);
+            if (news == null)
+                throw new BusinessException(NewsMessages.NewsNotExists);
             return Task.CompletedTask;
-
         }
     }
-
 }

@@ -12,9 +12,6 @@ namespace Business.Constants.Messages
         public static string Max11Number = "TC kimlik numarası 11 haneli olmalıdır.";
         public static string Min11Number = "TC kimlik numarası 11 haneli olmalıdır.";
         public static string Max200Char = "Karakter sayısı en fazla 200 olabilir.";
-
-
-
-
+        public static string PersonalInfoNotExists = "Kişisel bilgi bulunamadı.";
     }
 }
