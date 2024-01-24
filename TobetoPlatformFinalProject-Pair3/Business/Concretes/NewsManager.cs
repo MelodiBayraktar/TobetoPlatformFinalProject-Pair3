@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
+using Business.BusinessAspects.Autofac;
 using Business.Dtos.Announcement.Responses;
 using Business.Dtos.News.Requests;
 using Business.Dtos.News.Responses;
@@ -24,7 +25,8 @@ public class NewsManager : INewsService
         _newsDal = newsDal;
         _mapper = mapper;
     }
-
+    [SecuredOperation("news.add,admin")]
+    [ValidationAspect(typeof(NewsRequestValidator))]
     public async Task<CreatedNewsResponse> AddAsync(CreateNewsRequest createNewsRequest)
     {
         // var news = _mapper.Map<News>(createNewsRequest);
@@ -37,7 +39,7 @@ public class NewsManager : INewsService
         var createNews = await _newsDal.AddAsync(news, includeExpressionForProject,includeExpressionForAnnouncementsNewsCategory);
         return _mapper.Map<CreatedNewsResponse>(createNews);    
     }
-
+    [SecuredOperation("news.delete,admin")]
     public async Task<DeletedNewsResponse> DeleteAsync(DeleteNewsRequest deleteNewsRequest)
     {
         var news = await _newsDal.GetAsync(c => c.Id == deleteNewsRequest.Id);
@@ -56,7 +58,7 @@ public class NewsManager : INewsService
         var getList = await _newsDal.GetListAsync(include: p => p.Include(p => p.Project).Include(p => p.AnnouncementsNewsCategory), index: pageRequest.Index, size: pageRequest.Size);
         return _mapper.Map<Paginate<GetListedNewsResponse>>(getList);
     }
-
+    [SecuredOperation("news.update,admin")]
     public async Task<UpdatedNewsResponse> UpdateAsync(UpdateNewsRequest updateNewsRequest)
     {
         var news = _mapper.Map<News>(updateNewsRequest);

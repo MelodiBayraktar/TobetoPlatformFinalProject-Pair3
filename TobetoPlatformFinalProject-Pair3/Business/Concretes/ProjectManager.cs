@@ -1,5 +1,6 @@
 using AutoMapper;
 using Business.Abstracts;
+using Business.BusinessAspects.Autofac;
 using Business.Dtos.Project.Requests;
 using Business.Dtos.Project.Responses;
 using Business.ValidationRules.FluentValidation;
@@ -21,14 +22,15 @@ public class ProjectManager : IProjectService
         _projectDal = projectDal;
         _mapper = mapper;
     }
-
+    [SecuredOperation("projects.add,admin")]
+    [ValidationAspect(typeof(ProjectRequestValidator))]
     public async Task<CreatedProjectResponse> AddAsync(CreateProjectRequest createProjectRequest)
     {
         var project = _mapper.Map<Project>(createProjectRequest);
         var createProject = await _projectDal.AddAsync(project);
         return _mapper.Map<CreatedProjectResponse>(createProject);
     }
-
+    [SecuredOperation("projects.delete,admin")]
     public async Task<DeletedProjectResponse> DeleteAsync(DeleteProjectRequest deleteProjectRequest)
     {
         var project = await _projectDal.GetAsync(c => c.Id == deleteProjectRequest.Id);
@@ -47,7 +49,7 @@ public class ProjectManager : IProjectService
         var getList = await _projectDal.GetListAsync(index: pageRequest.Index, size: pageRequest.Size);
         return _mapper.Map<Paginate<GetListedProjectResponse>>(getList);
     }
-
+    [SecuredOperation("projects.update,admin")]
     public async Task<UpdatedProjectResponse> UpdateAsync(UpdateProjectRequest updateProjectRequest)
     {
         var project = _mapper.Map<Project>(updateProjectRequest);

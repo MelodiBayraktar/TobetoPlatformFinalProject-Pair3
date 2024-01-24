@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
+using Business.BusinessAspects.Autofac;
 using Business.Dtos.Education.Responses;
 using Business.Dtos.Experience.Requests;
 using Business.Dtos.Experience.Responses;
@@ -25,7 +26,7 @@ public class ExperienceManager : IExperienceService
         _experienceDal = experienceDal;
         _mapper = mapper;
     }
-
+    [SecuredOperation("experiences.add,admin,mod")]
     [ValidationAspect(typeof(ExperienceRequestValidator))]
     public async Task<CreatedExperienceResponse> AddAsync(CreateExperienceRequest createExperienceRequest)
     {

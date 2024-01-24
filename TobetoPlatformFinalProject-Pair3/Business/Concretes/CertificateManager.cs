@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
+using Business.BusinessAspects.Autofac;
 using Business.Dtos.Ability.Responses;
 using Business.Dtos.Certificate.Requests;
 using Business.Dtos.Certificate.Responses;
@@ -24,7 +25,8 @@ public class CertificateManager : ICertificateService
         _certificateDal = certificateDal;
         _mapper = mapper;
     }
-
+    [SecuredOperation("certificates.add,admin,mod")]
+    [ValidationAspect(typeof(CertificateRequestValidator))]
     public async Task<CreatedCertificateResponse> AddAsync(CreateCertificateRequest createCertificateRequest)
     {
         // var certificate = _mapper.Map<Certificate>(createCertificateRequest);

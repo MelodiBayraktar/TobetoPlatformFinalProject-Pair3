@@ -1,5 +1,6 @@
 using AutoMapper;
 using Business.Abstracts;
+using Business.BusinessAspects.Autofac;
 using Business.Dtos.PasswordReset.Requests;
 using Business.Dtos.PasswordReset.Responses;
 using Business.ValidationRules.FluentValidation;
@@ -45,7 +46,7 @@ public class PasswordResetManager : IPasswordResetService
     //    var getList = await _passwordResetDal.GetListAsync(index: pageRequest.Index, size: pageRequest.Size);
     //    return _mapper.Map<Paginate<GetListedPasswordResetResponse>>(getList);
     //}
-
+    [SecuredOperation("passwordResets.update,admin")]
     [ValidationAspect(typeof(PasswordResetRequestValidator))]
     public async Task<UpdatedPasswordResetResponse> UpdateAsync(UpdatePasswordResetRequest updatePasswordResetRequest)
     {

@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
+using Business.BusinessAspects.Autofac;
 using Business.Dtos.Instructor.Responses;
 using Business.Dtos.Settings.Requests;
 using Business.Dtos.Settings.Responses;
@@ -24,7 +25,8 @@ public class SettingsManager : ISettingsService
         _settingsDal = settingsDal;
         _mapper = mapper;
     }
-
+    [SecuredOperation("settings.add,admin,mod")]
+    [ValidationAspect(typeof(SettingsRequestValidator))]
     public async Task<CreatedSettingsResponse> AddAsync(CreateSettingsRequest createSettingsRequest)
     {
         // var settings = _mapper.Map<Settings>(createSettingsRequest);

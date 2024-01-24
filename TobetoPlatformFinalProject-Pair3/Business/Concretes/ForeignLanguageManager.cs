@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
+using Business.BusinessAspects.Autofac;
 using Business.Dtos.Experience.Responses;
 using Business.Dtos.ForeignLanguage.Requests;
 using Business.Dtos.ForeignLanguage.Responses;
@@ -25,7 +26,7 @@ public class ForeignLanguageManager : IForeignLanguageService
         _foreignLanguageDal = foreignLanguageDal;
         _mapper = mapper;
     }
-
+    [SecuredOperation("foreignLanguages.add,admin,mod")]
     [ValidationAspect(typeof(ForeignLanguageRequestValidator))]
     public async Task<CreatedForeignLanguageResponse> AddAsync(CreateForeignLanguageRequest createForeignLanguageRequest)
     {

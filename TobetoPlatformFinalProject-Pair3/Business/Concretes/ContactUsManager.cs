@@ -22,9 +22,8 @@ public class ContactUsManager:IContactUsService
         _contactUsDal = contactUsDal;
         _mapper = mapper;
     }
-
-    //[SecuredOperation("admin")]
-
+    
+    [ValidationAspect(typeof(ContactUsRequestValidator))]
     public async Task<CreatedContactUsResponse> AddAsync(CreateContactUsRequest createContactUsRequest)
     {
         var contactUs = _mapper.Map<ContactUs>(createContactUsRequest);

@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
+using Business.BusinessAspects.Autofac;
 using Business.Dtos.LiveCourse.Responses;
 using Business.Dtos.Session.Requests;
 using Business.Dtos.Session.Responses;
@@ -24,7 +25,9 @@ public class SessionManager : ISessionService
         _sessionDal = sessionDal;
         _mapper = mapper;
     }
+    [SecuredOperation("sessions.add,admin")]
 
+    [ValidationAspect(typeof(SessionRequestValidator))]
     public async Task<CreatedSessionResponse> AddAsync(CreateSessionRequest createSessionRequest)
     {
         // var session = _mapper.Map<Session>(createSessionRequest);
@@ -37,7 +40,7 @@ public class SessionManager : ISessionService
         var createSession = await _sessionDal.AddAsync(session, includeExpressionForLiveContent,includeExpressionForInstructor);
         return _mapper.Map<CreatedSessionResponse>(createSession);
     }
-
+    [SecuredOperation("sessions.delete,admin")]
     public async Task<DeletedSessionResponse> DeleteAsync(DeleteSessionRequest deleteSessionRequest)
     {
         var session = await _sessionDal.GetAsync(c => c.Id == deleteSessionRequest.Id);
@@ -56,7 +59,7 @@ public class SessionManager : ISessionService
         var getList = await _sessionDal.GetListAsync(include: p => p.Include(p => p.LiveContent).Include(p => p.Instructor),index: pageRequest.Index, size: pageRequest.Size);
         return _mapper.Map<Paginate<GetListedSessionResponse>>(getList);
     }
-
+    [SecuredOperation("sessions.update,admin")]
     public async Task<UpdatedSessionResponse> UpdateAsync(UpdateSessionRequest updateSessionRequest)
     {
         var session = _mapper.Map<Session>(updateSessionRequest);

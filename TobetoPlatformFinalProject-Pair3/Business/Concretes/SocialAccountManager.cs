@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
+using Business.BusinessAspects.Autofac;
 using Business.BusinessRules;
 using Business.Dtos.Ability.Responses;
 using Business.Dtos.SocialAccount.Requests;
@@ -28,7 +29,7 @@ public class SocialAccountManager : ISocialAccountService
         _mapper = mapper;
         _socialAccountBusinessRules = socialAccountBusinessRules;
     }
-
+    [SecuredOperation("socialAccounts.add,admin,mod")]
     [ValidationAspect(typeof(SocialAccountRequestValidator))]
     public async Task<CreatedSocialAccountResponse> AddAsync(CreateSocialAccountRequest createSocialAccountRequest)
     {

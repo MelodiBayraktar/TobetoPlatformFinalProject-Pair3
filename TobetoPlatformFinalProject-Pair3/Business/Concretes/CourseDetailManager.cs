@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
+using Business.BusinessAspects.Autofac;
 using Business.Dtos.CourseDetail.Requests;
 using Business.Dtos.CourseDetail.Responses;
 using Business.ValidationRules.FluentValidation;
@@ -24,7 +25,8 @@ public class CourseDetailManager : ICourseDetailService
         _courseDetailDal = courseDetailDal;
         _mapper = mapper;
     }
-
+    [SecuredOperation("courseDetails.add,admin")]
+    [ValidationAspect(typeof(CourseDetailRequestValidator))]
     public async Task<CreatedCourseDetailResponse> AddAsync(CreateCourseDetailRequest createCourseDetailRequest)
     {
         // var courseDetail = _mapper.Map<CourseDetail>(createCourseDetailRequest);
@@ -36,7 +38,7 @@ public class CourseDetailManager : ICourseDetailService
         var createCourseDetail = await _courseDetailDal.AddAsync(courseDetail, includeExpressionForCourseCategory);
         return _mapper.Map<CreatedCourseDetailResponse>(createCourseDetail);
     }
-
+    [SecuredOperation("courseDetails.delete,admin")]
     public async Task<DeletedCourseDetailResponse> DeleteAsync(DeleteCourseDetailRequest deleteCourseDetailRequest)
     {
         var courseDetail = await _courseDetailDal.GetAsync(c => c.Id == deleteCourseDetailRequest.Id);
@@ -55,7 +57,7 @@ public class CourseDetailManager : ICourseDetailService
         var getList = await _courseDetailDal.GetListAsync(include: p => p.Include(p => p.CourseCategory), index: pageRequest.Index, size: pageRequest.Size);
         return _mapper.Map<Paginate<GetListedCourseDetailResponse>>(getList);
     }
-
+    [SecuredOperation("courseDetails.update,admin")]
     public async Task<UpdatedCourseDetailResponse> UpdateAsync(UpdateCourseDetailRequest updateCourseDetailRequest)
     {
         var courseDetail = _mapper.Map<CourseDetail>(updateCourseDetailRequest);

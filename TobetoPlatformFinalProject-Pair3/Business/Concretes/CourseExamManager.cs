@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
+using Business.BusinessAspects.Autofac;
 using Business.Dtos.Announcement.Responses;
 using Business.Dtos.AsyncCourse.Responses;
 using Business.Dtos.CourseExam.Requests;
@@ -26,7 +27,8 @@ public class CourseExamManager : ICourseExamService
         _courseExamDal = courseExamDal;
         _mapper = mapper;
     }
-
+    [SecuredOperation("courseExams.add,admin")]
+    [ValidationAspect(typeof(CourseExamRequestValidator))]
     public async Task<CreatedCourseExamResponse> AddAsync(CreateCourseExamRequest createCourseExamRequest)
     {
         // var courseExam = _mapper.Map<CourseExam>(createCourseExamRequest);
@@ -38,7 +40,7 @@ public class CourseExamManager : ICourseExamService
         var createCourseExam = await _courseExamDal.AddAsync(courseExam, includeExpressionForStudent);
         return _mapper.Map<CreatedCourseExamResponse>(createCourseExam);    
     }
-
+    [SecuredOperation("courseExams.delete,admin")]
     public async Task<DeletedCourseExamResponse> DeleteAsync(DeleteCourseExamRequest deleteCourseExamRequest)
     {
         var courseExam = await _courseExamDal.GetAsync(c => c.Id == deleteCourseExamRequest.Id);
@@ -58,7 +60,7 @@ public class CourseExamManager : ICourseExamService
         return _mapper.Map<Paginate<GetListedCourseExamResponse>>(getList);
   
     }
-
+    [SecuredOperation("courseExams.update,admin")]
     public async Task<UpdatedCourseExamResponse> UpdateAsync(UpdateCourseExamRequest updateCourseExamRequest)
     {
         var courseExam = _mapper.Map<CourseExam>(updateCourseExamRequest);

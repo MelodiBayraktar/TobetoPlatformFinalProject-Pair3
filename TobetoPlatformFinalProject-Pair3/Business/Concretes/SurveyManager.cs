@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
+using Business.BusinessAspects.Autofac;
 using Business.Dtos.Student.Responses;
 using Business.Dtos.Survey.Requests;
 using Business.Dtos.Survey.Responses;
@@ -24,7 +25,8 @@ public class SurveyManager : ISurveyService
         _surveyDal = surveyDal;
         _mapper = mapper;
     }
-
+    [SecuredOperation("surveys.add,admin")]
+    [ValidationAspect(typeof(SurveyRequestValidator))]
     public async Task<CreatedSurveyResponse> AddAsync(CreateSurveyRequest createSurveyRequest)
     {
         // var survey = _mapper.Map<Survey>(createSurveyRequest);
@@ -36,7 +38,7 @@ public class SurveyManager : ISurveyService
         var createSurvey = await _surveyDal.AddAsync(survey, includeExpressionForStudent);
         return _mapper.Map<CreatedSurveyResponse>(createSurvey);
     }
-
+    [SecuredOperation("surveys.delete,admin")]
     public async Task<DeletedSurveyResponse> DeleteAsync(DeleteSurveyRequest deleteSurveyRequest)
     {
         var survey = await _surveyDal.GetAsync(c => c.Id == deleteSurveyRequest.Id);
@@ -55,7 +57,7 @@ public class SurveyManager : ISurveyService
         var getList = await _surveyDal.GetListAsync(include: p => p.Include(p => p.Student),index: pageRequest.Index, size: pageRequest.Size);
         return _mapper.Map<Paginate<GetListedSurveyResponse>>(getList);
     }
-
+    [SecuredOperation("surveys.update,admin")]
     public async Task<UpdatedSurveyResponse> UpdateAsync(UpdateSurveyRequest updateSurveyRequest)
     {
         var survey = _mapper.Map<Survey>(updateSurveyRequest);

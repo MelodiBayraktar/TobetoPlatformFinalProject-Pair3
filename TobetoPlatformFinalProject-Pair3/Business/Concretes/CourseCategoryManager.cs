@@ -1,5 +1,6 @@
 using AutoMapper;
 using Business.Abstracts;
+using Business.BusinessAspects.Autofac;
 using Business.Dtos.CourseCategory.Requests;
 using Business.Dtos.CourseCategory.Responses;
 using Business.ValidationRules.FluentValidation;
@@ -21,14 +22,15 @@ public class CourseCategoryManager : ICourseCategoryService
         _courseCategoryDal = courseCategoryDal;
         _mapper = mapper;
     }
-
+    [SecuredOperation("courseCategories.add,admin")]
+    [ValidationAspect(typeof(CourseCategoryRequestValidator))]
     public async Task<CreatedCourseCategoryResponse> AddAsync(CreateCourseCategoryRequest createCourseCategoryRequest)
     {
         var courseCategory = _mapper.Map<CourseCategory>(createCourseCategoryRequest);
         var createCourseCategory = await _courseCategoryDal.AddAsync(courseCategory);
         return _mapper.Map<CreatedCourseCategoryResponse>(createCourseCategory);
     }
-
+    [SecuredOperation("courseCategories.delete,admin")]
     public async Task<DeletedCourseCategoryResponse> DeleteAsync(DeleteCourseCategoryRequest deleteCourseCategoryRequest)
     {
         var courseCategory = await _courseCategoryDal.GetAsync(c => c.Id == deleteCourseCategoryRequest.Id);
@@ -47,7 +49,7 @@ public class CourseCategoryManager : ICourseCategoryService
         var getList = await _courseCategoryDal.GetListAsync(index: pageRequest.Index, size: pageRequest.Size);
         return _mapper.Map<Paginate<GetListedCourseCategoryResponse>>(getList);
     }
-
+    [SecuredOperation("courseCategories.update,admin")]
     public async Task<UpdatedCourseCategoryResponse> UpdateAsync(UpdateCourseCategoryRequest updateCourseCategoryRequest)
     {
         var courseCategory = _mapper.Map<CourseCategory>(updateCourseCategoryRequest);

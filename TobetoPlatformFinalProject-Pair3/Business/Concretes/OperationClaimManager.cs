@@ -1,6 +1,7 @@
 using AutoMapper;
 using Azure.Core;
 using Business.Abstracts;
+using Business.BusinessAspects.Autofac;
 using Business.Dtos.OperationClaim.Requests;
 using Business.Dtos.OperationClaim.Responses;
 using Business.ValidationRules.FluentValidation;
@@ -24,14 +25,14 @@ public class OperationClaimManager : IOperationClaimService
         _operationClaimDal = operationClaimDal;
         _mapper = mapper;
     }
-
+    [SecuredOperation("operationClaims.add,admin")]
     public async Task<CreatedOperationClaimResponse> AddAsync(CreateOperationClaimRequest createOperationClaimRequest)
     {
         var operationClaim = _mapper.Map<OperationClaim>(createOperationClaimRequest);
         var createOperationClaim = await _operationClaimDal.AddAsync(operationClaim);
         return _mapper.Map<CreatedOperationClaimResponse>(createOperationClaim);
     }
-
+    [SecuredOperation("operationClaims.delete,admin")]
     public async Task<DeletedOperationClaimResponse> DeleteAsync(DeleteOperationClaimRequest deleteOperationClaimRequest)
     {
         var operationClaim = await _operationClaimDal.GetAsync(c => c.Id == deleteOperationClaimRequest.Id);
@@ -51,7 +52,7 @@ public class OperationClaimManager : IOperationClaimService
         Paginate<GetListedOperationClaimResponse> response = _mapper.Map<Paginate<GetListedOperationClaimResponse>>(result);
         return response;
     }
-
+    [SecuredOperation("operationClaims.update,admin")]
     public async Task<UpdatedOperationClaimResponse> UpdateAsync(UpdateOperationClaimRequest updateOperationClaimRequest)
     {
         var operationClaim = _mapper.Map<OperationClaim>(updateOperationClaimRequest);

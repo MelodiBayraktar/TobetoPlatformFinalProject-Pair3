@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
+using Business.BusinessAspects.Autofac;
 using Business.Dtos.ForeignLanguage.Responses;
 using Business.Dtos.Instructor.Requests;
 using Business.Dtos.Instructor.Responses;
@@ -25,7 +26,8 @@ public class InstructorManager : IInstructorService
         _instructorDal = instructorDal;
         _mapper = mapper;
     }
-
+    [SecuredOperation("instructors.add,admin")]
+    [ValidationAspect(typeof(InstructorRequestValidator))]
     public async Task<CreatedInstructorResponse> AddAsync(CreateInstructorRequest createInstructorRequest)
     {
         // var instructor = _mapper.Map<Instructor>(createInstructorRequest);
@@ -37,7 +39,7 @@ public class InstructorManager : IInstructorService
         var createInstructor = await _instructorDal.AddAsync(instructor, includeExpressionForUser);
         return _mapper.Map<CreatedInstructorResponse>(createInstructor);
     }
-
+    [SecuredOperation("instructors.delete,admin")]
     public async Task<DeletedInstructorResponse> DeleteAsync(DeleteInstructorRequest deleteInstructorRequest)
     {
         var instructor = await _instructorDal.GetAsync(c => c.Id == deleteInstructorRequest.Id);
@@ -56,7 +58,7 @@ public class InstructorManager : IInstructorService
         var getList = await _instructorDal.GetListAsync(include: p => p.Include(p => p.User), index: pageRequest.Index, size: pageRequest.Size);
         return _mapper.Map<Paginate<GetListedInstructorResponse>>(getList);
     }
-
+    [SecuredOperation("instructors.update,admin")]
     public async Task<UpdatedInstructorResponse> UpdateAsync(UpdateInstructorRequest updateInstructorRequest)
     {
         var instructor = _mapper.Map<Instructor>(updateInstructorRequest);

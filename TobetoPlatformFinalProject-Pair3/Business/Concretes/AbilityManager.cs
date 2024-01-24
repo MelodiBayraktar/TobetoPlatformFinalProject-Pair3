@@ -29,9 +29,9 @@ public class AbilityManager : IAbilityService
         _mapper = mapper;
         _abilityBusinessRules = abilityBusinessRules;
     }
-
-    [SecuredOperation("abilities.add,admin")]
-    [ValidationAspect(typeof(AbilityRequestValidator), Priority = 2)]
+  
+    [SecuredOperation("abilities.add,admin,mod")]
+    [ValidationAspect(typeof(AbilityRequestValidator))]
     [CacheRemoveAspect("IAbilityService.Get")]
     public async Task<CreatedAbilityResponse> AddAsync(CreateAbilityRequest createAbilityRequest)
     {

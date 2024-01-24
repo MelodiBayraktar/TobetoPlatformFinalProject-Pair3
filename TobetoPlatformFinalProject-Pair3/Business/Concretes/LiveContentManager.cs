@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
+using Business.BusinessAspects.Autofac;
 using Business.Dtos.LiveContent.Requests;
 using Business.Dtos.LiveContent.Responses;
 using Business.ValidationRules.FluentValidation;
@@ -23,7 +24,8 @@ public class LiveContentManager : ILiveContentService
         _liveContentDal = liveContentDal;
         _mapper = mapper;
     }
-
+    [SecuredOperation("liveContents.add,admin")]
+    [ValidationAspect(typeof(LiveContentRequestValidator))]
     public async Task<CreatedLiveContentResponse> AddAsync(CreateLiveContentRequest createLiveContentRequest)
     {
         // var liveContent = _mapper.Map<LiveContent>(createLiveContentRequest);
@@ -35,7 +37,7 @@ public class LiveContentManager : ILiveContentService
         var createLiveContent = await _liveContentDal.AddAsync(liveContent, includeExpressionForLiveCourse);
         return _mapper.Map<CreatedLiveContentResponse>(createLiveContent);
     }
-
+    [SecuredOperation("liveContents.delete,admin")]
     public async Task<DeletedLiveContentResponse> DeleteAsync(DeleteLiveContentRequest deleteLiveContentRequest)
     {
         var liveContent = await _liveContentDal.GetAsync(c => c.Id == deleteLiveContentRequest.Id);
@@ -55,7 +57,7 @@ public class LiveContentManager : ILiveContentService
         return _mapper.Map<Paginate<GetListedLiveContentResponse>>(getList);
        
     }
-
+    [SecuredOperation("liveContents.update,admin")]
     public async Task<UpdatedLiveContentResponse> UpdateAsync(UpdateLiveContentRequest updateLiveContentRequest)
     {
         var liveContent = _mapper.Map<LiveContent>(updateLiveContentRequest);

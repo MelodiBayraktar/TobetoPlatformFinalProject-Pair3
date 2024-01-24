@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
+using Business.BusinessAspects.Autofac;
 using Business.Dtos.LiveCourse.Requests;
 using Business.Dtos.LiveCourse.Responses;
 using Business.ValidationRules.FluentValidation;
@@ -23,7 +24,8 @@ public class LiveCourseManager : ILiveCourseService
         _liveCourseDal = liveCourseDal;
         _mapper = mapper;
     }
-
+    [SecuredOperation("liveCourses.add,admin")]
+    [ValidationAspect(typeof(LiveCourseRequestValidator))]
     public async Task<CreatedLiveCourseResponse> AddAsync(CreateLiveCourseRequest createLiveCourseRequest)
     {
         // var liveCourse = _mapper.Map<LiveCourse>(createLiveCourseRequest);
@@ -36,7 +38,7 @@ public class LiveCourseManager : ILiveCourseService
         var createLiveCourse = await _liveCourseDal.AddAsync(liveCourse, includeExpressionForCourse,includeExpressionForCourseDetail);
         return _mapper.Map<CreatedLiveCourseResponse>(createLiveCourse);
     }
-
+    [SecuredOperation("liveCourses.delete,admin")]
     public async Task<DeletedLiveCourseResponse> DeleteAsync(DeleteLiveCourseRequest deleteLiveCourseRequest)
     {
         var liveCourse = await _liveCourseDal.GetAsync(c => c.Id == deleteLiveCourseRequest.Id);
@@ -55,7 +57,7 @@ public class LiveCourseManager : ILiveCourseService
         var getList = await _liveCourseDal.GetListAsync(include: p => p.Include(p => p.CourseDetail).Include(p => p.Course), index: pageRequest.Index, size: pageRequest.Size);
         return _mapper.Map<Paginate<GetListedLiveCourseResponse>>(getList);
     }
-
+    [SecuredOperation("liveCourses.update,admin")]
     public async Task<UpdatedLiveCourseResponse> UpdateAsync(UpdateLiveCourseRequest updateLiveCourseRequest)
     {
         var liveCourse = _mapper.Map<LiveCourse>(updateLiveCourseRequest);

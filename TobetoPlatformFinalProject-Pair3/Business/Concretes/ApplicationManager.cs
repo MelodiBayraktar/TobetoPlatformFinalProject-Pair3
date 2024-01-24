@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
+using Business.BusinessAspects.Autofac;
 using Business.Dtos.Application.Requests;
 using Business.Dtos.Application.Responses;
 using Business.ValidationRules.FluentValidation;
@@ -36,7 +37,7 @@ public class ApplicationManager : IApplicationService
         var createApplication = await _applicationDal.AddAsync(application, includeExpressionForProject);
         return _mapper.Map<CreatedApplicationResponse>(createApplication);    
     }
-
+    [SecuredOperation("applications.delete,admin")]
     public async Task<DeletedApplicationResponse> DeleteAsync(DeleteApplicationRequest deleteApplicationRequest)
     {
         var application = await _applicationDal.GetAsync(c => c.Id == deleteApplicationRequest.Id);

@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
+using Business.BusinessAspects.Autofac;
 using Business.Dtos.Student.Requests;
 using Business.Dtos.Student.Responses;
 using Business.ValidationRules.FluentValidation;
@@ -23,7 +24,8 @@ public class StudentManager : IStudentService
         _studentDal = studentDal;
         _mapper = mapper;
     }
-
+    [SecuredOperation("students.add,admin")]
+    [ValidationAspect(typeof(StudentRequestValidator))]
     public async Task<CreatedStudentResponse> AddAsync(CreateStudentRequest createStudentRequest)
     {
         // var student = _mapper.Map<Student>(createStudentRequest);
@@ -35,7 +37,7 @@ public class StudentManager : IStudentService
         var createStudent = await _studentDal.AddAsync(student, includeExpressionForUser);
         return _mapper.Map<CreatedStudentResponse>(createStudent);
     }
-
+    [SecuredOperation("students.delete,admin")]
     public async Task<DeletedStudentResponse> DeleteAsync(DeleteStudentRequest deleteStudentRequest)
     {
         var student = await _studentDal.GetAsync(c => c.Id == deleteStudentRequest.Id);
@@ -54,7 +56,7 @@ public class StudentManager : IStudentService
         var getList = await _studentDal.GetListAsync(include: p => p.Include(p => p.User), index: pageRequest.Index, size: pageRequest.Size);
         return _mapper.Map<Paginate<GetListedStudentResponse>>(getList);
     }
-
+    [SecuredOperation("students.update,admin")]
     public async Task<UpdatedStudentResponse> UpdateAsync(UpdateStudentRequest updateStudentRequest)
     {
         var student = _mapper.Map<Student>(updateStudentRequest);

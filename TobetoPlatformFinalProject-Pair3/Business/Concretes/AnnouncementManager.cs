@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
+using Business.BusinessAspects.Autofac;
 using Business.BusinessRules;
 using Business.Dtos.Ability.Responses;
 using Business.Dtos.Announcement.Requests;
@@ -27,7 +28,8 @@ public class AnnouncementManager : IAnnouncementService
         _mapper = mapper;
         _announcementBusinessRules = announcementBusinessRules;
     }
-
+    
+    [SecuredOperation("announcements.add,admin")]
     [ValidationAspect(typeof(AnnouncementRequestValidator))]
     public async Task<CreatedAnnouncementResponse> AddAsync(CreateAnnouncementRequest createAnnouncementRequest)
     {
@@ -41,7 +43,7 @@ public class AnnouncementManager : IAnnouncementService
         var createAnnouncement = await _announcementDal.AddAsync(announcement, includeExpressionForProject,includeExpressionForAnnouncementsNewsCategory);
         return _mapper.Map<CreatedAnnouncementResponse>(createAnnouncement);    
     }
-
+    [SecuredOperation("announcements.delete,admin")]
     public async Task<DeletedAnnouncementResponse> DeleteAsync(DeleteAnnouncementRequest deleteAnnouncementRequest)
     {
         var announcement = await _announcementDal.GetAsync(c => c.Id == deleteAnnouncementRequest.Id);
@@ -61,7 +63,7 @@ public class AnnouncementManager : IAnnouncementService
         var getList = await _announcementDal.GetListAsync(include: p => p.Include(p => p.Project).Include(p => p.AnnouncementsNewsCategory), index: pageRequest.Index, size: pageRequest.Size);
         return _mapper.Map<Paginate<GetListedAnnouncementResponse>>(getList);
     }
-
+    [SecuredOperation("announcements.update,admin")]
     public async Task<UpdatedAnnouncementResponse> UpdateAsync(UpdateAnnouncementRequest updateAnnouncementRequest)
     {
         var announcement = _mapper.Map<Announcement>(updateAnnouncementRequest);

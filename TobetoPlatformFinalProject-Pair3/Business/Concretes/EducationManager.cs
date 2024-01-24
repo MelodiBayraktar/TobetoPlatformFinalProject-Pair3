@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
+using Business.BusinessAspects.Autofac;
 using Business.Dtos.Course.Responses;
 using Business.Dtos.Education.Requests;
 using Business.Dtos.Education.Responses;
@@ -25,7 +26,8 @@ public class EducationManager : IEducationService
         _educationDal = educationDal;
         _mapper = mapper;
     }
-
+    [SecuredOperation("educations.add,admin,mod")]
+    [ValidationAspect(typeof(EducationRequestValidator))]
     public async Task<CreatedEducationResponse> AddAsync(CreateEducationRequest createEducationRequest)
     {
         // var education = _mapper.Map<Education>(createEducationRequest);

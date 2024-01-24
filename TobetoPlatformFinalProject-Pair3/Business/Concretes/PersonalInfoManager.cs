@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
+using Business.BusinessAspects.Autofac;
 using Business.Dtos.Experience.Responses;
 using Business.Dtos.PersonalInfo.Requests;
 using Business.Dtos.PersonalInfo.Responses;
@@ -24,7 +25,7 @@ public class PersonalInfoManager : IPersonalInfoService
         _personalInfoDal = personalInfoDal;
         _mapper = mapper;
     }
-
+    [SecuredOperation("personalInfos.add,admin,mod")]
     [ValidationAspect(typeof(PersonalInfoRequestValidator))]
     public async Task<CreatedPersonalInfoResponse> AddAsync(CreatePersonalInfoRequest createPersonalInfoRequest)
     {
@@ -37,7 +38,7 @@ public class PersonalInfoManager : IPersonalInfoService
         var createPersonalInfo = await _personalInfoDal.AddAsync(personalInfo, includeExpressionForUser);
         return _mapper.Map<CreatedPersonalInfoResponse>(createPersonalInfo);
     }
-
+   
     public async Task<DeletedPersonalInfoResponse> DeleteAsync(DeletePersonalInfoRequest deletePersonalInfoRequest)
     {
         var personalInfo = await _personalInfoDal.GetAsync(c => c.Id == deletePersonalInfoRequest.Id);

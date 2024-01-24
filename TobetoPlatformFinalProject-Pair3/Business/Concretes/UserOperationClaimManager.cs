@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
+using Business.BusinessAspects.Autofac;
 using Business.Dtos.Announcement.Responses;
 using Business.Dtos.OperationClaim.Requests;
 using Business.Dtos.OperationClaim.Responses;
@@ -26,7 +27,7 @@ public class UserOperationClaimManager: IUserOperationClaimService
         _userOperationClaimDal = userOperationClaimDal;
         _mapper = mapper;
     }
-
+    [SecuredOperation("userOperationClaims.add,admin")]
     public async Task<CreatedUserOperationClaimResponse> AddAsync(CreateUserOperationClaimRequest createUserOperationClaimRequest)
     {
         // var userOperationClaim = _mapper.Map<UserOperationClaim>(createUserOperationClaimRequest);
@@ -39,7 +40,7 @@ public class UserOperationClaimManager: IUserOperationClaimService
         var createUserOperationClaim = await _userOperationClaimDal.AddAsync(userOperationClaim, includeExpressionForUser,includeExpressionForOperationClaim);
         return _mapper.Map<CreatedUserOperationClaimResponse>(createUserOperationClaim);    
     }
-
+    [SecuredOperation("userOperationClaims.delete,admin")]
     public async Task<DeletedUserOperationClaimResponse> DeleteAsync(DeleteUserOperationClaimRequest deleteUserOperationClaimRequest)
     {
         var userOperationClaim = await _userOperationClaimDal.GetAsync(c => c.Id == deleteUserOperationClaimRequest.Id);
@@ -59,7 +60,7 @@ public class UserOperationClaimManager: IUserOperationClaimService
         Paginate<GetListedUserOperationClaimResponse> response = _mapper.Map<Paginate<GetListedUserOperationClaimResponse>>(result);
         return response;
     }
-
+    [SecuredOperation("userOperationClaims.update,admin")]
     public async Task<UpdatedUserOperationClaimResponse> UpdateAsync(UpdateUserOperationClaimRequest updateUserOperationClaimRequest)
     {
         var userOperationClaim = _mapper.Map<UserOperationClaim>(updateUserOperationClaimRequest);

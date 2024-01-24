@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
+using Business.BusinessAspects.Autofac;
 using Business.Dtos.Announcement.Responses;
 using Business.Dtos.AsyncLessonsOfContent.Requests;
 using Business.Dtos.AsyncLessonsOfContent.Responses;
@@ -24,7 +25,8 @@ public class AsyncLessonsOfContentManager : IAsyncLessonsOfContentService
         _asyncLessonsOfContentDal = asyncLessonsOfContentDal;
         _mapper = mapper;
     }
-
+    [SecuredOperation("asyncLessonsOfContents.add,admin")]
+    [ValidationAspect(typeof(AsyncLessonsOfContentRequestValidator))]
     public async Task<CreatedAsyncLessonsOfContentResponse> AddAsync(CreateAsyncLessonsOfContentRequest createAsyncLessonsOfContentRequest)
     {
         // var asyncLessonsOfContent = _mapper.Map<AsyncLessonsOfContent>(createAsyncLessonsOfContentRequest);
@@ -36,7 +38,7 @@ public class AsyncLessonsOfContentManager : IAsyncLessonsOfContentService
         var createAsyncLessonsOfContent = await _asyncLessonsOfContentDal.AddAsync(asyncLessonsOfContent, includeExpressionForAsyncContent);
         return _mapper.Map<CreatedAsyncLessonsOfContentResponse>(createAsyncLessonsOfContent);    
     }
-
+    [SecuredOperation("asyncLessonsOfContents.delete,admin")]
     public async Task<DeletedAsyncLessonsOfContentResponse> DeleteAsync(DeleteAsyncLessonsOfContentRequest deleteAsyncLessonsOfContentRequest)
     {
         var asyncLessonsOfContent = await _asyncLessonsOfContentDal.GetAsync(c => c.Id == deleteAsyncLessonsOfContentRequest.Id);
@@ -55,7 +57,7 @@ public class AsyncLessonsOfContentManager : IAsyncLessonsOfContentService
         var getList = await _asyncLessonsOfContentDal.GetListAsync(include: p => p.Include(p => p.AsyncContent), index: pageRequest.Index, size: pageRequest.Size);
         return _mapper.Map<Paginate<GetListedAsyncLessonsOfContentResponse>>(getList);
     }
-
+    [SecuredOperation("asyncLessonsOfContents.update,admin")]
     public async Task<UpdatedAsyncLessonsOfContentResponse> UpdateAsync(UpdateAsyncLessonsOfContentRequest updateAsyncLessonsOfContentRequest)
     {
         var asyncLessonsOfContent = _mapper.Map<AsyncLessonsOfContent>(updateAsyncLessonsOfContentRequest);

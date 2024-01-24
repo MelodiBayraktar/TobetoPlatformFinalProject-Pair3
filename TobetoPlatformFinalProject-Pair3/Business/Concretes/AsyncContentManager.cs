@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
+using Business.BusinessAspects.Autofac;
 using Business.Dtos.Announcement.Responses;
 using Business.Dtos.AsyncContent.Requests;
 using Business.Dtos.AsyncContent.Responses;
@@ -24,7 +25,8 @@ public class AsyncContentManager : IAsyncContentService
         _asyncContentDal = asyncContentDal;
         _mapper = mapper;
     }
-
+    [SecuredOperation("asyncContents.add,admin")]
+    [ValidationAspect(typeof(AsyncContentRequestValidator))]
     public async Task<CreatedAsyncContentResponse> AddAsync(CreateAsyncContentRequest createAsyncContentRequest)
     {
         // var asyncContent = _mapper.Map<AsyncContent>(createAsyncContentRequest);
@@ -36,7 +38,7 @@ public class AsyncContentManager : IAsyncContentService
         var createAsyncContent = await _asyncContentDal.AddAsync(asyncContent, includeExpressionForAsyncCourse);
         return _mapper.Map<CreatedAsyncContentResponse>(createAsyncContent);    
     }
-
+    [SecuredOperation("asyncContents.delete,admin")]
     public async Task<DeletedAsyncContentResponse> DeleteAsync(DeleteAsyncContentRequest deleteAsyncContentRequest)
     {
         var asyncContent = await _asyncContentDal.GetAsync(c => c.Id == deleteAsyncContentRequest.Id);
@@ -55,7 +57,7 @@ public class AsyncContentManager : IAsyncContentService
         var getList = await _asyncContentDal.GetListAsync(include: p => p.Include(p => p.AsyncCourse),index: pageRequest.Index, size: pageRequest.Size);
         return _mapper.Map<Paginate<GetListedAsyncContentResponse>>(getList);
     }
-
+    [SecuredOperation("asyncContents.update,admin")]
     public async Task<UpdatedAsyncContentResponse> UpdateAsync(UpdateAsyncContentRequest updateAsyncContentRequest)
     {
         var asyncContent = _mapper.Map<AsyncContent>(updateAsyncContentRequest);

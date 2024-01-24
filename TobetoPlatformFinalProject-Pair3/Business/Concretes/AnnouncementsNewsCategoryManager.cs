@@ -1,6 +1,7 @@
 using System.Configuration;
 using AutoMapper;
 using Business.Abstracts;
+using Business.BusinessAspects.Autofac;
 using Business.Dtos.AnnouncementsNewsCategory.Requests;
 using Business.Dtos.AnnouncementsNewsCategory.Responses;
 using Business.ValidationRules.FluentValidation;
@@ -23,7 +24,7 @@ public class AnnouncementsNewsCategoryManager : IAnnouncementsNewsCategoryServic
         _announcementsNewsCategoryDal = announcementsNewsCategoryDal;
         _mapper = mapper;
     }
-
+    [SecuredOperation("announcementsNewsCategories.add,admin")]
     [ValidationAspect(typeof(AnnouncementsNewsCategoryRequestValidator))]
     public async Task<CreatedAnnouncementsNewsCategoryResponse> AddAsync(CreateAnnouncementsNewsCategoryRequest createAnnouncementsNewsCategoryRequest)
     {
@@ -31,7 +32,7 @@ public class AnnouncementsNewsCategoryManager : IAnnouncementsNewsCategoryServic
         var createAnnouncementsNewsCategory = await _announcementsNewsCategoryDal.AddAsync(announcementsNewsCategory);
         return _mapper.Map<CreatedAnnouncementsNewsCategoryResponse>(createAnnouncementsNewsCategory);
     }
-
+    [SecuredOperation("announcementsNewsCategories.delete,admin")]
     public async Task<DeletedAnnouncementsNewsCategoryResponse> DeleteAsync(DeleteAnnouncementsNewsCategoryRequest deleteAnnouncementsNewsCategoryRequest)
     {
         var announcementsNewsCategory = await _announcementsNewsCategoryDal.GetAsync(c => c.Id == deleteAnnouncementsNewsCategoryRequest.Id);
@@ -50,7 +51,7 @@ public class AnnouncementsNewsCategoryManager : IAnnouncementsNewsCategoryServic
         var getList = await _announcementsNewsCategoryDal.GetListAsync(index: pageRequest.Index, size: pageRequest.Size);
         return _mapper.Map<Paginate<GetListedAnnouncementsNewsCategoryResponse>>(getList);
     }
-
+    [SecuredOperation("announcementsNewsCategories.update,admin")]
     public async Task<UpdatedAnnouncementsNewsCategoryResponse> UpdateAsync(UpdateAnnouncementsNewsCategoryRequest updateAnnouncementsNewsCategoryRequest)
     {
         var announcementsNewsCategory = _mapper.Map<AnnouncementsNewsCategory>(updateAnnouncementsNewsCategoryRequest);
