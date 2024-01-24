@@ -6,6 +6,7 @@ using Business.Dtos.LiveCourse.Responses;
 using Business.Dtos.Session.Requests;
 using Business.Dtos.Session.Responses;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Validation;
 using Core.DataAccess.Paging;
 using Core.Utilities.Business.Requests;
@@ -26,8 +27,9 @@ public class SessionManager : ISessionService
         _mapper = mapper;
     }
     [SecuredOperation("sessions.add,admin")]
-
     [ValidationAspect(typeof(SessionRequestValidator))]
+    [CacheRemoveAspect("ISessionService.Get")]
+
     public async Task<CreatedSessionResponse> AddAsync(CreateSessionRequest createSessionRequest)
     {
         // var session = _mapper.Map<Session>(createSessionRequest);
@@ -40,7 +42,9 @@ public class SessionManager : ISessionService
         var createSession = await _sessionDal.AddAsync(session, includeExpressionForLiveContent,includeExpressionForInstructor);
         return _mapper.Map<CreatedSessionResponse>(createSession);
     }
+
     [SecuredOperation("sessions.delete,admin")]
+    [CacheRemoveAspect("ISessionService.Get")]
     public async Task<DeletedSessionResponse> DeleteAsync(DeleteSessionRequest deleteSessionRequest)
     {
         var session = await _sessionDal.GetAsync(c => c.Id == deleteSessionRequest.Id);
@@ -48,18 +52,22 @@ public class SessionManager : ISessionService
         return _mapper.Map<DeletedSessionResponse>(deleteSession);
     }
 
+    [CacheAspect(duration: 10)]
     public async Task<GetSessionResponse> GetById(GetSessionRequest getSessionRequest)
     {
         var getSession = await _sessionDal.GetAsync(c => c.Id == getSessionRequest.Id);
         return _mapper.Map<GetSessionResponse>(getSession);
     }
 
+    [CacheAspect(duration: 10)]
     public async Task<IPaginate<GetListedSessionResponse>> GetListAsync(PageRequest pageRequest)
     {
         var getList = await _sessionDal.GetListAsync(include: p => p.Include(p => p.LiveContent).Include(p => p.Instructor),index: pageRequest.Index, size: pageRequest.Size);
         return _mapper.Map<Paginate<GetListedSessionResponse>>(getList);
     }
+
     [SecuredOperation("sessions.update,admin")]
+    [CacheRemoveAspect("ISessionService.Get")]
     public async Task<UpdatedSessionResponse> UpdateAsync(UpdateSessionRequest updateSessionRequest)
     {
         var session = _mapper.Map<Session>(updateSessionRequest);
