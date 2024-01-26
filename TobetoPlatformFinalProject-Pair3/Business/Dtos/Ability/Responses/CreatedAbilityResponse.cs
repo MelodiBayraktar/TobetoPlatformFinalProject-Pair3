@@ -12,6 +12,5 @@ namespace Business.Dtos.Ability.Responses
         public Guid UserId { get; set; }
         public string Name { get; set; }
         public string FirstName { get; set; }
-
     }
 }

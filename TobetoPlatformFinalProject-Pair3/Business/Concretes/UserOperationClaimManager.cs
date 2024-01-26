@@ -27,7 +27,7 @@ public class UserOperationClaimManager: IUserOperationClaimService
         _userOperationClaimDal = userOperationClaimDal;
         _mapper = mapper;
     }
-    [SecuredOperation("userOperationClaims.add,admin")]
+    //[SecuredOperation("userOperationClaims.add,admin")]
     public async Task<CreatedUserOperationClaimResponse> AddAsync(CreateUserOperationClaimRequest createUserOperationClaimRequest)
     {
         // var userOperationClaim = _mapper.Map<UserOperationClaim>(createUserOperationClaimRequest);

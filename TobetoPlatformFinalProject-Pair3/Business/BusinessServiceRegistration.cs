@@ -7,6 +7,7 @@ using Core.Utilities.Security.JWT;
 using Core.Utilities.Security.Jwt;
 using Business.BusinessRules;
 using Core.Utilities.Business.Rules;
+using Core.Utilities.Business.GetUserId;
 
 namespace Business;
 
@@ -51,6 +52,7 @@ public static class BusinessServiceRegistration
         services.AddScoped<IUserOperationClaimService, UserOperationClaimManager>();
         services.AddScoped<IAuthService, AuthManager>();
         services.AddScoped<ITokenHelper, JwtHelper>();
+        services.AddScoped<IGetUserId, GetUserId>();
 
 
         return services;
