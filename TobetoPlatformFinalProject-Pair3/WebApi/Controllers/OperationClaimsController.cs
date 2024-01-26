@@ -1,5 +1,6 @@
 ﻿using Business.Abstracts;
 using Business.Dtos.OperationClaim.Requests;
+using Business.Dtos.Student.Requests;
 using Core.Utilities.Business.Requests;
 using Microsoft.AspNetCore.Mvc;
 
@@ -40,6 +41,12 @@ namespace WebApi.Controllers
         {
             var result = await _operationClaimService.DeleteAsync(deleteOperationClaimRequest);
             return Ok(result);
+        }
+
+        [HttpPost("Update")]
+        public async Task<IActionResult> UpdateAsync([FromBody] UpdateOperationClaimRequest updateOperationClaimRequest)
+        {
+            var result = await _operationClaimService.UpdateAsync(updateOperationClaimRequest); return Ok(result);
         }
     }
 }

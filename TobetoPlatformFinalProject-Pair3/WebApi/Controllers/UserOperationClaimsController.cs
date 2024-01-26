@@ -41,5 +41,11 @@ namespace WebApi.Controllers
             var result = await _userOperationClaimService.DeleteAsync(deleteUserOperationClaimRequest);
             return Ok(result);
         }
+
+        [HttpPost("Update")]
+        public async Task<IActionResult> UpdateAsync([FromBody] UpdateUserOperationClaimRequest updateUserOperationClaimRequest)
+        {
+            var result = await _userOperationClaimService.UpdateAsync(updateUserOperationClaimRequest); return Ok(result);
+        }
     }
 }
