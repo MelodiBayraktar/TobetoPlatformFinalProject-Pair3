@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Business.Dtos.Ability.Requests;
+using Business.Dtos.Ability.Responses;
 using Business.Dtos.Announcement.Requests;
 using Business.Dtos.Announcement.Responses;
 using Core.DataAccess.Paging;
@@ -11,11 +13,6 @@ public class AnnouncementMappingProfile : Profile
     public AnnouncementMappingProfile()
     {
         CreateMap<Announcement, CreateAnnouncementRequest>().ReverseMap();
-        //CreateMap<Announcement, CreatedAnnouncementResponse>().ForMember(destinationMember: p => p.AnnouncementsNewsCategoryId,
-        //                memberOptions: opt => opt.MapFrom(p => p.AnnouncementsNewsCategory.Id)).ReverseMap();
-
-        //CreateMap<Announcement, CreatedAnnouncementResponse>().ForMember(destinationMember: p => p.ProjectId,
-        //                memberOptions: opt => opt.MapFrom(p => p.Project.Id)).ReverseMap();
         CreateMap<Announcement, CreatedAnnouncementResponse>().ForMember(destinationMember: p => p.AnnouncementsNewsCategoryName,
                         memberOptions: opt => opt.MapFrom(p => p.AnnouncementsNewsCategory.Name)).ReverseMap();
 
@@ -29,7 +26,7 @@ public class AnnouncementMappingProfile : Profile
         CreateMap<Announcement, DeletedAnnouncementResponse>().ReverseMap();
 
         CreateMap<Announcement, GetAnnouncementRequest>().ReverseMap();
-        CreateMap<Announcement, GetAnnouncementResponse>().ReverseMap();
+        //CreateMap<Announcement, GetAnnouncementResponse>().ReverseMap();
         
         CreateMap<Announcement, GetAnnouncementResponse>().ForMember(destinationMember: p => p.AnnouncementsNewsCategoryName,
             memberOptions: opt => opt.MapFrom(p => p.AnnouncementsNewsCategory.Name)).ReverseMap();

@@ -4,6 +4,8 @@ using Business.BusinessAspects.Autofac;
 using Business.BusinessRules;
 using Business.Dtos.Ability.Requests;
 using Business.Dtos.Ability.Responses;
+using Business.Dtos.ContactUs.Requests;
+using Business.Dtos.ContactUs.Responses;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Validation;
@@ -13,6 +15,7 @@ using Core.Utilities.Business.GetUserId;
 using Core.Utilities.Business.Requests;
 using Core.Utilities.IoC;
 using DataAccess.Abstracts;
+using DataAccess.Concretes;
 using Entities.Concretes;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -43,47 +46,48 @@ public class AbilityManager : IAbilityService
     [CacheRemoveAspect("IAbilityService.Get")]
     public async Task<CreatedAbilityResponse> AddAsync(CreateAbilityRequest createAbilityRequest)
     {
-        //var ability = _mapper.Map<Ability>(createAbilityRequest);
-        //await _abilityBusinessRules.AbilityShouldExistWhenSelected(ability);
-        //var createAbility = await _abilityDal.AddAsync(ability);
-        //return _mapper.Map<CreatedAbilityResponse>(createAbility);
-
-
-        var ability = _mapper.Map<Ability>(createAbilityRequest);
+        Ability ability = _mapper.Map<Ability>(createAbilityRequest);
         Guid userId = _getUserId.GetUserIdFromHttpContext();
         ability.UserId = userId;
         await _abilityBusinessRules.AbilityShouldExistWhenSelected(ability);
         Expression<Func<Ability, object>> includeExpressionForUser = x => x.User;
         var createAbility = await _abilityDal.AddAsync(ability, includeExpressionForUser);
-        return _mapper.Map<CreatedAbilityResponse>(createAbility);
+        CreatedAbilityResponse response = _mapper.Map<CreatedAbilityResponse>(createAbility);
+        return response;
     }
 
+    [CacheRemoveAspect("IAbilityService.Get")]
     public async Task<DeletedAbilityResponse> DeleteAsync(DeleteAbilityRequest deleteAbilityRequest)
     {
-        var ability = await _abilityDal.GetAsync(c => c.Id == deleteAbilityRequest.Id);
-        var deleteAbility = await _abilityDal.DeleteAsync(ability);
-        return _mapper.Map<DeletedAbilityResponse>(deleteAbility);
+        Ability ability = await _abilityDal.GetAsync(predicate: a => a.Id == deleteAbilityRequest.Id);
+        await _abilityDal.DeleteAsync(ability);
+        DeletedAbilityResponse response = _mapper.Map<DeletedAbilityResponse>(ability);
+        return response;
     }
 
     [CacheAspect(duration: 10)]
     public async Task<GetAbilityResponse> GetById(GetAbilityRequest getAbilityRequest)
     {
-        var getAbility = await _abilityDal.GetAsync(c => c.Id == getAbilityRequest.Id);
-        return _mapper.Map<GetAbilityResponse>(getAbility);
+        Ability ability = await _abilityDal.GetAsync(predicate: c => c.Id == getAbilityRequest.Id);
+        GetAbilityResponse response = _mapper.Map<GetAbilityResponse>(ability);
+        return response;
     }
 
     [CacheAspect(duration: 10)]
     public async Task<IPaginate<GetListedAbilityResponse>> GetListAsync(PageRequest pageRequest)
     {
-        var getList = await _abilityDal.GetListAsync(include: p => p.Include(p => p.User), index: pageRequest.Index, size: pageRequest.Size);
-
-        return _mapper.Map<Paginate<GetListedAbilityResponse>>(getList);
+        var result = await _abilityDal.GetListAsync(index: pageRequest.Index, size: pageRequest.Size);
+        Paginate<GetListedAbilityResponse> response = _mapper.Map<Paginate<GetListedAbilityResponse>>(result);
+        return response;
     }
 
+    [CacheRemoveAspect("IAbilityService.Get")]
     public async Task<UpdatedAbilityResponse> UpdateAsync(UpdateAbilityRequest updateAbilityRequest)
     {
-        var ability = _mapper.Map<Ability>(updateAbilityRequest);
-        var updatedAbility = await _abilityDal.UpdateAsync(ability);
-        return _mapper.Map<UpdatedAbilityResponse>(updatedAbility);
+        var result = await _abilityDal.GetAsync(predicate: a => a.Id == updateAbilityRequest.Id);
+        _mapper.Map(updateAbilityRequest, result);
+        await _abilityDal.UpdateAsync(result);
+        UpdatedAbilityResponse response = _mapper.Map<UpdatedAbilityResponse>(result);
+        return response;
     }
 }
