@@ -29,40 +29,43 @@ public class AsyncCourseManager : IAsyncCourseService
     [ValidationAspect(typeof(AsyncCourseRequestValidator))]
     public async Task<CreatedAsyncCourseResponse> AddAsync(CreateAsyncCourseRequest createAsyncCourseRequest)
     {
-        // var asyncCourse = _mapper.Map<AsyncCourse>(createAsyncCourseRequest);
-        // var createAsyncCourse = await _asyncCourseDal.AddAsync(asyncCourse);
-        // return _mapper.Map<CreatedAsyncCourseResponse>(createAsyncCourse);
-        var asyncCourse = _mapper.Map<AsyncCourse>(createAsyncCourseRequest);
+        AsyncCourse asyncCourse = _mapper.Map<AsyncCourse>(createAsyncCourseRequest);
         Expression<Func<AsyncCourse, object>> includeExpressionForCourseDetail = x => x.CourseDetail;
         Expression<Func<AsyncCourse, object>> includeExpressionForCourse = y => y.Course;
-        
         var createAsyncCourse = await _asyncCourseDal.AddAsync(asyncCourse, includeExpressionForCourseDetail,includeExpressionForCourse);
-        return _mapper.Map<CreatedAsyncCourseResponse>(createAsyncCourse);    
+        CreatedAsyncCourseResponse response = _mapper.Map<CreatedAsyncCourseResponse>(createAsyncCourse);
+        return response;
+        
     }
     [SecuredOperation("asyncCourses.delete,admin")]
     public async Task<DeletedAsyncCourseResponse> DeleteAsync(DeleteAsyncCourseRequest deleteAsyncCourseRequest)
     {
-        var asyncCourse = await _asyncCourseDal.GetAsync(c => c.Id == deleteAsyncCourseRequest.Id);
-        var deleteAsyncCourse = await _asyncCourseDal.DeleteAsync(asyncCourse);
-        return _mapper.Map<DeletedAsyncCourseResponse>(deleteAsyncCourse);
+        AsyncCourse asyncCourse = await _asyncCourseDal.GetAsync(c => c.Id == deleteAsyncCourseRequest.Id); 
+        await _asyncCourseDal.DeleteAsync(asyncCourse);
+        DeletedAsyncCourseResponse response = _mapper.Map<DeletedAsyncCourseResponse>(asyncCourse);
+        return response;
     }
 
     public async Task<GetAsyncCourseResponse> GetById(GetAsyncCourseRequest getAsyncCourseRequest)
     {
-        var getAsyncCourse = await _asyncCourseDal.GetAsync(c => c.Id == getAsyncCourseRequest.Id);
-        return _mapper.Map<GetAsyncCourseResponse>(getAsyncCourse);
+        AsyncCourse getAsyncCourse = await _asyncCourseDal.GetAsync(c => c.Id == getAsyncCourseRequest.Id);
+        GetAsyncCourseResponse response = _mapper.Map<GetAsyncCourseResponse>(getAsyncCourse);
+        return response;
     }
 
     public async Task<IPaginate<GetListedAsyncCourseResponse>> GetListAsync(PageRequest pageRequest)
     {
         var getList = await _asyncCourseDal.GetListAsync(include: p => p.Include(p => p.CourseDetail).Include(p => p.Course), index: pageRequest.Index, size: pageRequest.Size);
-        return _mapper.Map<Paginate<GetListedAsyncCourseResponse>>(getList);
+        Paginate<GetListedAsyncCourseResponse> response = _mapper.Map<Paginate<GetListedAsyncCourseResponse>>(getList);
+        return response;
     }
     [SecuredOperation("asyncCourses.update,admin")]
     public async Task<UpdatedAsyncCourseResponse> UpdateAsync(UpdateAsyncCourseRequest updateAsyncCourseRequest)
     {
-        var asyncCourse = _mapper.Map<AsyncCourse>(updateAsyncCourseRequest);
-        var updatedAsyncCourse = await _asyncCourseDal.UpdateAsync(asyncCourse);
-        return _mapper.Map<UpdatedAsyncCourseResponse>(updatedAsyncCourse);
+        var result = await _asyncCourseDal.GetAsync(predicate: a => a.Id == updateAsyncCourseRequest.Id);
+        _mapper.Map(updateAsyncCourseRequest, result);
+        await _asyncCourseDal.UpdateAsync(result);
+        UpdatedAsyncCourseResponse response = _mapper.Map<UpdatedAsyncCourseResponse>(result);
+        return response;
     }
 }

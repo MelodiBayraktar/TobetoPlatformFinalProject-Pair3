@@ -41,7 +41,7 @@ public class AbilityManager : IAbilityService
         _getUserId = getUserId;
     }
 
-    [SecuredOperation("abilities.add,admin,mod")]
+    //[SecuredOperation("abilities.add,admin,mod")]
     [ValidationAspect(typeof(AbilityRequestValidator))]
     [CacheRemoveAspect("IAbilityService.Get")]
     public async Task<CreatedAbilityResponse> AddAsync(CreateAbilityRequest createAbilityRequest)
@@ -68,16 +68,16 @@ public class AbilityManager : IAbilityService
     [CacheAspect(duration: 10)]
     public async Task<GetAbilityResponse> GetById(GetAbilityRequest getAbilityRequest)
     {
-        Ability ability = await _abilityDal.GetAsync(predicate: c => c.Id == getAbilityRequest.Id);
-        GetAbilityResponse response = _mapper.Map<GetAbilityResponse>(ability);
+        Ability getAbility = await _abilityDal.GetAsync(predicate: c => c.Id == getAbilityRequest.Id);
+        GetAbilityResponse response = _mapper.Map<GetAbilityResponse>(getAbility);
         return response;
     }
 
     [CacheAspect(duration: 10)]
     public async Task<IPaginate<GetListedAbilityResponse>> GetListAsync(PageRequest pageRequest)
     {
-        var result = await _abilityDal.GetListAsync(index: pageRequest.Index, size: pageRequest.Size);
-        Paginate<GetListedAbilityResponse> response = _mapper.Map<Paginate<GetListedAbilityResponse>>(result);
+        var getList = await _abilityDal.GetListAsync(index: pageRequest.Index, size: pageRequest.Size);
+        Paginate<GetListedAbilityResponse> response = _mapper.Map<Paginate<GetListedAbilityResponse>>(getList);
         return response;
     }
 

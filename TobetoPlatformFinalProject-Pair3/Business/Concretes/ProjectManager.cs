@@ -30,7 +30,7 @@ public class ProjectManager : IProjectService
         _mapper = mapper;
     }
 
-    [SecuredOperation("projects.add,admin")]
+    //[SecuredOperation("projects.add,admin")]
     [ValidationAspect(typeof(ProjectRequestValidator))]
     public async Task<CreatedProjectResponse> AddAsync(CreateProjectRequest createProjectRequest)
     {
@@ -40,7 +40,7 @@ public class ProjectManager : IProjectService
         return response;
     }
 
-    [SecuredOperation("projects.delete,admin")]
+    //[SecuredOperation("projects.delete,admin")]
     public async Task<DeletedProjectResponse> DeleteAsync(DeleteProjectRequest deleteProjectRequest)
     {
         Project project = await _projectDal.GetAsync(predicate: c => c.Id == deleteProjectRequest.Id);
@@ -63,7 +63,7 @@ public class ProjectManager : IProjectService
         return response;
     }
 
-    [SecuredOperation("projects.update,admin")]
+    //[SecuredOperation("projects.update,admin")]
     public async Task<UpdatedProjectResponse> UpdateAsync(UpdateProjectRequest updateProjectRequest)
     {
         var result = await _projectDal.GetAsync(predicate: a => a.Id == updateProjectRequest.Id);

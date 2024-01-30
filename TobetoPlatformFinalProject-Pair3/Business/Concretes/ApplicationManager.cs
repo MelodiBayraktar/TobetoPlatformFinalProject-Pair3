@@ -28,40 +28,43 @@ public class ApplicationManager : IApplicationService
     [ValidationAspect(typeof(ApplicationRequestValidator))]
     public async Task<CreatedApplicationResponse> AddAsync(CreateApplicationRequest createApplicationRequest)
     {
-        // var application = _mapper.Map<Application>(createApplicationRequest);
-        // var createApplication = await _applicationDal.AddAsync(application);
-        // return _mapper.Map<CreatedApplicationResponse>(createApplication);
-        var application = _mapper.Map<Application>(createApplicationRequest);
+        Application application = _mapper.Map<Application>(createApplicationRequest);
         Expression<Func<Application, object>> includeExpressionForProject = x => x.Project;
-        
         var createApplication = await _applicationDal.AddAsync(application, includeExpressionForProject);
-        return _mapper.Map<CreatedApplicationResponse>(createApplication);    
+        CreatedApplicationResponse response = _mapper.Map<CreatedApplicationResponse>(createApplication);
+        return response;    
     }
-    [SecuredOperation("applications.delete,admin")]
+    //[SecuredOperation("applications.delete,admin")]
     public async Task<DeletedApplicationResponse> DeleteAsync(DeleteApplicationRequest deleteApplicationRequest)
     {
-        var application = await _applicationDal.GetAsync(c => c.Id == deleteApplicationRequest.Id);
-        var deleteApplication = await _applicationDal.DeleteAsync(application);
-        return _mapper.Map<DeletedApplicationResponse>(deleteApplication);
+        Application application = await _applicationDal.GetAsync(c => c.Id == deleteApplicationRequest.Id);
+        await _applicationDal.DeleteAsync(application);
+        DeletedApplicationResponse response = _mapper.Map<DeletedApplicationResponse>(application);
+        return response;
     }
 
     public async Task<GetApplicationResponse> GetById(GetApplicationRequest getApplicationRequest)
     {
-        var getApplication = await _applicationDal.GetAsync(c => c.Id == getApplicationRequest.Id,
+        Application getApplication = await _applicationDal.GetAsync(c => c.Id == getApplicationRequest.Id,
             include: p => p.Include(p => p.Project));
-        return _mapper.Map<GetApplicationResponse>(getApplication);
+        GetApplicationResponse response =_mapper.Map<GetApplicationResponse>(getApplication);
+        return response;
     }
 
     public async Task<IPaginate<GetListedApplicationResponse>> GetListAsync(PageRequest pageRequest)
     {
         var getList = await _applicationDal.GetListAsync(include: p => p.Include(p => p.Project), index: pageRequest.Index, size: pageRequest.Size);
-        return _mapper.Map<Paginate<GetListedApplicationResponse>>(getList);
+        Paginate<GetListedApplicationResponse> response = _mapper.Map<Paginate<GetListedApplicationResponse>>(getList);
+        return response;
     }
 
     public async Task<UpdatedApplicationResponse> UpdateAsync(UpdateApplicationRequest updateApplicationRequest)
     {
-        var application = _mapper.Map<Application>(updateApplicationRequest);
-        var updatedApplication = await _applicationDal.UpdateAsync(application);
-        return _mapper.Map<UpdatedApplicationResponse>(updatedApplication);
+        var result = await _applicationDal.GetAsync(predicate: a => a.Id == updateApplicationRequest.Id);
+        _mapper.Map(updateApplicationRequest, result);
+        await _applicationDal.UpdateAsync(result);
+        UpdatedApplicationResponse response = _mapper.Map<UpdatedApplicationResponse>(result);
+        return response;
+        
     }
 }

@@ -32,7 +32,7 @@ public class AnnouncementManager : IAnnouncementService
         _announcementBusinessRules = announcementBusinessRules;
     }
     
-    [SecuredOperation("announcements.add,admin")]
+    //[SecuredOperation("announcements.add,admin")]
     [ValidationAspect(typeof(AnnouncementRequestValidator))]
     public async Task<CreatedAnnouncementResponse> AddAsync(CreateAnnouncementRequest createAnnouncementRequest)
     {
@@ -44,7 +44,7 @@ public class AnnouncementManager : IAnnouncementService
         return response;
     }
 
-    [SecuredOperation("announcements.delete,admin")]
+    //[SecuredOperation("announcements.delete,admin")]
     public async Task<DeletedAnnouncementResponse> DeleteAsync(DeleteAnnouncementRequest deleteAnnouncementRequest)
     {
         Announcement announcement = await _announcementDal.GetAsync(predicate: c => c.Id == deleteAnnouncementRequest.Id);
@@ -68,7 +68,7 @@ public class AnnouncementManager : IAnnouncementService
         return response;
     }
 
-    [SecuredOperation("announcements.update,admin")]
+    //[SecuredOperation("announcements.update,admin")]
     public async Task<UpdatedAnnouncementResponse> UpdateAsync(UpdateAnnouncementRequest updateAnnouncementRequest)
     {
         var result = await _announcementDal.GetAsync(predicate: a => a.Id == updateAnnouncementRequest.Id);

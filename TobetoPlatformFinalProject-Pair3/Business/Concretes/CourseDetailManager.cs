@@ -29,39 +29,41 @@ public class CourseDetailManager : ICourseDetailService
     [ValidationAspect(typeof(CourseDetailRequestValidator))]
     public async Task<CreatedCourseDetailResponse> AddAsync(CreateCourseDetailRequest createCourseDetailRequest)
     {
-        // var courseDetail = _mapper.Map<CourseDetail>(createCourseDetailRequest);
-        // var createCourseDetail = await _courseDetailDal.AddAsync(courseDetail);
-        // return _mapper.Map<CreatedCourseDetailResponse>(createCourseDetail);
-        var courseDetail = _mapper.Map<CourseDetail>(createCourseDetailRequest);
+        CourseDetail courseDetail = _mapper.Map<CourseDetail>(createCourseDetailRequest);
         Expression<Func<CourseDetail, object>> includeExpressionForCourseCategory = x => x.CourseCategory;
-
         var createCourseDetail = await _courseDetailDal.AddAsync(courseDetail, includeExpressionForCourseCategory);
-        return _mapper.Map<CreatedCourseDetailResponse>(createCourseDetail);
+        CreatedCourseDetailResponse response = _mapper.Map<CreatedCourseDetailResponse>(createCourseDetail);
+        return response;
     }
     [SecuredOperation("courseDetails.delete,admin")]
     public async Task<DeletedCourseDetailResponse> DeleteAsync(DeleteCourseDetailRequest deleteCourseDetailRequest)
     {
-        var courseDetail = await _courseDetailDal.GetAsync(c => c.Id == deleteCourseDetailRequest.Id);
-        var deleteCourseDetail = await _courseDetailDal.DeleteAsync(courseDetail);
-        return _mapper.Map<DeletedCourseDetailResponse>(deleteCourseDetail);
+        CourseDetail courseDetail = await _courseDetailDal.GetAsync(c => c.Id == deleteCourseDetailRequest.Id);
+        await _courseDetailDal.DeleteAsync(courseDetail);
+        DeletedCourseDetailResponse response = _mapper.Map<DeletedCourseDetailResponse>(courseDetail);
+        return response;
     }
 
     public async Task<GetCourseDetailResponse> GetById(GetCourseDetailRequest getCourseDetailRequest)
     {
-        var getCourseDetail = await _courseDetailDal.GetAsync(c => c.Id == getCourseDetailRequest.Id);
-        return _mapper.Map<GetCourseDetailResponse>(getCourseDetail);
+        CourseDetail getCourseDetail = await _courseDetailDal.GetAsync(c => c.Id == getCourseDetailRequest.Id);
+        GetCourseDetailResponse response = _mapper.Map<GetCourseDetailResponse>(getCourseDetail);
+        return response;
     }
 
     public async Task<IPaginate<GetListedCourseDetailResponse>> GetListAsync(PageRequest pageRequest)
     {
         var getList = await _courseDetailDal.GetListAsync(include: p => p.Include(p => p.CourseCategory), index: pageRequest.Index, size: pageRequest.Size);
-        return _mapper.Map<Paginate<GetListedCourseDetailResponse>>(getList);
+        Paginate<GetListedCourseDetailResponse> response = _mapper.Map<Paginate<GetListedCourseDetailResponse>>(getList);
+        return response;
     }
     [SecuredOperation("courseDetails.update,admin")]
     public async Task<UpdatedCourseDetailResponse> UpdateAsync(UpdateCourseDetailRequest updateCourseDetailRequest)
     {
-        var courseDetail = _mapper.Map<CourseDetail>(updateCourseDetailRequest);
-        var updatedCourseDetail = await _courseDetailDal.UpdateAsync(courseDetail);
-        return _mapper.Map<UpdatedCourseDetailResponse>(updatedCourseDetail);
+        var result = await _courseDetailDal.GetAsync(predicate: a => a.Id == updateCourseDetailRequest.Id);
+        _mapper.Map(updateCourseDetailRequest, result);
+        await _courseDetailDal.UpdateAsync(result);
+        UpdatedCourseDetailResponse response = _mapper.Map<UpdatedCourseDetailResponse>(result);
+        return response;
     }
 }

@@ -32,21 +32,20 @@ public class AnnouncementsNewsCategoryManager : IAnnouncementsNewsCategoryServic
         _mapper = mapper;
     }
 
-    [SecuredOperation("announcementsNewsCategories.add,admin")]
+    //[SecuredOperation("announcementsNewsCategories.add,admin")]
     [ValidationAspect(typeof(AnnouncementsNewsCategoryRequestValidator))]
     public async Task<CreatedAnnouncementsNewsCategoryResponse> AddAsync(CreateAnnouncementsNewsCategoryRequest createAnnouncementsNewsCategoryRequest)
     {
         AnnouncementsNewsCategory announcementsNewsCategory = _mapper.Map<AnnouncementsNewsCategory>(createAnnouncementsNewsCategoryRequest);
-        var createannouncementsNewsCategory = await _announcementsNewsCategoryDal.AddAsync(announcementsNewsCategory);
-        CreatedAnnouncementsNewsCategoryResponse response = _mapper.Map<CreatedAnnouncementsNewsCategoryResponse>(createannouncementsNewsCategory);
+        var createAnnouncementsNewsCategory = await _announcementsNewsCategoryDal.AddAsync(announcementsNewsCategory);
+        CreatedAnnouncementsNewsCategoryResponse response = _mapper.Map<CreatedAnnouncementsNewsCategoryResponse>(createAnnouncementsNewsCategory);
         return response;
     }
 
-    [SecuredOperation("announcementsNewsCategories.delete,admin")]
+    //[SecuredOperation("announcementsNewsCategories.delete,admin")]
     public async Task<DeletedAnnouncementsNewsCategoryResponse> DeleteAsync(DeleteAnnouncementsNewsCategoryRequest deleteAnnouncementsNewsCategoryRequest)
     {
-        AnnouncementsNewsCategory announcementsNewsCategory = await _announcementsNewsCategoryDal.GetAsync(
-            predicate: c => c.Id == deleteAnnouncementsNewsCategoryRequest.Id);
+        AnnouncementsNewsCategory announcementsNewsCategory = await _announcementsNewsCategoryDal.GetAsync(predicate: c => c.Id == deleteAnnouncementsNewsCategoryRequest.Id);
         await _announcementsNewsCategoryDal.DeleteAsync(announcementsNewsCategory);
         DeletedAnnouncementsNewsCategoryResponse response = _mapper.Map<DeletedAnnouncementsNewsCategoryResponse>(announcementsNewsCategory);
         return response;
@@ -68,7 +67,7 @@ public class AnnouncementsNewsCategoryManager : IAnnouncementsNewsCategoryServic
         return response;
     }
 
-    [SecuredOperation("announcementsNewsCategories.update,admin")]
+    //[SecuredOperation("announcementsNewsCategories.update,admin")]
     public async Task<UpdatedAnnouncementsNewsCategoryResponse> UpdateAsync(UpdateAnnouncementsNewsCategoryRequest updateAnnouncementsNewsCategoryRequest)
     {
         var result = await _announcementsNewsCategoryDal.GetAsync(predicate: a => a.Id == updateAnnouncementsNewsCategoryRequest.Id);

@@ -8,6 +8,7 @@ using Business.Dtos.ForeignLanguage.Responses;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
 using Core.DataAccess.Paging;
+using Core.Utilities.Business.GetUserId;
 using Core.Utilities.Business.Requests;
 using DataAccess.Abstracts;
 using Entities;
@@ -20,49 +21,55 @@ public class ForeignLanguageManager : IForeignLanguageService
 {
     private IForeignLanguageDal _foreignLanguageDal;
     private IMapper _mapper;
-
-    public ForeignLanguageManager(IForeignLanguageDal foreignLanguageDal, IMapper mapper)
+    private IGetUserId _getUserId;
+    public ForeignLanguageManager(IForeignLanguageDal foreignLanguageDal, IMapper mapper, IGetUserId getUserId)
     {
         _foreignLanguageDal = foreignLanguageDal;
         _mapper = mapper;
+        _getUserId = getUserId;
     }
     [SecuredOperation("foreignLanguages.add,admin,mod")]
     [ValidationAspect(typeof(ForeignLanguageRequestValidator))]
     public async Task<CreatedForeignLanguageResponse> AddAsync(CreateForeignLanguageRequest createForeignLanguageRequest)
     {
-        // var foreignLanguage = _mapper.Map<ForeignLanguage>(createForeignLanguageRequest);
-        // var createForeignLanguage = await _foreignLanguageDal.AddAsync(foreignLanguage);
-        // return _mapper.Map<CreatedForeignLanguageResponse>(createForeignLanguage);
-        var foreignLanguage = _mapper.Map<ForeignLanguage>(createForeignLanguageRequest);
-        Expression<Func<ForeignLanguage, object>> includeExpressionForUser = x => x.User;
 
+        ForeignLanguage foreignLanguage = _mapper.Map<ForeignLanguage>(createForeignLanguageRequest);
+        Guid userId = _getUserId.GetUserIdFromHttpContext();
+        foreignLanguage.UserId = userId;
+        Expression<Func<ForeignLanguage, object>> includeExpressionForUser = x => x.User;
         var createForeignLanguage = await _foreignLanguageDal.AddAsync(foreignLanguage, includeExpressionForUser);
-        return _mapper.Map<CreatedForeignLanguageResponse>(createForeignLanguage);
+        CreatedForeignLanguageResponse response =  _mapper.Map<CreatedForeignLanguageResponse>(createForeignLanguage);
+        return response;
     }
 
     public async Task<DeletedForeignLanguageResponse> DeleteAsync(DeleteForeignLanguageRequest deleteForeignLanguageRequest)
     {
-        var foreignLanguage = await _foreignLanguageDal.GetAsync(c => c.Id == deleteForeignLanguageRequest.Id);
+        ForeignLanguage foreignLanguage = await _foreignLanguageDal.GetAsync(c => c.Id == deleteForeignLanguageRequest.Id);
         var deleteForeignLanguage = await _foreignLanguageDal.DeleteAsync(foreignLanguage);
-        return _mapper.Map<DeletedForeignLanguageResponse>(deleteForeignLanguage);
+        DeletedForeignLanguageResponse response =  _mapper.Map<DeletedForeignLanguageResponse>(deleteForeignLanguage);
+        return response;
     }
 
     public async Task<GetForeignLanguageResponse> GetById(GetForeignLanguageRequest getForeignLanguageRequest)
     {
-        var getForeignLanguage = await _foreignLanguageDal.GetAsync(c => c.Id == getForeignLanguageRequest.Id);
-        return _mapper.Map<GetForeignLanguageResponse>(getForeignLanguage);
+        ForeignLanguage getForeignLanguage = await _foreignLanguageDal.GetAsync(c => c.Id == getForeignLanguageRequest.Id);
+        GetForeignLanguageResponse response = _mapper.Map<GetForeignLanguageResponse>(getForeignLanguage);
+        return response;
     }
 
     public async Task<IPaginate<GetListedForeignLanguageResponse>> GetListAsync(PageRequest pageRequest)
     {
         var getList = await _foreignLanguageDal.GetListAsync(include: p => p.Include(p => p.User), index: pageRequest.Index, size: pageRequest.Size);
-        return _mapper.Map<Paginate<GetListedForeignLanguageResponse>>(getList);
+        Paginate<GetListedForeignLanguageResponse> response = _mapper.Map<Paginate<GetListedForeignLanguageResponse>>(getList);
+        return response;
     }
 
     public async Task<UpdatedForeignLanguageResponse> UpdateAsync(UpdateForeignLanguageRequest updateForeignLanguageRequest)
     {
-        var foreignLanguage = _mapper.Map<ForeignLanguage>(updateForeignLanguageRequest);
-        var updatedForeignLanguage = await _foreignLanguageDal.UpdateAsync(foreignLanguage);
-        return _mapper.Map<UpdatedForeignLanguageResponse>(updatedForeignLanguage);
+        var result = await _foreignLanguageDal.GetAsync(predicate: a => a.Id == updateForeignLanguageRequest.Id);
+        _mapper.Map(updateForeignLanguageRequest, result);
+        await _foreignLanguageDal.UpdateAsync(result);
+        UpdatedForeignLanguageResponse response = _mapper.Map<UpdatedForeignLanguageResponse>(result);
+        return response;
     }
 }

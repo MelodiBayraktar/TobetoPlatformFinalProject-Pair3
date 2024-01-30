@@ -2,12 +2,15 @@ using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
 using Business.BusinessAspects.Autofac;
+using Business.BusinessRules;
+using Business.Dtos.Ability.Responses;
 using Business.Dtos.Experience.Responses;
 using Business.Dtos.PersonalInfo.Requests;
 using Business.Dtos.PersonalInfo.Responses;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
 using Core.DataAccess.Paging;
+using Core.Utilities.Business.GetUserId;
 using Core.Utilities.Business.Requests;
 using DataAccess.Abstracts;
 using Entities.Concretes;
@@ -19,24 +22,29 @@ public class PersonalInfoManager : IPersonalInfoService
 {
     private IPersonalInfoDal _personalInfoDal;
     private IMapper _mapper;
+    private IGetUserId _getUserId;
+    private PersonalInfoBusinessRules _personalInfoBusinessRules;
 
-    public PersonalInfoManager(IPersonalInfoDal personalInfoDal, IMapper mapper)
+    public PersonalInfoManager(IPersonalInfoDal personalInfoDal, IMapper mapper, IGetUserId getUserId,PersonalInfoBusinessRules personalInfoBusinessRules)
     {
         _personalInfoDal = personalInfoDal;
         _mapper = mapper;
+        _getUserId = getUserId;
+        _personalInfoBusinessRules = personalInfoBusinessRules;
     }
     [SecuredOperation("personalInfos.add,admin,mod")]
     [ValidationAspect(typeof(PersonalInfoRequestValidator))]
     public async Task<CreatedPersonalInfoResponse> AddAsync(CreatePersonalInfoRequest createPersonalInfoRequest)
     {
-        // var personalInfo = _mapper.Map<PersonalInfo>(createPersonalInfoRequest);
-        // var createPersonalInfo = await _personalInfoDal.AddAsync(personalInfo);
-        // return _mapper.Map<CreatedPersonalInfoResponse>(createPersonalInfo);
-        var personalInfo = _mapper.Map<PersonalInfo>(createPersonalInfoRequest);
+        PersonalInfo personalInfo = _mapper.Map<PersonalInfo>(createPersonalInfoRequest);
+        Guid userId = _getUserId.GetUserIdFromHttpContext();
+        personalInfo.UserId = userId;
+        await _personalInfoBusinessRules.PersonalInformationShouldExistWhenSelected(personalInfo);
         Expression<Func<PersonalInfo, object>> includeExpressionForUser = x => x.User;
-
         var createPersonalInfo = await _personalInfoDal.AddAsync(personalInfo, includeExpressionForUser);
-        return _mapper.Map<CreatedPersonalInfoResponse>(createPersonalInfo);
+        CreatedPersonalInfoResponse response = _mapper.Map<CreatedPersonalInfoResponse>(createPersonalInfo);
+        return response;
+        
     }
    
     public async Task<DeletedPersonalInfoResponse> DeleteAsync(DeletePersonalInfoRequest deletePersonalInfoRequest)

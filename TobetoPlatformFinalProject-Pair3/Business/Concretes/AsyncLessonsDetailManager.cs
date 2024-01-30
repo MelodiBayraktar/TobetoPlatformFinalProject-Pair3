@@ -29,39 +29,41 @@ public class AsyncLessonsDetailManager : IAsyncLessonsDetailService
     [ValidationAspect(typeof(AsyncLessonsDetailRequestValidator))]
     public async Task<CreatedAsyncLessonsDetailResponse> AddAsync(CreateAsyncLessonsDetailRequest createAsyncLessonsDetailRequest)
     {
-        // var asyncLessonsDetail = _mapper.Map<AsyncLessonsDetail>(createAsyncLessonsDetailRequest);
-        // var createAsyncLessonsDetail = await _asyncLessonsDetailDal.AddAsync(asyncLessonsDetail);
-        // return _mapper.Map<CreatedAsyncLessonsDetailResponse>(createAsyncLessonsDetail);
-        var asyncLessonsDetail = _mapper.Map<AsyncLessonsDetail>(createAsyncLessonsDetailRequest);
+        AsyncLessonsDetail asyncLessonsDetail = _mapper.Map<AsyncLessonsDetail>(createAsyncLessonsDetailRequest);
         Expression<Func<AsyncLessonsDetail, object>> includeExpressionForAsyncLessonsOfContent = x => x.AsyncLessonsOfContent;
-        
         var createAsyncLessonsDetail = await _asyncLessonsDetailDal.AddAsync(asyncLessonsDetail, includeExpressionForAsyncLessonsOfContent);
-        return _mapper.Map<CreatedAsyncLessonsDetailResponse>(createAsyncLessonsDetail);    
+        CreatedAsyncLessonsDetailResponse response =  _mapper.Map<CreatedAsyncLessonsDetailResponse>(createAsyncLessonsDetail);    
+        return response;
     }
     [SecuredOperation("asyncLessonsDetails.delete,admin")]
     public async Task<DeletedAsyncLessonsDetailResponse> DeleteAsync(DeleteAsyncLessonsDetailRequest deleteAsyncLessonsDetailRequest)
     {
-        var asyncLessonsDetail = await _asyncLessonsDetailDal.GetAsync(c => c.Id == deleteAsyncLessonsDetailRequest.Id);
-        var deleteAsyncLessonsDetail = await _asyncLessonsDetailDal.DeleteAsync(asyncLessonsDetail);
-        return _mapper.Map<DeletedAsyncLessonsDetailResponse>(deleteAsyncLessonsDetail);
+        AsyncLessonsDetail asyncLessonsDetail = await _asyncLessonsDetailDal.GetAsync(c => c.Id == deleteAsyncLessonsDetailRequest.Id);
+        await _asyncLessonsDetailDal.DeleteAsync(asyncLessonsDetail);
+        DeletedAsyncLessonsDetailResponse response = _mapper.Map<DeletedAsyncLessonsDetailResponse>(asyncLessonsDetail);
+        return response;
     }
 
     public async Task<GetAsyncLessonsDetailResponse> GetById(GetAsyncLessonsDetailRequest getAsyncLessonsDetailRequest)
     {
-        var getAsyncLessonsDetail = await _asyncLessonsDetailDal.GetAsync(c => c.Id == getAsyncLessonsDetailRequest.Id);
-        return _mapper.Map<GetAsyncLessonsDetailResponse>(getAsyncLessonsDetail);
+        AsyncLessonsDetail getAsyncLessonsDetail = await _asyncLessonsDetailDal.GetAsync(c => c.Id == getAsyncLessonsDetailRequest.Id);
+        GetAsyncLessonsDetailResponse response =  _mapper.Map<GetAsyncLessonsDetailResponse>(getAsyncLessonsDetail);
+        return response;
     }
 
     public async Task<IPaginate<GetListedAsyncLessonsDetailResponse>> GetListAsync(PageRequest pageRequest)
     {
         var getList = await _asyncLessonsDetailDal.GetListAsync(include: p => p.Include(p => p.AsyncLessonsOfContent), index: pageRequest.Index, size: pageRequest.Size);
-        return _mapper.Map<Paginate<GetListedAsyncLessonsDetailResponse>>(getList);
+        Paginate<GetListedAsyncLessonsDetailResponse> response = _mapper.Map<Paginate<GetListedAsyncLessonsDetailResponse>>(getList);
+        return response;
     }
     [SecuredOperation("asyncLessonsDetails.update,admin")]
     public async Task<UpdatedAsyncLessonsDetailResponse> UpdateAsync(UpdateAsyncLessonsDetailRequest updateAsyncLessonsDetailRequest)
     {
-        var asyncLessonsDetail = _mapper.Map<AsyncLessonsDetail>(updateAsyncLessonsDetailRequest);
-        var updatedAsyncLessonsDetail = await _asyncLessonsDetailDal.UpdateAsync(asyncLessonsDetail);
-        return _mapper.Map<UpdatedAsyncLessonsDetailResponse>(updatedAsyncLessonsDetail);
+        var result = await _asyncLessonsDetailDal.GetAsync(predicate: a => a.Id == updateAsyncLessonsDetailRequest.Id);
+        _mapper.Map(updateAsyncLessonsDetailRequest, result);
+        await _asyncLessonsDetailDal.UpdateAsync(result);
+        UpdatedAsyncLessonsDetailResponse response = _mapper.Map<UpdatedAsyncLessonsDetailResponse>(result);
+        return response;
     }
 }

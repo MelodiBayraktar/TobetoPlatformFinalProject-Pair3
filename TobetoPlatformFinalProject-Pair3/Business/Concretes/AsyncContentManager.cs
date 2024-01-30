@@ -32,45 +32,47 @@ public class AsyncContentManager : IAsyncContentService
     [CacheRemoveAspect("IAsyncContentService.Get")]
     public async Task<CreatedAsyncContentResponse> AddAsync(CreateAsyncContentRequest createAsyncContentRequest)
     {
-        // var asyncContent = _mapper.Map<AsyncContent>(createAsyncContentRequest);
-        // var createAsyncContent = await _asyncContentDal.AddAsync(asyncContent);
-        // return _mapper.Map<CreatedAsyncContentResponse>(createAsyncContent);
-        var asyncContent = _mapper.Map<AsyncContent>(createAsyncContentRequest);
+        AsyncContent asyncContent = _mapper.Map<AsyncContent>(createAsyncContentRequest);
         Expression<Func<AsyncContent, object>> includeExpressionForAsyncCourse = x => x.AsyncCourse;
-        
         var createAsyncContent = await _asyncContentDal.AddAsync(asyncContent, includeExpressionForAsyncCourse);
-        return _mapper.Map<CreatedAsyncContentResponse>(createAsyncContent);    
+        CreatedAsyncContentResponse response = _mapper.Map<CreatedAsyncContentResponse>(createAsyncContent);
+        return response;
     }
 
     [SecuredOperation("asyncContents.delete,admin")]
     [CacheRemoveAspect("IAsyncContentService.Get")]
     public async Task<DeletedAsyncContentResponse> DeleteAsync(DeleteAsyncContentRequest deleteAsyncContentRequest)
     {
-        var asyncContent = await _asyncContentDal.GetAsync(c => c.Id == deleteAsyncContentRequest.Id);
-        var deleteAsyncContent = await _asyncContentDal.DeleteAsync(asyncContent);
-        return _mapper.Map<DeletedAsyncContentResponse>(deleteAsyncContent);
+        AsyncContent asyncContent = await _asyncContentDal.GetAsync(c => c.Id == deleteAsyncContentRequest.Id);
+        await _asyncContentDal.DeleteAsync(asyncContent);
+        DeletedAsyncContentResponse response =  _mapper.Map<DeletedAsyncContentResponse>(asyncContent);
+        return response;
     }
 
     [CacheAspect(duration: 10)]
     public async Task<GetAsyncContentResponse> GetById(GetAsyncContentRequest getAsyncContentRequest)
     {
-        var getAsyncContent = await _asyncContentDal.GetAsync(c => c.Id == getAsyncContentRequest.Id);
-        return _mapper.Map<GetAsyncContentResponse>(getAsyncContent);
+        AsyncContent getAsyncContent = await _asyncContentDal.GetAsync(c => c.Id == getAsyncContentRequest.Id);
+        GetAsyncContentResponse response = _mapper.Map<GetAsyncContentResponse>(getAsyncContent);
+        return response;
     }
 
     [CacheAspect(duration: 10)]
     public async Task<IPaginate<GetListedAsyncContentResponse>> GetListAsync(PageRequest pageRequest)
     {
         var getList = await _asyncContentDal.GetListAsync(include: p => p.Include(p => p.AsyncCourse),index: pageRequest.Index, size: pageRequest.Size);
-        return _mapper.Map<Paginate<GetListedAsyncContentResponse>>(getList);
+        Paginate<GetListedAsyncContentResponse> response = _mapper.Map<Paginate<GetListedAsyncContentResponse>>(getList);
+        return response;
     }
 
     [SecuredOperation("asyncContents.update,admin")]
     [CacheRemoveAspect("IAsyncContentService.Get")]
     public async Task<UpdatedAsyncContentResponse> UpdateAsync(UpdateAsyncContentRequest updateAsyncContentRequest)
     {
-        var asyncContent = _mapper.Map<AsyncContent>(updateAsyncContentRequest);
-        var updatedAsyncContent = await _asyncContentDal.UpdateAsync(asyncContent);
-        return _mapper.Map<UpdatedAsyncContentResponse>(updatedAsyncContent);
+        var result = await _asyncContentDal.GetAsync(predicate: a => a.Id == updateAsyncContentRequest.Id);
+        _mapper.Map(updateAsyncContentRequest, result);
+        await _asyncContentDal.UpdateAsync(result);
+        UpdatedAsyncContentResponse response = _mapper.Map<UpdatedAsyncContentResponse>(result);
+        return response;
     }
 }

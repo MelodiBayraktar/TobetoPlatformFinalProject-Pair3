@@ -26,36 +26,40 @@ public class ContactUsManager:IContactUsService
     [ValidationAspect(typeof(ContactUsRequestValidator))]
     public async Task<CreatedContactUsResponse> AddAsync(CreateContactUsRequest createContactUsRequest)
     {
-        var contactUs = _mapper.Map<ContactUs>(createContactUsRequest);
+        ContactUs contactUs = _mapper.Map<ContactUs>(createContactUsRequest);
         var createContactUs = await _contactUsDal.AddAsync(contactUs);
-        return _mapper.Map<CreatedContactUsResponse>(createContactUs);
+        CreatedContactUsResponse response =  _mapper.Map<CreatedContactUsResponse>(createContactUs);
+        return response;
     }
 
     public async Task<DeletedContactUsResponse> DeleteAsync(DeleteContactUsRequest deleteContactUsRequest)
     {
-        var contactUs = await _contactUsDal.GetAsync(c => c.Id == deleteContactUsRequest.Id);
-        var deletecontactUs = await _contactUsDal.DeleteAsync(contactUs);
-        return _mapper.Map<DeletedContactUsResponse>(deletecontactUs);
+        ContactUs contactUs = await _contactUsDal.GetAsync(c => c.Id == deleteContactUsRequest.Id);
+        await _contactUsDal.DeleteAsync(contactUs);
+        DeletedContactUsResponse response = _mapper.Map<DeletedContactUsResponse>(contactUs);
+        return response;
     }
 
     public async Task<GetContactUsResponse> GetById(GetContactUsRequest getContactUsRequest)
     {
-        var getContactUs = await _contactUsDal.GetAsync(c => c.Id == getContactUsRequest.Id);
-        return _mapper.Map<GetContactUsResponse>(getContactUs);
+        ContactUs getContactUs = await _contactUsDal.GetAsync(c => c.Id == getContactUsRequest.Id);
+        GetContactUsResponse response = _mapper.Map<GetContactUsResponse>(getContactUs);
+        return response;
     }
-
-
+    
     public async Task<IPaginate<GetListedContactUsResponse>> GetListAsync(PageRequest pageRequest)
     {
-        var result = await _contactUsDal.GetListAsync(index: pageRequest.Index, size: pageRequest.Size);
-        Paginate<GetListedContactUsResponse> response = _mapper.Map<Paginate<GetListedContactUsResponse>>(result);
+        var getList = await _contactUsDal.GetListAsync(index: pageRequest.Index, size: pageRequest.Size);
+        Paginate<GetListedContactUsResponse> response = _mapper.Map<Paginate<GetListedContactUsResponse>>(getList);
         return response;
     }
 
     public async Task<UpdatedContactUsResponse> UpdateAsync(UpdateContactUsRequest updateContactUsRequest)
     {
-        var contactUs = _mapper.Map<ContactUs>(updateContactUsRequest);
-        var updatedContactUs = await _contactUsDal.UpdateAsync(contactUs);
-        return _mapper.Map<UpdatedContactUsResponse>(updatedContactUs);
+        var result = await _contactUsDal.GetAsync(predicate: a => a.Id == updateContactUsRequest.Id);
+        _mapper.Map(updateContactUsRequest, result);
+        await _contactUsDal.UpdateAsync(result);
+        UpdatedContactUsResponse response = _mapper.Map<UpdatedContactUsResponse>(result);
+        return response;
     }
 }
