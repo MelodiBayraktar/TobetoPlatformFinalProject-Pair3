@@ -29,39 +29,43 @@ public class SurveyManager : ISurveyService
     [ValidationAspect(typeof(SurveyRequestValidator))]
     public async Task<CreatedSurveyResponse> AddAsync(CreateSurveyRequest createSurveyRequest)
     {
-        // var survey = _mapper.Map<Survey>(createSurveyRequest);
-        // var createSurvey = await _surveyDal.AddAsync(survey);
-        // return _mapper.Map<CreatedSurveyResponse>(createSurvey);
-        var survey = _mapper.Map<Survey>(createSurveyRequest);
+        Survey survey = _mapper.Map<Survey>(createSurveyRequest);
         Expression<Func<Survey, object>> includeExpressionForStudent = x => x.Student;
-
         var createSurvey = await _surveyDal.AddAsync(survey, includeExpressionForStudent);
-        return _mapper.Map<CreatedSurveyResponse>(createSurvey);
+        CreatedSurveyResponse response = _mapper.Map<CreatedSurveyResponse>(createSurvey);
+        return response;
     }
+
     [SecuredOperation("surveys.delete,admin")]
     public async Task<DeletedSurveyResponse> DeleteAsync(DeleteSurveyRequest deleteSurveyRequest)
     {
-        var survey = await _surveyDal.GetAsync(c => c.Id == deleteSurveyRequest.Id);
+        Survey survey = await _surveyDal.GetAsync(c => c.Id == deleteSurveyRequest.Id);
         var deleteSurvey = await _surveyDal.DeleteAsync(survey);
-        return _mapper.Map<DeletedSurveyResponse>(deleteSurvey);
+        DeletedSurveyResponse response = _mapper.Map<DeletedSurveyResponse>(deleteSurvey);
+        return response;
     }
 
     public async Task<GetSurveyResponse> GetById(GetSurveyRequest getSurveyRequest)
     {
-        var getSurvey = await _surveyDal.GetAsync(c => c.Id == getSurveyRequest.Id);
-        return _mapper.Map<GetSurveyResponse>(getSurvey);
+        Survey getSurvey = await _surveyDal.GetAsync(c => c.Id == getSurveyRequest.Id);
+        GetSurveyResponse response = _mapper.Map<GetSurveyResponse>(getSurvey);
+        return response;
     }
 
     public async Task<IPaginate<GetListedSurveyResponse>> GetListAsync(PageRequest pageRequest)
     {
         var getList = await _surveyDal.GetListAsync(include: p => p.Include(p => p.Student),index: pageRequest.Index, size: pageRequest.Size);
-        return _mapper.Map<Paginate<GetListedSurveyResponse>>(getList);
+        Paginate<GetListedSurveyResponse> response = _mapper.Map<Paginate<GetListedSurveyResponse>>(getList);
+        return response;
     }
+
     [SecuredOperation("surveys.update,admin")]
     public async Task<UpdatedSurveyResponse> UpdateAsync(UpdateSurveyRequest updateSurveyRequest)
     {
-        var survey = _mapper.Map<Survey>(updateSurveyRequest);
-        var updatedSurvey = await _surveyDal.UpdateAsync(survey);
-        return _mapper.Map<UpdatedSurveyResponse>(updatedSurvey);
+        var result = await _surveyDal.GetAsync(predicate: a => a.Id == updateSurveyRequest.Id);
+        _mapper.Map(updateSurveyRequest, result);
+        await _surveyDal.UpdateAsync(result);
+        UpdatedSurveyResponse response = _mapper.Map<UpdatedSurveyResponse>(result);
+        return response;
     }
 }

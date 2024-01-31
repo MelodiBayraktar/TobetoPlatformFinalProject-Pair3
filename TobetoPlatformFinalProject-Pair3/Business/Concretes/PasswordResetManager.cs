@@ -1,11 +1,19 @@
+using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
 using Business.BusinessAspects.Autofac;
+using Business.Dtos.Instructor.Requests;
+using Business.Dtos.Instructor.Responses;
 using Business.Dtos.PasswordReset.Requests;
 using Business.Dtos.PasswordReset.Responses;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
+using Core.DataAccess.Paging;
+using Core.Utilities.Business.GetUserId;
+using Core.Utilities.Business.Requests;
 using DataAccess.Abstracts;
+using DataAccess.Concretes;
+using Entities;
 using Entities.Concretes;
 
 namespace Business.Concretes;
@@ -46,12 +54,15 @@ public class PasswordResetManager : IPasswordResetService
     //    var getList = await _passwordResetDal.GetListAsync(index: pageRequest.Index, size: pageRequest.Size);
     //    return _mapper.Map<Paginate<GetListedPasswordResetResponse>>(getList);
     //}
+
     [SecuredOperation("passwordResets.update,admin")]
     [ValidationAspect(typeof(PasswordResetRequestValidator))]
     public async Task<UpdatedPasswordResetResponse> UpdateAsync(UpdatePasswordResetRequest updatePasswordResetRequest)
     {
-        var passwordReset = _mapper.Map<PasswordReset>(updatePasswordResetRequest);
-        var updatedPasswordReset = await _passwordResetDal.UpdateAsync(passwordReset);
-        return _mapper.Map<UpdatedPasswordResetResponse>(updatedPasswordReset);
+        var result = await _passwordResetDal.GetAsync(predicate: a => a.Id == updatePasswordResetRequest.Id);
+        _mapper.Map(updatePasswordResetRequest, result);
+        await _passwordResetDal.UpdateAsync(result);
+        UpdatedPasswordResetResponse response = _mapper.Map<UpdatedPasswordResetResponse>(result);
+        return response;
     }
 }

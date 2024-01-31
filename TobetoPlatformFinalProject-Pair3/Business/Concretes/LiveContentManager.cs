@@ -2,13 +2,18 @@ using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
 using Business.BusinessAspects.Autofac;
+using Business.Dtos.Instructor.Requests;
+using Business.Dtos.Instructor.Responses;
 using Business.Dtos.LiveContent.Requests;
 using Business.Dtos.LiveContent.Responses;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
 using Core.DataAccess.Paging;
+using Core.Utilities.Business.GetUserId;
 using Core.Utilities.Business.Requests;
 using DataAccess.Abstracts;
+using DataAccess.Concretes;
+using Entities;
 using Entities.Concretes;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,40 +33,43 @@ public class LiveContentManager : ILiveContentService
     [ValidationAspect(typeof(LiveContentRequestValidator))]
     public async Task<CreatedLiveContentResponse> AddAsync(CreateLiveContentRequest createLiveContentRequest)
     {
-        // var liveContent = _mapper.Map<LiveContent>(createLiveContentRequest);
-        // var createLiveContent = await _liveContentDal.AddAsync(liveContent);
-        // return _mapper.Map<CreatedLiveContentResponse>(createLiveContent);
-        var liveContent = _mapper.Map<LiveContent>(createLiveContentRequest);
+        LiveContent liveContent = _mapper.Map<LiveContent>(createLiveContentRequest);
         Expression<Func<LiveContent, object>> includeExpressionForLiveCourse = x => x.LiveCourse;
-
         var createLiveContent = await _liveContentDal.AddAsync(liveContent, includeExpressionForLiveCourse);
-        return _mapper.Map<CreatedLiveContentResponse>(createLiveContent);
+        CreatedLiveContentResponse response = _mapper.Map<CreatedLiveContentResponse>(createLiveContent);
+        return response;
     }
+
     [SecuredOperation("liveContents.delete,admin")]
     public async Task<DeletedLiveContentResponse> DeleteAsync(DeleteLiveContentRequest deleteLiveContentRequest)
     {
-        var liveContent = await _liveContentDal.GetAsync(c => c.Id == deleteLiveContentRequest.Id);
+        LiveContent liveContent = await _liveContentDal.GetAsync(c => c.Id == deleteLiveContentRequest.Id);
         var deleteLiveContent = await _liveContentDal.DeleteAsync(liveContent);
-        return _mapper.Map<DeletedLiveContentResponse>(deleteLiveContent);
+        DeletedLiveContentResponse response = _mapper.Map<DeletedLiveContentResponse>(deleteLiveContent);
+        return response;
     }
 
     public async Task<GetLiveContentResponse> GetById(GetLiveContentRequest getLiveContentRequest)
     {
-        var getLiveContent = await _liveContentDal.GetAsync(c => c.Id == getLiveContentRequest.Id);
-        return _mapper.Map<GetLiveContentResponse>(getLiveContent);
+        LiveContent getLiveContent = await _liveContentDal.GetAsync(c => c.Id == getLiveContentRequest.Id);
+        GetLiveContentResponse response = _mapper.Map<GetLiveContentResponse>(getLiveContent);
+        return response;
     }
 
     public async Task<IPaginate<GetListedLiveContentResponse>> GetListAsync(PageRequest pageRequest)
     {
         var getList = await _liveContentDal.GetListAsync(include: p => p.Include(p => p.LiveCourse),index: pageRequest.Index, size: pageRequest.Size);
-        return _mapper.Map<Paginate<GetListedLiveContentResponse>>(getList);
-       
+        Paginate<GetListedLiveContentResponse> response = _mapper.Map<Paginate<GetListedLiveContentResponse>>(getList);
+        return response;
     }
+
     [SecuredOperation("liveContents.update,admin")]
     public async Task<UpdatedLiveContentResponse> UpdateAsync(UpdateLiveContentRequest updateLiveContentRequest)
     {
-        var liveContent = _mapper.Map<LiveContent>(updateLiveContentRequest);
-        var updatedLiveContent = await _liveContentDal.UpdateAsync(liveContent);
-        return _mapper.Map<UpdatedLiveContentResponse>(updatedLiveContent);
+        var result = await _liveContentDal.GetAsync(predicate: a => a.Id == updateLiveContentRequest.Id);
+        _mapper.Map(updateLiveContentRequest, result);
+        await _liveContentDal.UpdateAsync(result);
+        UpdatedLiveContentResponse response = _mapper.Map<UpdatedLiveContentResponse>(result);
+        return response;
     }
 }

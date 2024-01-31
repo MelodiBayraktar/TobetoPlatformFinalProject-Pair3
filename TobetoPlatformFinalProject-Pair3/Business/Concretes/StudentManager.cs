@@ -2,13 +2,18 @@ using System.Linq.Expressions;
 using AutoMapper;
 using Business.Abstracts;
 using Business.BusinessAspects.Autofac;
+using Business.Dtos.Instructor.Requests;
+using Business.Dtos.Instructor.Responses;
 using Business.Dtos.Student.Requests;
 using Business.Dtos.Student.Responses;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
 using Core.DataAccess.Paging;
+using Core.Utilities.Business.GetUserId;
 using Core.Utilities.Business.Requests;
 using DataAccess.Abstracts;
+using DataAccess.Concretes;
+using Entities;
 using Entities.Concretes;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,49 +23,59 @@ public class StudentManager : IStudentService
 {
     private IStudentDal _studentDal;
     private IMapper _mapper;
+    private IGetUserId _getUserId;
 
-    public StudentManager(IStudentDal studentDal, IMapper mapper)
+    public StudentManager(IStudentDal studentDal, IMapper mapper, IGetUserId getUserId)
     {
         _studentDal = studentDal;
         _mapper = mapper;
+        _getUserId = getUserId;
     }
+
     [SecuredOperation("students.add,admin")]
     [ValidationAspect(typeof(StudentRequestValidator))]
     public async Task<CreatedStudentResponse> AddAsync(CreateStudentRequest createStudentRequest)
     {
-        // var student = _mapper.Map<Student>(createStudentRequest);
-        // var createStudent = await _studentDal.AddAsync(student);
-        // return _mapper.Map<CreatedStudentResponse>(createStudent);
-        var student = _mapper.Map<Student>(createStudentRequest);
+        Student student = _mapper.Map<Student>(createStudentRequest);
+        Guid userId = _getUserId.GetUserIdFromHttpContext();
+        student.UserId = userId;
         Expression<Func<Student, object>> includeExpressionForUser = x => x.User;
-
         var createStudent = await _studentDal.AddAsync(student, includeExpressionForUser);
-        return _mapper.Map<CreatedStudentResponse>(createStudent);
+        CreatedStudentResponse response = _mapper.Map<CreatedStudentResponse>(createStudent);
+        return response;
     }
+
     [SecuredOperation("students.delete,admin")]
     public async Task<DeletedStudentResponse> DeleteAsync(DeleteStudentRequest deleteStudentRequest)
     {
-        var student = await _studentDal.GetAsync(c => c.Id == deleteStudentRequest.Id);
+        Student student = await _studentDal.GetAsync(c => c.Id == deleteStudentRequest.Id);
         var deleteStudent = await _studentDal.DeleteAsync(student);
-        return _mapper.Map<DeletedStudentResponse>(deleteStudent);
+        DeletedStudentResponse response = _mapper.Map<DeletedStudentResponse>(deleteStudent);
+        return response;
     }
 
     public async Task<GetStudentResponse> GetById(GetStudentRequest getStudentRequest)
     {
-        var getStudent = await _studentDal.GetAsync(c => c.Id == getStudentRequest.Id);
-        return _mapper.Map<GetStudentResponse>(getStudent);
+        Student getStudent = await _studentDal.GetAsync(c => c.Id == getStudentRequest.Id);
+        GetStudentResponse response = _mapper.Map<GetStudentResponse>(getStudent);
+        return response;
     }
 
     public async Task<IPaginate<GetListedStudentResponse>> GetListAsync(PageRequest pageRequest)
     {
         var getList = await _studentDal.GetListAsync(include: p => p.Include(p => p.User), index: pageRequest.Index, size: pageRequest.Size);
-        return _mapper.Map<Paginate<GetListedStudentResponse>>(getList);
+        Paginate<GetListedStudentResponse> response = _mapper.Map<Paginate<GetListedStudentResponse>>(getList);
+        return response;
     }
+
+
     [SecuredOperation("students.update,admin")]
     public async Task<UpdatedStudentResponse> UpdateAsync(UpdateStudentRequest updateStudentRequest)
     {
-        var student = _mapper.Map<Student>(updateStudentRequest);
-        var updatedStudent = await _studentDal.UpdateAsync(student);
-        return _mapper.Map<UpdatedStudentResponse>(updatedStudent);
+        var result = await _studentDal.GetAsync(predicate: a => a.Id == updateStudentRequest.Id);
+        _mapper.Map(updateStudentRequest, result);
+        await _studentDal.UpdateAsync(result);
+        UpdatedStudentResponse response = _mapper.Map<UpdatedStudentResponse>(result);
+        return response;
     }
 }
