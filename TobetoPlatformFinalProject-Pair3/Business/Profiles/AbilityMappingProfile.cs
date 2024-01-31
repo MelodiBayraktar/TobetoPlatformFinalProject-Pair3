@@ -26,6 +26,7 @@ namespace Business.Profiles
 
             CreateMap<Ability, GetListedAbilityResponse>().ForMember(destinationMember: p => p.UserName,
                             memberOptions: opt => opt.MapFrom(p => p.User.FirstName + " " + p.User.LastName)).ReverseMap();
+
             CreateMap<Paginate<Ability>, Paginate<GetListedAbilityResponse>>().ReverseMap();
         }
     }

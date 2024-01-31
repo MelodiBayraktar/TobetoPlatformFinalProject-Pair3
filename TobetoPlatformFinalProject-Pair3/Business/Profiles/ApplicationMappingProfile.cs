@@ -11,7 +11,8 @@ public class ApplicationMappingProfile : Profile
     public ApplicationMappingProfile()
     {
         CreateMap<Application, CreateApplicationRequest>().ReverseMap();
-        CreateMap<Application, CreatedApplicationResponse>().ReverseMap();;
+        CreateMap<Application, CreatedApplicationResponse>().ForMember(destinationMember: p => p.ProjectName,
+            memberOptions: opt => opt.MapFrom(p => p.Project.Name)).ReverseMap();
 
         CreateMap<Application, UpdateApplicationRequest>().ReverseMap();
         CreateMap<Application, UpdatedApplicationResponse>().ReverseMap();;

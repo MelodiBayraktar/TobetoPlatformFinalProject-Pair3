@@ -10,6 +10,7 @@ namespace Business.Dtos.CourseExam.Requests
     {
         public Guid Id { get; set; }
         public Guid StudentId { get; set; }
+        public Guid CourseDetailId { get; set; }
         public string Name { get; set; }
         public string Time { get; set; }
         public bool Status { get; set; }

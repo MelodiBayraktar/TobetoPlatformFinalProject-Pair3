@@ -9,7 +9,6 @@ namespace Business.Dtos.PersonalInfo.Requests
     public class UpdatePersonalInfoRequest
     {
         public Guid Id { get; set; }
-        public Guid UserId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string ProfileImageUrl { get; set; }

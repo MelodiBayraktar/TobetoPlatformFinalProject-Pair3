@@ -9,6 +9,7 @@ namespace Business.Dtos.AsyncLessonsDetail.Responses
     public class CreatedAsyncLessonsDetailResponse
     {
         public Guid Id { get; set; }
+        public Guid AsyncLessonsOfContentId { get; set; }
         public bool IsLiked { get; set; }
         public string Category { get; set; }
         public string Language { get; set; }

@@ -9,7 +9,6 @@ namespace Business.Dtos.Experience.Requests
     public class UpdateExperienceRequest
     {
         public Guid Id { get; set; }
-        public Guid UserId { get; set; }
         public string OrganizationName { get; set; }
         public string Position { get; set; }
         public string Sector { get; set; }

@@ -24,7 +24,9 @@ public class AsyncContentMappingProfile : Profile
 
         CreateMap<AsyncContent, GetAsyncContentRequest>().ReverseMap();
         CreateMap<AsyncContent, GetAsyncContentResponse>().ReverseMap();
-        
+
+        CreateMap<AsyncContent, GetListedAsyncContentResponse>().ForMember(destinationMember: p => p.AsyncCourseId,
+                memberOptions: opt => opt.MapFrom(p => p.AsyncCourse.Id)).ReverseMap();
         CreateMap<Paginate<AsyncContent>, Paginate<GetListedAsyncContentResponse>>().ReverseMap();
     }
 }

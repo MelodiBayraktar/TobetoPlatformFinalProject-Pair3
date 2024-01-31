@@ -3,6 +3,7 @@
 public class GetListedExperienceResponse
 {
     public Guid Id { get; set; }
+    public Guid UserId { get; set; }
     public string UserName { get; set; }
     public string OrganizationName { get; set; }
     public string Position { get; set; }

@@ -2,6 +2,7 @@ namespace Business.Dtos.AsyncLessonsDetail.Requests;
 
 public class CreateAsyncLessonsDetailRequest
 {
+    public Guid AsyncLessonsOfContentId { get; set; }
     public bool IsLiked { get; set; }
     public string Category { get; set; }
     public string Language { get; set; }

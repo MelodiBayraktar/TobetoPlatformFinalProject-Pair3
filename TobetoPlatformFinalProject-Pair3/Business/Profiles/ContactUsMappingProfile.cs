@@ -12,15 +12,16 @@ namespace Business.Profiles
     {
         public ContactUsMappingProfile()
         {
-            CreateMap<CreateContactUsRequest, ContactUs>().ReverseMap();
+            CreateMap<ContactUs, CreateContactUsRequest>().ReverseMap();
             CreateMap<ContactUs, CreatedContactUsResponse>().ReverseMap();
 
-            CreateMap<UpdateContactUsRequest, ContactUs>().ReverseMap();
+            CreateMap<ContactUs, UpdateContactUsRequest>().ReverseMap();
             CreateMap<ContactUs, UpdatedContactUsResponse>().ReverseMap();
 
-            CreateMap<DeleteContactUsRequest, ContactUs>().ReverseMap();
+            CreateMap<ContactUs, DeleteContactUsRequest>().ReverseMap();
             CreateMap<ContactUs, DeletedContactUsResponse>().ReverseMap();
 
+            CreateMap<ContactUs, GetContactUsRequest>().ReverseMap();
             CreateMap<ContactUs, GetContactUsResponse>().ReverseMap();
 
             CreateMap<ContactUs, GetListedContactUsResponse>().ReverseMap();

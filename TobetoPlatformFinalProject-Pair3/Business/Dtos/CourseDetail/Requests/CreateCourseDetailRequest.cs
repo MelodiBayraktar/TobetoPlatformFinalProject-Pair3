@@ -3,7 +3,6 @@ namespace Business.Dtos.CourseDetail.Requests;
 public class CreateCourseDetailRequest
 {
     public Guid CourseCategoryId { get; set; }
-    public Guid CourseDetailId { get; set; }
     public string Name { get; set; }
     public bool IsLiked { get; set; }
     public bool IsFavorited { get; set; }
