@@ -53,7 +53,8 @@ public class NewsManager : INewsService
 
     public async Task<GetNewsResponse> GetById(GetNewsRequest getNewsRequest)
     {
-        News getNews = await _newsDal.GetAsync(c => c.Id == getNewsRequest.Id);
+        News getNews = await _newsDal.GetAsync(c => c.Id == getNewsRequest.Id,
+            include: p => p.Include(p => p.Project).Include(p => p.AnnouncementsNewsCategory));
         GetNewsResponse response = _mapper.Map<GetNewsResponse>(getNews);
         return response;
     }

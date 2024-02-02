@@ -52,7 +52,8 @@ public class AsyncContentManager : IAsyncContentService
     [CacheAspect(duration: 10)]
     public async Task<GetAsyncContentResponse> GetById(GetAsyncContentRequest getAsyncContentRequest)
     {
-        AsyncContent getAsyncContent = await _asyncContentDal.GetAsync(c => c.Id == getAsyncContentRequest.Id);
+        AsyncContent getAsyncContent = await _asyncContentDal.GetAsync(c => c.Id == getAsyncContentRequest.Id,
+            include: p => p.Include(p => p.AsyncCourse));
         GetAsyncContentResponse response = _mapper.Map<GetAsyncContentResponse>(getAsyncContent);
         return response;
     }

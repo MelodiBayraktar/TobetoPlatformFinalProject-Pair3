@@ -52,7 +52,8 @@ public class ForeignLanguageManager : IForeignLanguageService
 
     public async Task<GetForeignLanguageResponse> GetById(GetForeignLanguageRequest getForeignLanguageRequest)
     {
-        ForeignLanguage getForeignLanguage = await _foreignLanguageDal.GetAsync(c => c.Id == getForeignLanguageRequest.Id);
+        ForeignLanguage getForeignLanguage = await _foreignLanguageDal.GetAsync(c => c.Id == getForeignLanguageRequest.Id,
+            include: p => p.Include(p => p.User));
         GetForeignLanguageResponse response = _mapper.Map<GetForeignLanguageResponse>(getForeignLanguage);
         return response;
     }

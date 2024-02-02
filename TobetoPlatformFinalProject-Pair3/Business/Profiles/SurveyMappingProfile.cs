@@ -25,11 +25,16 @@ namespace Business.Profiles
             CreateMap<Survey, DeletedSurveyResponse>().ReverseMap();
 
             CreateMap<Survey, GetSurveyRequest>().ReverseMap();
-            CreateMap<Survey, GetSurveyResponse>().ForMember(destinationMember: p => p.StudentFullName,
-                memberOptions: opt => opt.MapFrom(p => p.Student.User.FirstName + " " + p.Student.User.LastName)).ReverseMap();
+            CreateMap<Survey, GetSurveyResponse>()
+                .ForMember(destinationMember: p => p.StudentFullName,
+                memberOptions: opt => opt.MapFrom(p => p.Student.User.FirstName + " " + p.Student.User.LastName))
+                .ReverseMap();
             
-            CreateMap<Survey, GetListedSurveyResponse>().ForMember(destinationMember: p => p.StudentFullName,
-                memberOptions: opt => opt.MapFrom(p => p.Student.User.FirstName + " " + p.Student.User.LastName)).ReverseMap();
+            CreateMap<Survey, GetListedSurveyResponse>()
+                .ForMember(destinationMember: p => p.StudentFullName,
+                memberOptions: opt => opt.MapFrom(p => p.Student.User.FirstName + " " + p.Student.User.LastName))
+                .ReverseMap();
+
             CreateMap<Paginate<Survey>, Paginate<GetListedSurveyResponse>>().ReverseMap();
         }
     }

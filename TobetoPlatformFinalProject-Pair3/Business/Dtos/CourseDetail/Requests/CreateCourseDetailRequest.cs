@@ -1,3 +1,5 @@
+using Core.Entities.Concretes;
+
 namespace Business.Dtos.CourseDetail.Requests;
 
 public class CreateCourseDetailRequest

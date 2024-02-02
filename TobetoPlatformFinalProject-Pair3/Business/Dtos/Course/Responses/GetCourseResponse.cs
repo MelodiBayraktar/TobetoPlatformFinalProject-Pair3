@@ -13,5 +13,6 @@ namespace Business.Dtos.Course.Responses
         public string UserName { get; set; }
         public string ImageUrl { get; set; }
         public string Title { get; set; }
+        public DateTime CreatedDate { get; set; }
     }
 }

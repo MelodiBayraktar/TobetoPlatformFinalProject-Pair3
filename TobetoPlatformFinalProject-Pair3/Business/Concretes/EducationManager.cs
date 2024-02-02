@@ -51,7 +51,8 @@ public class EducationManager : IEducationService
 
     public async Task<GetEducationResponse> GetById(GetEducationRequest getEducationRequest)
     {
-        Education getEducation = await _educationDal.GetAsync(c => c.Id == getEducationRequest.Id);
+        Education getEducation = await _educationDal.GetAsync(c => c.Id == getEducationRequest.Id,
+            include: p => p.Include(p => p.User));
         GetEducationResponse response =  _mapper.Map<GetEducationResponse>(getEducation);
         return response;
     }

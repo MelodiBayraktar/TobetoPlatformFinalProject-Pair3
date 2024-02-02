@@ -46,14 +46,16 @@ public class AsyncLessonsDetailManager : IAsyncLessonsDetailService
 
     public async Task<GetAsyncLessonsDetailResponse> GetById(GetAsyncLessonsDetailRequest getAsyncLessonsDetailRequest)
     {
-        AsyncLessonsDetail getAsyncLessonsDetail = await _asyncLessonsDetailDal.GetAsync(c => c.Id == getAsyncLessonsDetailRequest.Id);
+        AsyncLessonsDetail getAsyncLessonsDetail = await _asyncLessonsDetailDal.GetAsync(c => c.Id == getAsyncLessonsDetailRequest.Id,
+            include: p => p.Include(p => p.AsyncLessonsOfContent));
         GetAsyncLessonsDetailResponse response =  _mapper.Map<GetAsyncLessonsDetailResponse>(getAsyncLessonsDetail);
         return response;
     }
 
     public async Task<IPaginate<GetListedAsyncLessonsDetailResponse>> GetListAsync(PageRequest pageRequest)
     {
-        var getList = await _asyncLessonsDetailDal.GetListAsync(include: p => p.Include(p => p.AsyncLessonsOfContent), index: pageRequest.Index, size: pageRequest.Size);
+        var getList = await _asyncLessonsDetailDal.GetListAsync(include: p => p.Include(p => p.AsyncLessonsOfContent), 
+            index: pageRequest.Index, size: pageRequest.Size);
         Paginate<GetListedAsyncLessonsDetailResponse> response = _mapper.Map<Paginate<GetListedAsyncLessonsDetailResponse>>(getList);
         return response;
     }

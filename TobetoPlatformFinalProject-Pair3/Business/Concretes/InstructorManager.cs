@@ -56,7 +56,8 @@ public class InstructorManager : IInstructorService
 
     public async Task<GetInstructorResponse> GetById(GetInstructorRequest getInstructorRequest)
     {
-        Instructor getInstructor = await _instructorDal.GetAsync(c => c.Id == getInstructorRequest.Id);
+        Instructor getInstructor = await _instructorDal.GetAsync(c => c.Id == getInstructorRequest.Id,
+            include: p => p.Include(p => p.User));
         GetInstructorResponse response = _mapper.Map<GetInstructorResponse>(getInstructor);
         return response;
     }

@@ -48,7 +48,8 @@ public class CourseExamManager : ICourseExamService
 
     public async Task<GetCourseExamResponse> GetById(GetCourseExamRequest getCourseExamRequest)
     {
-        CourseExam getCourseExam = await _courseExamDal.GetAsync(c => c.Id == getCourseExamRequest.Id);
+        CourseExam getCourseExam = await _courseExamDal.GetAsync(c => c.Id == getCourseExamRequest.Id,
+            include: p => p.Include(p => p.Student).Include(p => p.CourseDetail));
         GetCourseExamResponse response = _mapper.Map<GetCourseExamResponse>(getCourseExam);
         return response;
     }

@@ -68,7 +68,8 @@ public class AbilityManager : IAbilityService
     [CacheAspect(duration: 10)]
     public async Task<GetAbilityResponse> GetById(GetAbilityRequest getAbilityRequest)
     {
-        Ability getAbility = await _abilityDal.GetAsync(predicate: c => c.Id == getAbilityRequest.Id);
+        Ability getAbility = await _abilityDal.GetAsync(predicate: c => c.Id == getAbilityRequest.Id,
+            include: p => p.Include(p => p.User));
         GetAbilityResponse response = _mapper.Map<GetAbilityResponse>(getAbility);
         return response;
     }
@@ -76,7 +77,7 @@ public class AbilityManager : IAbilityService
     [CacheAspect(duration: 10)]
     public async Task<IPaginate<GetListedAbilityResponse>> GetListAsync(PageRequest pageRequest)
     {
-        var getList = await _abilityDal.GetListAsync(index: pageRequest.Index, size: pageRequest.Size);
+        var getList = await _abilityDal.GetListAsync(include: p => p.Include(p => p.User), index: pageRequest.Index, size: pageRequest.Size);
         Paginate<GetListedAbilityResponse> response = _mapper.Map<Paginate<GetListedAbilityResponse>>(getList);
         return response;
     }

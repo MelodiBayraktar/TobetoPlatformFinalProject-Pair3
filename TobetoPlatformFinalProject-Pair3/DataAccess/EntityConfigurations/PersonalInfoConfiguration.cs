@@ -14,6 +14,7 @@ public class PersonalInfoConfiguration : IEntityTypeConfiguration<PersonalInfo>
         builder.Property(a => a.UserId).HasColumnName("UserId").IsRequired();
         builder.Property(a => a.About).HasColumnName("About").IsRequired();
         builder.Property(a => a.ProfileImageUrl).HasColumnName("ProfileImageUrl").IsRequired();
+        builder.Property(a => a.PhoneNumber).HasColumnName("PhoneNumber").IsRequired();
         builder.Property(a => a.BirthDate).HasColumnName("BirthDate").IsRequired();
         builder.Property(a => a.Address).HasColumnName("Address").IsRequired();
         builder.Property(a => a.District).HasColumnName("District").IsRequired();

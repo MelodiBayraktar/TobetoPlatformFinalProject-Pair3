@@ -11,22 +11,24 @@ public class ApplicationMappingProfile : Profile
     public ApplicationMappingProfile()
     {
         CreateMap<Application, CreateApplicationRequest>().ReverseMap();
-        CreateMap<Application, CreatedApplicationResponse>().ForMember(destinationMember: p => p.ProjectName,
+        CreateMap<Application, CreatedApplicationResponse>()
+            .ForMember(destinationMember: p => p.ProjectName,
             memberOptions: opt => opt.MapFrom(p => p.Project.Name)).ReverseMap();
 
         CreateMap<Application, UpdateApplicationRequest>().ReverseMap();
-        CreateMap<Application, UpdatedApplicationResponse>().ReverseMap();;
+        CreateMap<Application, UpdatedApplicationResponse>().ReverseMap();
 
         CreateMap<Application, DeleteApplicationRequest>().ReverseMap();
-        CreateMap<Application, DeletedApplicationResponse>().ReverseMap();;
+        CreateMap<Application, DeletedApplicationResponse>().ReverseMap();
 
         CreateMap<Application, GetApplicationRequest>().ReverseMap();
+        CreateMap<Application, GetApplicationResponse>()
+            .ForMember(destinationMember: p => p.ProjectName,
+             memberOptions: opt => opt.MapFrom(p => p.Project.Name)).ReverseMap();
 
-        CreateMap<Application, GetApplicationResponse>().ForMember(destinationMember: p => p.ProjectName,
-            memberOptions: opt => opt.MapFrom(p => p.Project.Name)).ReverseMap();
-
-        CreateMap<Application, GetListedApplicationResponse>().ForMember(destinationMember: p => p.ProjectName,
-                        memberOptions: opt => opt.MapFrom(p => p.Project.Name)).ReverseMap();
+        CreateMap<Application, GetListedApplicationResponse>()
+            .ForMember(destinationMember: p => p.ProjectName,
+             memberOptions: opt => opt.MapFrom(p => p.Project.Name)).ReverseMap();
 
         CreateMap<Paginate<Application>, Paginate<GetListedApplicationResponse>>().ReverseMap();
     }

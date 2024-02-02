@@ -51,7 +51,8 @@ public class LiveContentManager : ILiveContentService
 
     public async Task<GetLiveContentResponse> GetById(GetLiveContentRequest getLiveContentRequest)
     {
-        LiveContent getLiveContent = await _liveContentDal.GetAsync(c => c.Id == getLiveContentRequest.Id);
+        LiveContent getLiveContent = await _liveContentDal.GetAsync(c => c.Id == getLiveContentRequest.Id,
+            include: p => p.Include(p => p.LiveCourse));
         GetLiveContentResponse response = _mapper.Map<GetLiveContentResponse>(getLiveContent);
         return response;
     }

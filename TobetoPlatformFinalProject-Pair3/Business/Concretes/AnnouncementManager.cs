@@ -55,7 +55,8 @@ public class AnnouncementManager : IAnnouncementService
 
     public async Task<GetAnnouncementResponse> GetById(GetAnnouncementRequest getAnnouncementRequest)
     {
-        Announcement getAnnouncement = await _announcementDal.GetAsync(predicate: c => c.Id == getAnnouncementRequest.Id);
+        Announcement getAnnouncement = await _announcementDal.GetAsync(predicate: c => c.Id == getAnnouncementRequest.Id,
+            include: p => p.Include(p => p.Project).Include(p => p.AnnouncementsNewsCategory));
         await _announcementBusinessRules.AnnouncementMustExistWhenSelected(getAnnouncement);
         GetAnnouncementResponse response = _mapper.Map<GetAnnouncementResponse>(getAnnouncement);
         return response;

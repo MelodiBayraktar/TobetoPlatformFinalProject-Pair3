@@ -48,14 +48,16 @@ public class AsyncCourseManager : IAsyncCourseService
 
     public async Task<GetAsyncCourseResponse> GetById(GetAsyncCourseRequest getAsyncCourseRequest)
     {
-        AsyncCourse getAsyncCourse = await _asyncCourseDal.GetAsync(c => c.Id == getAsyncCourseRequest.Id);
+        AsyncCourse getAsyncCourse = await _asyncCourseDal.GetAsync(c => c.Id == getAsyncCourseRequest.Id,
+            include: p => p.Include(p => p.CourseDetail).Include(p => p.Course));
         GetAsyncCourseResponse response = _mapper.Map<GetAsyncCourseResponse>(getAsyncCourse);
         return response;
     }
 
     public async Task<IPaginate<GetListedAsyncCourseResponse>> GetListAsync(PageRequest pageRequest)
     {
-        var getList = await _asyncCourseDal.GetListAsync(include: p => p.Include(p => p.CourseDetail).Include(p => p.Course), index: pageRequest.Index, size: pageRequest.Size);
+        var getList = await _asyncCourseDal.GetListAsync(include: p => p.Include(p => p.CourseDetail).Include(p => p.Course), 
+            index: pageRequest.Index, size: pageRequest.Size);
         Paginate<GetListedAsyncCourseResponse> response = _mapper.Map<Paginate<GetListedAsyncCourseResponse>>(getList);
         return response;
     }

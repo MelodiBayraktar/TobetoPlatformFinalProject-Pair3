@@ -10,6 +10,7 @@ namespace Business.Dtos.AsyncLessonsOfContent.Responses
     {
         public Guid Id { get; set; }
         public Guid AsyncContentId { get; set; }
+        public string AsyncContentName { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }
         public int Duration { get; set; }

@@ -20,11 +20,15 @@ public class SessionMappingProfile : Profile
         CreateMap<Session, DeletedSessionResponse>().ReverseMap();
 
         CreateMap<Session, GetSessionRequest>().ReverseMap();
-        CreateMap<Session, GetSessionResponse>().ForMember(destinationMember: p => p.LiveCourseInstructorUsername,
-            memberOptions: opt => opt.MapFrom(p => p.Instructor.User.FirstName + " " + p.Instructor.User.LastName)).ReverseMap();
+        CreateMap<Session, GetSessionResponse>()
+            .ForMember(destinationMember: p => p.LiveCourseInstructorUsername,
+            memberOptions: opt => opt.MapFrom(p => p.Instructor.User.FirstName + " " + p.Instructor.User.LastName))
+            .ReverseMap();
         
-        CreateMap<Session, GetListedSessionResponse>().ForMember(destinationMember: p => p.LiveCourseInstructorUsername,
-            memberOptions: opt => opt.MapFrom(p => p.Instructor.User.FirstName + " " + p.Instructor.User.LastName)).ReverseMap();
+        CreateMap<Session, GetListedSessionResponse>()
+            .ForMember(destinationMember: p => p.LiveCourseInstructorUsername,
+            memberOptions: opt => opt.MapFrom(p => p.Instructor.User.FirstName + " " + p.Instructor.User.LastName))
+            .ReverseMap();
 
         CreateMap<Paginate<Session>, Paginate<GetListedSessionResponse>>().ReverseMap();
     }

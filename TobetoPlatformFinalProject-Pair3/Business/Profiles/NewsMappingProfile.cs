@@ -20,15 +20,22 @@ public class NewsMappingProfile : Profile
         CreateMap<News, DeletedNewsResponse>().ReverseMap();
 
         CreateMap<News, GetNewsRequest>().ReverseMap();
-        CreateMap<News, GetNewsResponse>().ForMember(destinationMember: p => p.AnnouncementsNewsCategoryName,
-            memberOptions: opt => opt.MapFrom(p => p.AnnouncementsNewsCategory.Name)).ReverseMap();
-        CreateMap<News, GetNewsResponse>().ForMember(destinationMember: p => p.ProjectName,
-            memberOptions: opt => opt.MapFrom(p => p.Project.Name)).ReverseMap();
+        CreateMap<News, GetNewsResponse>()
+            .ForMember(destinationMember: p => p.AnnouncementsNewsCategoryName,
+            memberOptions: opt => opt.MapFrom(p => p.AnnouncementsNewsCategory.Name))
 
-        CreateMap<News, GetListedNewsResponse>().ForMember(destinationMember: p => p.AnnouncementsNewsCategoryName,
-            memberOptions: opt => opt.MapFrom(p => p.AnnouncementsNewsCategory.Name)).ReverseMap();
-        CreateMap<News, GetListedNewsResponse>().ForMember(destinationMember: p => p.ProjectName,
-                        memberOptions: opt => opt.MapFrom(p => p.Project.Name)).ReverseMap();
+            .ForMember(destinationMember: p => p.ProjectName,
+            memberOptions: opt => opt.MapFrom(p => p.Project.Name))
+            .ReverseMap();
+
+        CreateMap<News, GetListedNewsResponse>()
+            .ForMember(destinationMember: p => p.AnnouncementsNewsCategoryName,
+            memberOptions: opt => opt.MapFrom(p => p.AnnouncementsNewsCategory.Name))
+
+            .ForMember(destinationMember: p => p.ProjectName,
+                        memberOptions: opt => opt.MapFrom(p => p.Project.Name))
+            .ReverseMap();
+
         CreateMap<Paginate<News>, Paginate<GetListedNewsResponse>>().ReverseMap();
     }
 }

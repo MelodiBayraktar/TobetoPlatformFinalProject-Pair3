@@ -12,5 +12,6 @@ namespace Business.Dtos.Course.Responses
         public Guid UserId { get; set; }
         public string ImageUrl { get; set; }
         public string Title { get; set; }
+        public DateTime UpdatedDate { get; set; }
     }
 }

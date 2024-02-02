@@ -57,7 +57,8 @@ public class LiveCourseManager : ILiveCourseService
     [CacheAspect(duration: 10)]
     public async Task<GetLiveCourseResponse> GetById(GetLiveCourseRequest getLiveCourseRequest)
     {
-        LiveCourse getLiveCourse = await _liveCourseDal.GetAsync(c => c.Id == getLiveCourseRequest.Id);
+        LiveCourse getLiveCourse = await _liveCourseDal.GetAsync(c => c.Id == getLiveCourseRequest.Id,
+            include: p => p.Include(p => p.CourseDetail).Include(p => p.Course));
         GetLiveCourseResponse response = _mapper.Map<GetLiveCourseResponse>(getLiveCourse);
         return response;
     }

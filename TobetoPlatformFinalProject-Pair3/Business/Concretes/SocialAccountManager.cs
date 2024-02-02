@@ -61,7 +61,8 @@ public class SocialAccountManager : ISocialAccountService
 
     public async Task<GetSocialAccountResponse> GetById(GetSocialAccountRequest getSocialAccountRequest)
     {
-        SocialAccount getSocialAccount = await _socialAccountDal.GetAsync(c => c.Id == getSocialAccountRequest.Id);
+        SocialAccount getSocialAccount = await _socialAccountDal.GetAsync(c => c.Id == getSocialAccountRequest.Id,
+            include: p => p.Include(p => p.User));
         GetSocialAccountResponse response = _mapper.Map<GetSocialAccountResponse>(getSocialAccount);
         return response;
     }

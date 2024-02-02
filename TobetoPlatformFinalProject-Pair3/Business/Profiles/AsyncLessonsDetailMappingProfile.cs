@@ -20,18 +20,21 @@ namespace Business.Profiles
             CreateMap<AsyncLessonsDetail, DeletedAsyncLessonsDetailResponse>().ReverseMap();
 
             CreateMap<AsyncLessonsDetail, GetAsyncLessonsDetailRequest>().ReverseMap();
-           
-            CreateMap<AsyncLessonsDetail, GetAsyncLessonsDetailResponse>().ForMember(destinationMember: p => p.AsyncLessonsOfContentName,
-                memberOptions: opt => opt.MapFrom(p => p.AsyncLessonsOfContent.Name)).ReverseMap();
+            CreateMap<AsyncLessonsDetail, GetAsyncLessonsDetailResponse>()
+                .ForMember(destinationMember: p => p.AsyncLessonsOfContentName,
+                memberOptions: opt => opt.MapFrom(p => p.AsyncLessonsOfContent.Name))
+
+                .ForMember(destinationMember: p => p.AsyncLessonsOfContentDuration,
+                memberOptions: opt => opt.MapFrom(p => p.AsyncLessonsOfContent.Duration))
+                .ReverseMap();
             
-            CreateMap<AsyncLessonsDetail, GetAsyncLessonsDetailResponse>().ForMember(destinationMember: p => p.AsyncLessonsOfContentDuration,
-                memberOptions: opt => opt.MapFrom(p => p.AsyncLessonsOfContent.Duration)).ReverseMap();
-            
-            CreateMap<AsyncLessonsDetail, GetListedAsyncLessonsDetailResponse>().ForMember(destinationMember: p => p.AsyncLessonsOfContentName,
-                            memberOptions: opt => opt.MapFrom(p => p.AsyncLessonsOfContent.Name)).ReverseMap();
-            
-            CreateMap<AsyncLessonsDetail, GetListedAsyncLessonsDetailResponse>().ForMember(destinationMember: p => p.AsyncLessonsOfContentDuration,
-                memberOptions: opt => opt.MapFrom(p => p.AsyncLessonsOfContent.Duration)).ReverseMap();
+            CreateMap<AsyncLessonsDetail, GetListedAsyncLessonsDetailResponse>()
+                .ForMember(destinationMember: p => p.AsyncLessonsOfContentName,
+                memberOptions: opt => opt.MapFrom(p => p.AsyncLessonsOfContent.Name))
+
+                .ForMember(destinationMember: p => p.AsyncLessonsOfContentDuration,
+                memberOptions: opt => opt.MapFrom(p => p.AsyncLessonsOfContent.Duration))
+                .ReverseMap();
             
             CreateMap<Paginate<AsyncLessonsDetail>, Paginate<GetListedAsyncLessonsDetailResponse>>().ReverseMap();
         }

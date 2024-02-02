@@ -46,7 +46,8 @@ public class AsyncLessonsOfContentManager : IAsyncLessonsOfContentService
 
     public async Task<GetAsyncLessonsOfContentResponse> GetById(GetAsyncLessonsOfContentRequest getAsyncLessonsOfContentRequest)
     {
-        AsyncLessonsOfContent getAsyncLessonsOfContent = await _asyncLessonsOfContentDal.GetAsync(c => c.Id == getAsyncLessonsOfContentRequest.Id);
+        AsyncLessonsOfContent getAsyncLessonsOfContent = await _asyncLessonsOfContentDal.GetAsync(c => c.Id == getAsyncLessonsOfContentRequest.Id,
+            include: p => p.Include(p => p.AsyncContent));
         GetAsyncLessonsOfContentResponse response =  _mapper.Map<GetAsyncLessonsOfContentResponse>(getAsyncLessonsOfContent);
         return response;
     }

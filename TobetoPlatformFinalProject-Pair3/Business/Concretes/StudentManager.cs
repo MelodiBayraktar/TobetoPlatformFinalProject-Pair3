@@ -56,7 +56,8 @@ public class StudentManager : IStudentService
 
     public async Task<GetStudentResponse> GetById(GetStudentRequest getStudentRequest)
     {
-        Student getStudent = await _studentDal.GetAsync(c => c.Id == getStudentRequest.Id);
+        Student getStudent = await _studentDal.GetAsync(c => c.Id == getStudentRequest.Id,
+            include: p => p.Include(p => p.User));
         GetStudentResponse response = _mapper.Map<GetStudentResponse>(getStudent);
         return response;
     }

@@ -46,7 +46,8 @@ public class CourseDetailManager : ICourseDetailService
 
     public async Task<GetCourseDetailResponse> GetById(GetCourseDetailRequest getCourseDetailRequest)
     {
-        CourseDetail getCourseDetail = await _courseDetailDal.GetAsync(c => c.Id == getCourseDetailRequest.Id);
+        CourseDetail getCourseDetail = await _courseDetailDal.GetAsync(c => c.Id == getCourseDetailRequest.Id,
+            include: p => p.Include(p => p.CourseCategory));
         GetCourseDetailResponse response = _mapper.Map<GetCourseDetailResponse>(getCourseDetail);
         return response;
     }

@@ -47,7 +47,8 @@ public class SurveyManager : ISurveyService
 
     public async Task<GetSurveyResponse> GetById(GetSurveyRequest getSurveyRequest)
     {
-        Survey getSurvey = await _surveyDal.GetAsync(c => c.Id == getSurveyRequest.Id);
+        Survey getSurvey = await _surveyDal.GetAsync(c => c.Id == getSurveyRequest.Id,
+            include: p => p.Include(p => p.Student));
         GetSurveyResponse response = _mapper.Map<GetSurveyResponse>(getSurvey);
         return response;
     }

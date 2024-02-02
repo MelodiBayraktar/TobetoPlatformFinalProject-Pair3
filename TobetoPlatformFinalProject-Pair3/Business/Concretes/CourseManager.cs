@@ -56,7 +56,8 @@ public class CourseManager : ICourseService
     [CacheAspect(duration:10)]
     public async Task<GetCourseResponse> GetById(GetCourseRequest getCourseRequest)
     {
-        Course getCourse = await _courseDal.GetAsync(c => c.Id == getCourseRequest.Id);
+        Course getCourse = await _courseDal.GetAsync(c => c.Id == getCourseRequest.Id,
+            include: p => p.Include(p => p.User));
         GetCourseResponse response = _mapper.Map<GetCourseResponse>(getCourse);
         return response;
     }

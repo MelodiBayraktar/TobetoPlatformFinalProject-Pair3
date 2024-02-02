@@ -52,7 +52,8 @@ public class ExperienceManager : IExperienceService
 
     public async Task<GetExperienceResponse> GetById(GetExperienceRequest getExperienceRequest)
     {
-        Experience getExperience = await _experienceDal.GetAsync(c => c.Id == getExperienceRequest.Id);
+        Experience getExperience = await _experienceDal.GetAsync(c => c.Id == getExperienceRequest.Id,
+            include: p => p.Include(p => p.User));
         GetExperienceResponse response = _mapper.Map<GetExperienceResponse>(getExperience);
         return response;
     }

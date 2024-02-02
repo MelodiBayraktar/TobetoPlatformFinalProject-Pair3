@@ -58,7 +58,8 @@ public class SessionManager : ISessionService
     [CacheAspect(duration: 10)]
     public async Task<GetSessionResponse> GetById(GetSessionRequest getSessionRequest)
     {
-        Session getSession = await _sessionDal.GetAsync(c => c.Id == getSessionRequest.Id);
+        Session getSession = await _sessionDal.GetAsync(c => c.Id == getSessionRequest.Id,
+            include: p => p.Include(p => p.LiveContent).Include(p => p.Instructor));
         GetSessionResponse response = _mapper.Map<GetSessionResponse>(getSession);
         return response;
     }

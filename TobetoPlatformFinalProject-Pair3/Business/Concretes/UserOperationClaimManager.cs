@@ -52,7 +52,8 @@ public class UserOperationClaimManager: IUserOperationClaimService
 
     public async Task<GetUserOperationClaimResponse> GetById(GetUserOperationClaimRequest getUserOperationClaimRequest)
     {
-        var getUserOperationClaim = await _userOperationClaimDal.GetAsync(c => c.Id == getUserOperationClaimRequest.Id);
+        var getUserOperationClaim = await _userOperationClaimDal.GetAsync(c => c.Id == getUserOperationClaimRequest.Id,
+            include: p => p.Include(p => p.User).Include(p => p.OperationClaim));
         GetUserOperationClaimResponse response = _mapper.Map<GetUserOperationClaimResponse>(getUserOperationClaim);
         return response;
     }

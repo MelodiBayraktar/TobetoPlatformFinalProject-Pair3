@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Core.Entities.Concretes;
+using Entities.Concretes;
+using Entities;
 
 namespace Business.Dtos.CourseDetail.Responses
 {

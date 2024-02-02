@@ -20,10 +20,14 @@ public class AsyncLessonsOfContentMappingProfile : Profile
         CreateMap<AsyncLessonsOfContent, DeletedAsyncLessonsOfContentResponse>().ReverseMap();
 
         CreateMap<AsyncLessonsOfContent, GetAsyncLessonsOfContentRequest>().ReverseMap();
-        CreateMap<AsyncLessonsOfContent, GetAsyncLessonsOfContentResponse>().ReverseMap();
+        CreateMap<AsyncLessonsOfContent, GetAsyncLessonsOfContentResponse>()
+            .ForMember(destinationMember: p => p.AsyncContentName,
+            memberOptions: opt => opt.MapFrom(p => p.AsyncContent.Name))
+            .ReverseMap();
 
-        CreateMap<AsyncLessonsOfContent, GetListedAsyncLessonsOfContentResponse>().ForMember(destinationMember: p => p.AsyncContentName,
-                memberOptions: opt => opt.MapFrom(p => p.AsyncContent.Name)).ReverseMap();
+        CreateMap<AsyncLessonsOfContent, GetListedAsyncLessonsOfContentResponse>()
+            .ForMember(destinationMember: p => p.AsyncContentName,
+            memberOptions: opt => opt.MapFrom(p => p.AsyncContent.Name)).ReverseMap();
 
         CreateMap<Paginate<AsyncLessonsOfContent>, Paginate<GetListedAsyncLessonsOfContentResponse>>().ReverseMap();
     }

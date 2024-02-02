@@ -62,7 +62,8 @@ public class PersonalInfoManager : IPersonalInfoService
 
     public async Task<GetPersonalInfoResponse> GetById(GetPersonalInfoRequest getPersonalInfoRequest)
     {
-        PersonalInfo getPersonalInfo = await _personalInfoDal.GetAsync(c => c.Id == getPersonalInfoRequest.Id);
+        PersonalInfo getPersonalInfo = await _personalInfoDal.GetAsync(c => c.Id == getPersonalInfoRequest.Id,
+            include: p => p.Include(p => p.User));
         GetPersonalInfoResponse response = _mapper.Map<GetPersonalInfoResponse>(getPersonalInfo);
         return response;
     }

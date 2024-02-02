@@ -21,12 +21,15 @@ public class CourseDetailMappingProfile : Profile
         CreateMap<CourseDetail, DeletedCourseDetailResponse>().ReverseMap();
 
         CreateMap<CourseDetail, GetCourseDetailRequest>().ReverseMap();
-        CreateMap<CourseDetail, GetCourseDetailResponse>().ForMember(destinationMember: p => p.CourseCategoryName,
-            memberOptions: opt => opt.MapFrom(p => p.CourseCategory.Name)).ReverseMap();
+        CreateMap<CourseDetail, GetCourseDetailResponse>()
+            .ForMember(destinationMember: p => p.CourseCategoryName,
+            memberOptions: opt => opt.MapFrom(p => p.CourseCategory.Name))
+            .ReverseMap();
 
-
-        CreateMap<CourseDetail, GetListedCourseDetailResponse>().ForMember(destinationMember: p => p.CourseCategoryName,
-                        memberOptions: opt => opt.MapFrom(p => p.CourseCategory.Name)).ReverseMap();
+        CreateMap<CourseDetail, GetListedCourseDetailResponse>()
+            .ForMember(destinationMember: p => p.CourseCategoryName,
+            memberOptions: opt => opt.MapFrom(p => p.CourseCategory.Name))
+            .ReverseMap();
         CreateMap<Paginate<CourseDetail>, Paginate<GetListedCourseDetailResponse>>().ReverseMap();
     }
 }

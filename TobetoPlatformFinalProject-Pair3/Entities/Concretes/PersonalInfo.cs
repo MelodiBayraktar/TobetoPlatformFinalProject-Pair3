@@ -6,6 +6,7 @@ public class PersonalInfo : Entity<Guid>
 {
     public Guid UserId { get; set; }
     public string ProfileImageUrl { get; set; }
+    public string PhoneNumber { get; set; }
     public DateTime BirthDate { get; set; }
     public string NationalIdentity { get; set; }
     public string Country { get; set; }

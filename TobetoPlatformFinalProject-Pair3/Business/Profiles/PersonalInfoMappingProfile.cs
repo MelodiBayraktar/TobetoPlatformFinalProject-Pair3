@@ -11,12 +11,16 @@ public class PersonalInfoMappingProfile : Profile
     public PersonalInfoMappingProfile()
     {
         CreateMap<PersonalInfo, CreatePersonalInfoRequest>().ReverseMap();
+        CreateMap<PersonalInfo, CreatedPersonalInfoResponse>()
+            .ForMember(destinationMember: p => p.FirstName,
+            memberOptions: opt => opt.MapFrom(p => p.User.FirstName))
 
-        CreateMap<PersonalInfo, CreatedPersonalInfoResponse>().ForMember(destinationMember: p => p.FirstName,
-            memberOptions: opt => opt.MapFrom(p => p.User.FirstName)).ReverseMap();
-        
-        CreateMap<PersonalInfo, CreatedPersonalInfoResponse>().ForMember(destinationMember: p => p.LastName,
-            memberOptions: opt => opt.MapFrom(p => p.User.LastName)).ReverseMap();
+            .ForMember(destinationMember: p => p.LastName,
+            memberOptions: opt => opt.MapFrom(p => p.User.LastName))
+
+            .ForMember(destinationMember: p => p.Email,
+            memberOptions: opt => opt.MapFrom(p => p.User.Email))
+            .ReverseMap();
 
         CreateMap<PersonalInfo, UpdatePersonalInfoRequest>().ReverseMap();
         CreateMap<PersonalInfo, UpdatedPersonalInfoResponse>().ReverseMap();
@@ -25,18 +29,28 @@ public class PersonalInfoMappingProfile : Profile
         CreateMap<PersonalInfo, DeletedPersonalInfoResponse>().ReverseMap();
 
         CreateMap<PersonalInfo, GetPersonalInfoRequest>().ReverseMap();
-        
-        CreateMap<PersonalInfo, GetPersonalInfoResponse>().ForMember(destinationMember: p => p.FirstName,
-            memberOptions: opt => opt.MapFrom(p => p.User.FirstName)).ReverseMap();
-        
-        CreateMap<PersonalInfo, GetPersonalInfoResponse>().ForMember(destinationMember: p => p.LastName,
-            memberOptions: opt => opt.MapFrom(p => p.User.LastName)).ReverseMap();
+        CreateMap<PersonalInfo, GetPersonalInfoResponse>()
+            .ForMember(destinationMember: p => p.FirstName,
+            memberOptions: opt => opt.MapFrom(p => p.User.FirstName))
 
-        CreateMap<PersonalInfo, GetListedPersonalInfoResponse>().ForMember(destinationMember: p => p.FirstName,
-                        memberOptions: opt => opt.MapFrom(p => p.User.FirstName)).ReverseMap();
-        
-        CreateMap<PersonalInfo, GetListedPersonalInfoResponse>().ForMember(destinationMember: p => p.LastName,
-            memberOptions: opt => opt.MapFrom(p => p.User.LastName)).ReverseMap();
+            .ForMember(destinationMember: p => p.LastName,
+            memberOptions: opt => opt.MapFrom(p => p.User.LastName))
+
+            .ForMember(destinationMember: p => p.Email,
+            memberOptions: opt => opt.MapFrom(p => p.User.Email))
+            .ReverseMap();
+
+
+        CreateMap<PersonalInfo, GetListedPersonalInfoResponse>()
+            .ForMember(destinationMember: p => p.FirstName,
+            memberOptions: opt => opt.MapFrom(p => p.User.FirstName))
+
+            .ForMember(destinationMember: p => p.LastName,
+            memberOptions: opt => opt.MapFrom(p => p.User.LastName))
+
+            .ForMember(destinationMember: p => p.Email,
+            memberOptions: opt => opt.MapFrom(p => p.User.Email))
+            .ReverseMap();
 
         CreateMap<Paginate<PersonalInfo>, Paginate<GetListedPersonalInfoResponse>>().ReverseMap();
     }

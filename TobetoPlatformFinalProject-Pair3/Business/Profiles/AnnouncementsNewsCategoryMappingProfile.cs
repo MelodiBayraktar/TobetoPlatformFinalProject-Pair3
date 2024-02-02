@@ -27,7 +27,6 @@ namespace Business.Profiles
             CreateMap<AnnouncementsNewsCategory, GetAnnouncementsNewsCategoryRequest>().ReverseMap();
             CreateMap<AnnouncementsNewsCategory, GetAnnouncementsNewsCategoryResponse>().ReverseMap();
 
-
             CreateMap<AnnouncementsNewsCategory, GetListedAnnouncementsNewsCategoryResponse>().ReverseMap();
             CreateMap<Paginate<AnnouncementsNewsCategory>, Paginate<GetListedAnnouncementsNewsCategoryResponse>>().ReverseMap();
         }

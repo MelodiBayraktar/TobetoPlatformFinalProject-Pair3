@@ -51,7 +51,8 @@ public class CertificateManager : ICertificateService
 
     public async Task<GetCertificateResponse> GetById(GetCertificateRequest getCertificateRequest)
     {
-        Certificate getCertificate = await _certificateDal.GetAsync(c => c.Id == getCertificateRequest.Id);
+        Certificate getCertificate = await _certificateDal.GetAsync(c => c.Id == getCertificateRequest.Id,
+            include: p => p.Include(p => p.User));
         GetCertificateResponse response = _mapper.Map<GetCertificateResponse>(getCertificate);
         return response;
     }
