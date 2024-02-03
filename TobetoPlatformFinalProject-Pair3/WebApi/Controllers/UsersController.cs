@@ -42,5 +42,13 @@ namespace WebApi.Controllers
             var result = await _userService.GetById(getUserRequest);
             return Ok(result);
         }
+
+        [HttpPost("UpdatePassword")]
+        public async Task<IActionResult> UpdatePassword([FromBody] UpdateUserPasswordRequest updateUserPasswordRequest)
+        {
+            var result = await _userService.UpdatePassword(updateUserPasswordRequest); 
+            return Ok(result);
+        }
+
     }
 }

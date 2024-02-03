@@ -16,5 +16,7 @@ public interface IUserService
     Task<GetUserResponse> GetById(GetUserRequest getUserRequest);
     Task<User> GetByMailAsync(string email);
     List<IOperationClaim> GetClaims(IUser user);
+
+    Task<UpdateUserPasswordResponse> UpdatePassword(UpdateUserPasswordRequest updateUserPasswordRequest);
 }
 

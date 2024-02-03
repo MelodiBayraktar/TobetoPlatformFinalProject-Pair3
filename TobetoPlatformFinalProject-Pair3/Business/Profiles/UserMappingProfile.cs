@@ -35,5 +35,15 @@ public class UserMappingProfile : Profile
 
         CreateMap<GetUserResponse, AuthForRegisterResponse>().ReverseMap();
         CreateMap<GetUserResponse, AuthForLoginResponse>().ReverseMap();
+
+        //CreateMap<User, UpdateUserPasswordRequest>().ReverseMap();
+
+        CreateMap<UpdateUserPasswordRequest, User>()
+    .ForMember(dest => dest.PasswordHash, opt => opt.Ignore())
+    .ForMember(dest => dest.PasswordSalt, opt => opt.Ignore());
+        CreateMap<User, UpdateUserPasswordResponse>().ReverseMap();
+
+        //CreateMap<AuthForLoginRequest, UpdateUserPasswordRequest>().ReverseMap();
+        //CreateMap<AuthForLoginResponse, UpdateUserPasswordResponse>().ReverseMap();
     }
 }
