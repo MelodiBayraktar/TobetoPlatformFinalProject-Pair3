@@ -18,4 +18,5 @@ public class UserMessages
     
     public static string Success ="Giriş Başarılı.";
     public static string AuthorizationDenied="Yetki verilme reddedildi.";
+    public static string EmailNotExist = "Girilen e-posta adresi ile kayıtlı kullanıcı bulunamadı.";
 }

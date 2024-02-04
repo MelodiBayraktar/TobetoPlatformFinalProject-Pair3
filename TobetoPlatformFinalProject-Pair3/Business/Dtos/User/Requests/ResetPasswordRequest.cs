@@ -11,6 +11,8 @@ namespace Business.Dtos.User.Requests
     {
         public string Token { get; set; }
         public string Password { get; set; }
+
+        //todo: validation yazılacak.
         [Required, Compare("Password")]
         public string ComfirmPassword { get; set; }
     }

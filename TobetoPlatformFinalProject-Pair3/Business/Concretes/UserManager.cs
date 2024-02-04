@@ -40,14 +40,16 @@ public class UserManager: IUserService
     private readonly IGetUserId _getUserId;
     private readonly TobetoPlatformContext _context;
     private readonly IEmailService _emailService;
+    private readonly UserBusinessRules _businessRules;
 
-    public UserManager(IUserDal userDal, IMapper mapper, IGetUserId getUserId, TobetoPlatformContext context, IEmailService emailService)
+    public UserManager(IUserDal userDal, IMapper mapper, IGetUserId getUserId, TobetoPlatformContext context, IEmailService emailService, UserBusinessRules businessRules)
     {
         _userDal = userDal;
         _mapper = mapper;
         _getUserId = getUserId;
         _context = context;
         _emailService = emailService;
+        _businessRules = businessRules;
     }
 
     [ValidationAspect(typeof(UserRequestValidator))]
@@ -124,6 +126,7 @@ public class UserManager: IUserService
     public async Task<PasswordResetEmailResponse> ForgotPassword(PasswordResetEmailRequest passwordResetEmailRequest)
     {
         var user = await _userDal.GetAsync(u => u.Email == passwordResetEmailRequest.Email);
+        _businessRules.CheckIfEmailExist(user);
         _mapper.Map(passwordResetEmailRequest, user);
         user.PasswordResetToken = CreateRandomToken();
         user.ResetTokenExpires = DateTime.Now.AddDays(1);
@@ -132,8 +135,13 @@ public class UserManager: IUserService
 
         EmailDto dto = new EmailDto();
         dto.To = passwordResetEmailRequest.Email;
-        dto.Subject = "Þifre sýfýrlama iþlemi";
-        dto.Body = $"Merhaba! Þifre sýfýrlama için kodu kopyala {user.PasswordResetToken}";
+        dto.Subject = "Þifre Sýfýrlama";
+        dto.Body = $"Merhaba! Þifre sýfýrlama için kodu kopyala: {user.PasswordResetToken}";
+
+        // todo : fe'de sayfa oluþturulduðunda aþaðýdaki link o sayfanýn linki ile deðiþtirilecek. 
+        // kullanýcý token girmeden link üzerinden sayfaya gitmeli.
+        // dto.Body = $"Þifremi unuttum linkine buradan ulaþabilirsin. " + 
+        //           $"https://localhost:44334/api/Users/ResetPassword?token={user.PasswordResetToken}";
 
         _emailService.SendEmail(dto);
         return response;
@@ -141,12 +149,16 @@ public class UserManager: IUserService
 
     private string CreateRandomToken()
     {
-        return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
+        return Convert.ToHexString(RandomNumberGenerator.GetBytes(64)).ToLower();
     }
 
+    //FE'de sayfa tasarlandýðýnda alttaki koda geçilecek.
+    //ResetPasswordRequest içindeki token deðeri silinecek.
+    //public async Task<ResetPasswordResponse> ResetPassword(string token, ResetPasswordRequest resetPasswordRequest)
     public async Task<ResetPasswordResponse> ResetPassword(ResetPasswordRequest resetPasswordRequest)
     {
         var user = await _userDal.GetAsync(u => u.PasswordResetToken == resetPasswordRequest.Token);
+        //var user = await _userDal.GetAsync(u => u.PasswordResetToken == token);
 
         _mapper.Map(resetPasswordRequest, user);
 
@@ -159,7 +171,6 @@ public class UserManager: IUserService
         await _context.SaveChangesAsync();
 
         ResetPasswordResponse response = _mapper.Map<ResetPasswordResponse>(user);
-
         return response;
     }
 }

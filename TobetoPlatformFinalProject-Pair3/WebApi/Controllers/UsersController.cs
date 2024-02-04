@@ -63,5 +63,12 @@ namespace WebApi.Controllers
             var result = await _userService.ResetPassword(resetPasswordRequest);
             return Ok(result);
         }
+
+        //[HttpPost("ResetPassword")]
+        //public async Task<IActionResult> ResetPassword([FromQuery] string token, [FromBody] ResetPasswordRequest resetPasswordRequest)
+        //{
+        //    var result = await _userService.ResetPassword(token, resetPasswordRequest);
+        //    return Ok(result);
+        //}
     }
 }

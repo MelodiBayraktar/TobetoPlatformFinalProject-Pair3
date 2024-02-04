@@ -21,6 +21,6 @@ public interface IUserService
     Task<PasswordResetEmailResponse> ForgotPassword(PasswordResetEmailRequest passwordResetEmailRequest);
     Task<ResetPasswordResponse> ResetPassword(ResetPasswordRequest resetPasswordRequest);
 
-    //Task<ResetPasswordResponse> SendEmail(string body);
+    //Task<ResetPasswordResponse> ResetPassword(string token, ResetPasswordRequest resetPasswordRequest);
 }
 

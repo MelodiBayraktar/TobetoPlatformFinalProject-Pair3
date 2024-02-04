@@ -26,6 +26,12 @@ namespace Business.BusinessRules
             return Task.CompletedTask;
 
         }
+
+        public Task CheckIfEmailExist(User? user)
+        {
+            if (user == null) throw new BusinessException(UserMessages.EmailNotExist);
+            return Task.CompletedTask;
+        }
     }
 
 }
