@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Linq.Expressions;
+using System.Security.Cryptography;
 using AutoMapper;
 using Business.Abstracts;
 using Business.BusinessAspects.Autofac;
@@ -15,13 +16,20 @@ using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerns.Exceptions.Types;
 using Core.DataAccess.Paging;
 using Core.Entities.Abstracts;
+using Core.Entities.Concretes;
+using Core.Utilities.Business.EmailService;
 using Core.Utilities.Business.GetUserId;
 using Core.Utilities.Business.Requests;
 using Core.Utilities.Security.Hashing;
+using Core.Utilities.Security.Jwt;
+using Core.Utilities.Security.JWT;
 using DataAccess.Abstracts;
 using DataAccess.Concretes;
+using DataAccess.Contexts;
 using Entities;
 using Entities.Concretes;
+using MailKit.Net.Smtp;
+using MimeKit;
 
 namespace Business.Concretes;
 
@@ -30,12 +38,16 @@ public class UserManager: IUserService
     private readonly IUserDal _userDal;
     private readonly IMapper _mapper;
     private readonly IGetUserId _getUserId;
+    private readonly TobetoPlatformContext _context;
+    private readonly IEmailService _emailService;
 
-    public UserManager(IUserDal userDal, IMapper mapper, IGetUserId getUserId)
+    public UserManager(IUserDal userDal, IMapper mapper, IGetUserId getUserId, TobetoPlatformContext context, IEmailService emailService)
     {
         _userDal = userDal;
         _mapper = mapper;
         _getUserId = getUserId;
+        _context = context;
+        _emailService = emailService;
     }
 
     [ValidationAspect(typeof(UserRequestValidator))]
@@ -54,8 +66,6 @@ public class UserManager: IUserService
         DeletedUserResponse response = _mapper.Map<DeletedUserResponse>(deleteUser);
         return response;
     }
-
-
 
     public async Task<GetUserResponse> GetById(GetUserRequest getUserRequest)
     {
@@ -107,6 +117,48 @@ public class UserManager: IUserService
 
         UpdateUserPasswordResponse response = _mapper.Map<UpdateUserPasswordResponse>(user);
         response.UserId = userId;
+
+        return response;
+    }
+
+    public async Task<PasswordResetEmailResponse> ForgotPassword(PasswordResetEmailRequest passwordResetEmailRequest)
+    {
+        var user = await _userDal.GetAsync(u => u.Email == passwordResetEmailRequest.Email);
+        _mapper.Map(passwordResetEmailRequest, user);
+        user.PasswordResetToken = CreateRandomToken();
+        user.ResetTokenExpires = DateTime.Now.AddDays(1);
+        await _context.SaveChangesAsync();
+        PasswordResetEmailResponse response = _mapper.Map<PasswordResetEmailResponse>(user);
+
+        EmailDto dto = new EmailDto();
+        dto.To = passwordResetEmailRequest.Email;
+        dto.Subject = "Þifre sýfýrlama iþlemi";
+        dto.Body = $"Merhaba! Þifre sýfýrlama için kodu kopyala {user.PasswordResetToken}";
+
+        _emailService.SendEmail(dto);
+        return response;
+    }
+
+    private string CreateRandomToken()
+    {
+        return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
+    }
+
+    public async Task<ResetPasswordResponse> ResetPassword(ResetPasswordRequest resetPasswordRequest)
+    {
+        var user = await _userDal.GetAsync(u => u.PasswordResetToken == resetPasswordRequest.Token);
+
+        _mapper.Map(resetPasswordRequest, user);
+
+        byte[] passwordHash, passwordSalt;
+        HashingHelper.CreatePasswordHash(resetPasswordRequest.Password, out passwordHash, out passwordSalt);
+        user.PasswordHash = passwordHash;
+        user.PasswordSalt = passwordSalt;
+        user.PasswordResetToken = null;
+        user.ResetTokenExpires = null;
+        await _context.SaveChangesAsync();
+
+        ResetPasswordResponse response = _mapper.Map<ResetPasswordResponse>(user);
 
         return response;
     }

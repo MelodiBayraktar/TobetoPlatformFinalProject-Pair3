@@ -7,6 +7,14 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="MailKit" Version="4.3.0" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.0">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
       <ProjectReference Include="..\Core\Core.csproj" />
     </ItemGroup>
 

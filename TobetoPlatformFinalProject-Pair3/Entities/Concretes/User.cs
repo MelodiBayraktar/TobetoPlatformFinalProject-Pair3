@@ -11,6 +11,8 @@ public class User : Entity<Guid>, IUser
     public byte[] PasswordSalt { get; set; }
     public byte[] PasswordHash { get; set; }
     public bool Status { get; set; }
+    public string? PasswordResetToken { get; set; }
+    public DateTime? ResetTokenExpires { get; set; }
 
     public List<Ability> Abilities { get; set; }
     public List<ForeignLanguage> ForeignLanguages { get; set; }

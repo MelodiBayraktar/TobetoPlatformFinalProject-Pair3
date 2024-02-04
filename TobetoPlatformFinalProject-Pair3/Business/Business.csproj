@@ -14,7 +14,12 @@
       <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
       <PackageReference Include="Castle.Core" Version="5.1.1" />
       <PackageReference Include="FluentValidation" Version="11.8.1" />
+      <PackageReference Include="MailKit" Version="4.3.0" />
       <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.0">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
       <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
       <PackageReference Include="Microsoft.Extensions.Options" Version="7.0.0" />
       <PackageReference Include="Microsoft.Extensions.Primitives" Version="7.0.0" />
@@ -30,7 +35,6 @@
 
     <ItemGroup>
       <Folder Include="BusinessAspects\" />
-      <Folder Include="Dtos\" />
     </ItemGroup>
 
 </Project>

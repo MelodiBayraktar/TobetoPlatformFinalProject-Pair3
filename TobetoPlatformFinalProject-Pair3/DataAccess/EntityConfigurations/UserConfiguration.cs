@@ -20,11 +20,11 @@ namespace DataAccess.EntityConfigurations
             builder.Property(b => b.FirstName).HasColumnName("FirstName").IsRequired();
             builder.Property(b => b.LastName).HasColumnName("LastName").IsRequired();
             builder.Property(b => b.Email).HasColumnName("Email").IsRequired();
-           // builder.Property(b => b.PhoneNumber).HasColumnName("PhoneNumber").IsRequired();
-
             builder.Property(b => b.PasswordSalt).HasColumnName("PasswordSalt").IsRequired();
             builder.Property(b => b.PasswordHash).HasColumnName("PasswordHash").IsRequired();
             builder.Property(b => b.Status).HasColumnName("Status");
+            builder.Property(b => b.PasswordResetToken).HasColumnName("PasswordResetToken");
+            builder.Property(b => b.ResetTokenExpires).HasColumnName("ResetTokenExpires");
 
             builder.Property(b => b.CreatedDate).HasColumnName("CreatedDate").IsRequired();
             builder.Property(b => b.UpdatedDate).HasColumnName("UpdatedDate");

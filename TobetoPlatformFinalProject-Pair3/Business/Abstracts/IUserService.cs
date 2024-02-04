@@ -18,5 +18,9 @@ public interface IUserService
     List<IOperationClaim> GetClaims(IUser user);
 
     Task<UpdateUserPasswordResponse> UpdatePassword(UpdateUserPasswordRequest updateUserPasswordRequest);
+    Task<PasswordResetEmailResponse> ForgotPassword(PasswordResetEmailRequest passwordResetEmailRequest);
+    Task<ResetPasswordResponse> ResetPassword(ResetPasswordRequest resetPasswordRequest);
+
+    //Task<ResetPasswordResponse> SendEmail(string body);
 }
 

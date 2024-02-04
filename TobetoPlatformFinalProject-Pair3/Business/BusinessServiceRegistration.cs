@@ -8,6 +8,8 @@ using Core.Utilities.Security.Jwt;
 using Business.BusinessRules;
 using Core.Utilities.Business.Rules;
 using Core.Utilities.Business.GetUserId;
+using MailKit;
+using Core.Utilities.Business.EmailService;
 
 namespace Business;
 
@@ -18,6 +20,7 @@ public static class BusinessServiceRegistration
         services.AddSubClassesOfType(Assembly.GetExecutingAssembly(), typeof(BaseBusinessRules));
 
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
         services.AddScoped<IAbilityService, AbilityManager>();
         services.AddScoped<IAnnouncementService, AnnouncementManager>();
         services.AddScoped<IAnnouncementsNewsCategoryService, AnnouncementsNewsCategoryManager>();
@@ -53,15 +56,15 @@ public static class BusinessServiceRegistration
         services.AddScoped<IAuthService, AuthManager>();
         services.AddScoped<ITokenHelper, JwtHelper>();
         services.AddScoped<IGetUserId, GetUserId>();
-
+        services.AddScoped<IEmailService, EmailService>();
 
         return services;
     }
     public static IServiceCollection AddSubClassesOfType(
-this IServiceCollection services,
-Assembly assembly,
-Type type,
-Func<IServiceCollection, Type, IServiceCollection>? addWithLifeCycle = null)
+        this IServiceCollection services,
+        Assembly assembly,
+        Type type,
+        Func<IServiceCollection, Type, IServiceCollection>? addWithLifeCycle = null)
     {
         var types = assembly.GetTypes().Where(t => t.IsSubclassOf(type) && type != t).ToList();
         foreach (var item in types)
