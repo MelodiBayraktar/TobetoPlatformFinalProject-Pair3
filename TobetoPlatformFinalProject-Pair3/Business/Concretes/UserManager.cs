@@ -136,12 +136,12 @@ public class UserManager: IUserService
         EmailDto dto = new EmailDto();
         dto.To = passwordResetEmailRequest.Email;
         dto.Subject = "Þifre Sýfýrlama";
-        dto.Body = $"Merhaba! Þifre sýfýrlama için kodu kopyala: {user.PasswordResetToken}";
+        //dto.Body = $"Merhaba! Þifre sýfýrlama için kodu kopyala: {user.PasswordResetToken}";
 
         // todo : fe'de sayfa oluþturulduðunda aþaðýdaki link o sayfanýn linki ile deðiþtirilecek. 
         // kullanýcý token girmeden link üzerinden sayfaya gitmeli.
-        // dto.Body = $"Þifremi unuttum linkine buradan ulaþabilirsin. " + 
-        //           $"https://localhost:44334/api/Users/ResetPassword?token={user.PasswordResetToken}";
+        dto.Body = $"Þifremi unuttum linkine buradan ulaþabilirsin. " +
+                  $"http://localhost:3000/reset-password?token={user.PasswordResetToken}";
 
         _emailService.SendEmail(dto);
         return response;
@@ -154,11 +154,11 @@ public class UserManager: IUserService
 
     //FE'de sayfa tasarlandýðýnda alttaki koda geçilecek.
     //ResetPasswordRequest içindeki token deðeri silinecek.
-    //public async Task<ResetPasswordResponse> ResetPassword(string token, ResetPasswordRequest resetPasswordRequest)
     public async Task<ResetPasswordResponse> ResetPassword(ResetPasswordRequest resetPasswordRequest)
+    //public async Task<ResetPasswordResponse> ResetPassword(ResetPasswordRequest resetPasswordRequest)
     {
         var user = await _userDal.GetAsync(u => u.PasswordResetToken == resetPasswordRequest.Token);
-        //var user = await _userDal.GetAsync(u => u.PasswordResetToken == token);
+
 
         _mapper.Map(resetPasswordRequest, user);
 
