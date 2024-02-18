@@ -4,6 +4,7 @@ public class GetListedAsyncLessonsOfContentResponse
 {
     public Guid Id { get; set; }
     public Guid AsyncContentId { get; set; }
+    public Guid AsyncCourseId { get; set; }
     public string AsyncContentName { get; set; }
     public string Name { get; set; }
     public string Type { get; set; }

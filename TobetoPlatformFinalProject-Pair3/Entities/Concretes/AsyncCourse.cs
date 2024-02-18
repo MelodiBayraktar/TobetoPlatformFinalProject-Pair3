@@ -11,5 +11,6 @@ public class AsyncCourse : Entity<Guid>
 
     public Course Course { get; set; }
     public List<AsyncContent> AsyncContents { get; set; }
+    public List<AsyncLessonsOfContent> AsyncLessonsOfContents { get; set; }
     public CourseDetail CourseDetail { get; set; }
 }

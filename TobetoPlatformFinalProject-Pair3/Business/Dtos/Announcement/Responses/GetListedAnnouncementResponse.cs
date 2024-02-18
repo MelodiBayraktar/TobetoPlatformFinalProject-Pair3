@@ -9,5 +9,6 @@
         public string ProjectName { get; set; }
         public string Title { get; set; }
         public string AnnouncementContent { get; set; }
+       public DateTime CreatedDate { get; set; }
     }
 }
